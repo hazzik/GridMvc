@@ -70,7 +70,7 @@
     <Content Include="App_Data\NORTHWND_log.ldf">
       <DependentUpon>NORTHWND.MDF</DependentUpon>
     </Content>
-    <Content Include="Content\Grid.css" />
+    <Content Include="Content\Grid.mvc.css" />
     <Content Include="Content\Images\loader-64.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -100,7 +100,7 @@
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\gridmvc.js" />
+    <Content Include="Scripts\grid.mvc.js" />
     <Content Include="Scripts\jquery-1.5.1.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -138,6 +138,7 @@
     <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Grid.Mvc.nuspec" />
     <None Include="Grid.mvc.readme" />
   </ItemGroup>
   <ItemGroup>

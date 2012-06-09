@@ -1,7 +1,8 @@
 ﻿For more documentation see: http://gridmvc.codeplex.com/
 Note: Grid.mvc installer has already made the following changes to your project:
 - Views/Shared/_Grid.cshtml, Views/Shared/_GridPager.cshtml - view for grid
-- Content/Grid.css - default stylesheet for the grid
+- Content/Grid.mvc.css - default stylesheet for the grid
+- Scripts/grid.mvc.js - client object model
 - Reference GridMvc.dll
 
 Follow these steps to start use Grid.mvc:
@@ -29,21 +30,21 @@ Follow these steps to start use Grid.mvc:
 
 	@using GridMvc.Html
 
-	If your model derives from IEnumerable<T>, you can not specify items for rendering in the grid
+	If your model inherits from IEnumerable<T>, you can not specify items for rendering in the grid
 
-	@(Html.Grid<Orders>(columns =>
-                        {
-                            columns.Add(foo => foo.Title).Titled("Custom column title").Width(110);
-                            columns.Add(foo => foo.Description).Sortable(true);
-                        }).WithPaging(20))
+	@(Html.Grid<Foo>(columns =>
+						{
+							columns.Add(foo => foo.Title).Titled("Custom column title").Width(110);
+							columns.Add(foo => foo.Description).Sortable(true);
+						}).WithPaging(20))
 
 	Or you can specify your items collection:
 
-    @(Html.Grid<Orders>(columns =>
-                            {
-                                columns.Add(foo => foo.Title).Titled("Custom column title").Width(110);
-                                columns.Add(foo => foo.Description).Sortable(true);
-                            }, Model.ItemsCollection).WithPaging(20))
+	@(Html.Grid<Foo>(columns =>
+							{
+								columns.Add(foo => foo.Title).Titled("Custom column title").Width(110);
+								columns.Add(foo => foo.Description).Sortable(true);
+							}, Model.ItemsCollection).WithPaging(20))
 
 
 4. [Not required] Link a grid stylesheet in your _Layouts.cshtml file for using default GridMvc styles:

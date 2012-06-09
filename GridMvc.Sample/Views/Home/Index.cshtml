@@ -1,15 +1,14 @@
-﻿
+﻿@using GridMvc.Html
 @using GridMvc.Sample.Models
+@using GridMvc.Sorting
 @model IEnumerable<GridMvc.Sample.Models.Orders>
 @{
     ViewBag.Title = "Home Page";
 }
-
 <h2>
     Orders administration</h2>
 <p>
     <div id="ordersGrid" style="float: left; position: relative; width: 640px;">
-       
 
         @(Html.Grid<Orders>(columns =>
                                  {
