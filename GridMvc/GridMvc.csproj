@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{742CA5DD-16DB-464A-A267-A1F4E422733B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GridMvc</RootNamespace>
+    <AssemblyName>GridMvc</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>sign.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Columns\DefaultColumnBuilder.cs" />
+    <Compile Include="Columns\GridColumnBase.cs" />
+    <Compile Include="Columns\GridColumnCollection.cs" />
+    <Compile Include="Columns\HiddenGridColumn.cs" />
+    <Compile Include="Columns\IColumnBuilder.cs" />
+    <Compile Include="Columns\IGridColumnCollection.cs" />
+    <Compile Include="GridHiddenHeaderRenderer.cs" />
+    <Compile Include="GridBase.cs" />
+    <Compile Include="Html\GridExtensions.cs" />
+    <Compile Include="Html\GridHtmlHtmlOptions.cs" />
+    <Compile Include="Html\IGridHtmlOptions.cs" />
+    <Compile Include="ISanitizer.cs" />
+    <Compile Include="Sanitizer.cs" />
+    <Compile Include="Sorting\OrderByGridOrderer.cs" />
+    <Compile Include="Sorting\IColumnOrderer.cs" />
+    <Compile Include="Sorting\ThenByColumnOrderer.cs" />
+    <Compile Include="Utility\PropertiesHelper.cs" />
+    <Compile Include="Columns\DefaultGridColumn.cs" />
+    <Compile Include="Grid.cs" />
+    <Compile Include="GridCell.cs" />
+    <Compile Include="GridCellRenderer.cs" />
+    <Compile Include="GridHeaderRenderer.cs" />
+    <Compile Include="GridHiddenCellRenderer.cs" />
+    <Compile Include="Sorting\GridSortDirection.cs" />
+    <Compile Include="GridStyledRenderer.cs" />
+    <Compile Include="IGrid.cs" />
+    <Compile Include="IGridCell.cs" />
+    <Compile Include="Columns\IGridColumn.cs" />
+    <Compile Include="IGridColumnRenderer.cs" />
+    <Compile Include="IGridItemsProcessor.cs" />
+    <Compile Include="Pagination\GridPager.cs" />
+    <Compile Include="Pagination\IGridPager.cs" />
+    <Compile Include="Pagination\PagerGridItemsProcessor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sorting\IGridSortProvider.cs" />
+    <Compile Include="Sorting\IGridSortSettings.cs" />
+    <Compile Include="Sorting\QueryStringGridSortProvider.cs" />
+    <Compile Include="Sorting\QueryStringSortColumnHeaderRenderer.cs" />
+    <Compile Include="Sorting\QueryStringSortSettings.cs" />
+    <Compile Include="Sorting\SortGridItemsProcessor.cs" />
+    <Compile Include="Utility\CustomQueryStringBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sign.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

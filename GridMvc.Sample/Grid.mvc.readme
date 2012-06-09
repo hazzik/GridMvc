@@ -1,0 +1,54 @@
+﻿For more documentation see: http://gridmvc.codeplex.com/
+Note: Grid.mvc installer has already made the following changes to your project:
+- Views/Shared/_Grid.cshtml, Views/Shared/_GridPager.cshtml - view for grid
+- Content/Grid.css - default stylesheet for the grid
+- Reference GridMvc.dll
+
+Follow these steps to start use Grid.mvc:
+
+1. Define a model for display in the grid, like:
+	public class Foo
+	{
+		public string Title {get; set;}
+		public string Description {get;set;}
+	}
+
+
+2. Prepare your model in your controller, like:
+	
+	public ActionResult Index()
+	{
+		var items = fooRepository.GetAll();
+		return View(items);
+	}
+
+
+3. Render GridMvc in the View: You can use Html helper extenstion:
+
+	Reference Grid.Mvc.Html in your view:
+
+	@using GridMvc.Html
+
+	If your model derives from IEnumerable<T>, you can not specify items for rendering in the grid
+
+	@(Html.Grid<Orders>(columns =>
+                        {
+                            columns.Add(foo => foo.Title).Titled("Custom column title").Width(110);
+                            columns.Add(foo => foo.Description).Sortable(true);
+                        }).WithPaging(20))
+
+	Or you can specify your items collection:
+
+    @(Html.Grid<Orders>(columns =>
+                            {
+                                columns.Add(foo => foo.Title).Titled("Custom column title").Width(110);
+                                columns.Add(foo => foo.Description).Sortable(true);
+                            }, Model.ItemsCollection).WithPaging(20))
+
+
+4. [Not required] Link a grid stylesheet in your _Layouts.cshtml file for using default GridMvc styles:
+	
+	<link href="@Url.Content("~/Content/Grid.css")" rel="stylesheet" type="text/css" />
+
+
+For more documetation, please see: http://gridmvc.codeplex.com/

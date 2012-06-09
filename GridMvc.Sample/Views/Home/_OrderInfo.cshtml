@@ -1,0 +1,39 @@
+﻿@model GridMvc.Sample.Models.Orders
+<div class="property-line">
+    <div class="property-name">
+        Order number:</div>
+    <div class="property-value">@Model.OrderID</div>
+</div>
+@if (Model.OrderDate.HasValue)
+{
+    <div class="property-line">
+        <div class="property-name">
+            Order date:</div>
+        <div class="property-value">@Model.OrderDate.Value.ToShortDateString()</div>
+    </div>
+}
+
+<div class="property-line">
+    <div class="property-name">
+        Freight:</div>
+    <div class="property-value">@Model.Freight</div>
+</div>
+<div class="property-line">
+    <div class="property-name">
+        Ship address:</div>
+    <div class="property-value">@Model.ShipPostalCode, @Model.ShipCity, @Model.ShipCity,
+        @Model.ShipAddress</div>
+</div>
+<div class="property-line">
+    <div class="property-name">
+        Shipper:</div>
+    <div class="property-value">@Html.ActionLink(Model.Shippers.CompanyName, "Index", "Home", new {id = Model.OrderID})</div>
+</div>
+<div class="property-line">
+    <div class="property-name">
+        Employee:</div>
+    <div class="property-value">@Html.ActionLink(Model.Employees.LastName + " " + Model.Employees.FirstName, "Index", "Home", new {id = Model.OrderID})</div>
+</div>
+<p>
+    @Html.ActionLink("Edit order", "Index", "Home", new {id = Model.OrderID}, new {@class = "button-link"})
+</p>
