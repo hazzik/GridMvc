@@ -8,10 +8,12 @@ namespace GridMvc.Pagination
     /// <typeparam name="T"></typeparam>
     public class PagerGridItemsProcessor<T> : IGridItemsProcessor<T> where T : class
     {
+        private readonly IGrid _grid;
         private readonly IGridPager _pager;
 
-        public PagerGridItemsProcessor(IGridPager pager)
+        public PagerGridItemsProcessor(IGrid grid, IGridPager pager)
         {
+            _grid = grid;
             _pager = pager;
         }
 
@@ -19,7 +21,10 @@ namespace GridMvc.Pagination
 
         public IQueryable<T> Process(IQueryable<T> items)
         {
-            // _pager.ItemsCount = items.Count();
+            _pager.ItemsCount = items.Count(); //take current items count
+            _grid.ItemsCount = _pager.ItemsCount;
+            if (_pager.CurrentPage <= 0) return items; //incorrect page
+
             int skip = (_pager.CurrentPage - 1)*_pager.PageSize;
             return items.Skip(skip).Take(_pager.PageSize);
         }

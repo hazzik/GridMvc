@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace GridMvc.Utility
 {
@@ -10,13 +11,10 @@ namespace GridMvc.Utility
     /// </summary>
     internal class CustomQueryStringBuilder : NameValueCollection
     {
-        public CustomQueryStringBuilder(NameValueCollection collection, string parameterName)
+        public CustomQueryStringBuilder(NameValueCollection collection)
             : base(collection)
         {
-            ParameterName = parameterName;
         }
-
-        public string ParameterName { get; set; }
 
         public override string ToString()
         {
@@ -27,24 +25,36 @@ namespace GridMvc.Utility
                 string[] values = base.GetValues(key);
                 if (values != null && values.Count() != 0)
                 {
-                    result.Append(key + "=" + values[0] + "&");
+                    result.Append(key + "=" + HttpUtility.UrlEncode(values[0]) + "&");
                 }
             }
             string resultString = result.ToString();
             return resultString.EndsWith("&") ? resultString.Substring(0, resultString.Length - 1) : resultString;
         }
 
-        public string GetQueryStringForParameter(string parameterValue)
+        public string GetQueryStringForParameter(string parameterName, string parameterValue)
         {
-            if (string.IsNullOrEmpty(ParameterName))
-                throw new Exception("ParameterName not specified");
+            if (string.IsNullOrEmpty(parameterName))
+                throw new ArgumentException("parameterName");
 
-
-            if (base[ParameterName] != null)
-                base[ParameterName] = parameterValue;
+            if (base[parameterName] != null)
+                base[parameterName] = parameterValue;
             else
-                base.Add(ParameterName, parameterValue);
+                base.Add(parameterName, parameterValue);
 
+            return ToString();
+        }
+
+        /// <summary>
+        /// Returns query string without parameter values
+        /// </summary>
+        /// <param name="parameterNames">Parameter values</param>
+        public string GetQueryStringExcept(string[] parameterNames)
+        {
+            foreach (string parameterName in parameterNames)
+            {
+                base.Remove(parameterName);
+            }
             return ToString();
         }
     }

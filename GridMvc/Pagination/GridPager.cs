@@ -24,18 +24,16 @@ namespace GridMvc.Pagination
             if (HttpContext.Current == null)
                 throw new Exception("No http context here!");
 
-            _queryBuilder = new CustomQueryStringBuilder(HttpContext.Current.Request.QueryString,
-                                                         DefaultPageQueryParameter);
+            _queryBuilder = new CustomQueryStringBuilder(HttpContext.Current.Request.QueryString);
 
             MaxDisplayedPages = MaxDisplayedPages;
+            QueryParameterName = DefaultPageQueryParameter;
             PageSize = DefaultPageSize;
         }
 
-        public string QueryParameterName
-        {
-            get { return _queryBuilder.ParameterName; }
-            set { _queryBuilder.ParameterName = value; }
-        }
+        public string QueryParameterName { get; protected set; }
+
+        #region IGridPager Members
 
         public int ItemsCount
         {
@@ -46,8 +44,6 @@ namespace GridMvc.Pagination
                 RecalculatePages();
             }
         }
-
-        #region IGridPager Members
 
         public int MaxDisplayedPages
         {
@@ -80,7 +76,8 @@ namespace GridMvc.Pagination
 
         public string GetLinkForPage(int pageIndex)
         {
-            return _queryBuilder.GetQueryStringForParameter(pageIndex.ToString(CultureInfo.InvariantCulture));
+            return _queryBuilder.GetQueryStringForParameter(QueryParameterName,
+                                                            pageIndex.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion

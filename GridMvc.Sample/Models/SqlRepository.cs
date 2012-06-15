@@ -5,18 +5,18 @@ namespace GridMvc.Sample.Models
 {
     public abstract class SqlRepository<T> : IRepository<T> where T : class
     {
-        private readonly ObjectSet<T> _set;
+        protected readonly ObjectSet<T> EFDbSet;
 
         protected SqlRepository(ObjectContext context)
         {
-            _set = context.CreateObjectSet<T>();
+            EFDbSet = context.CreateObjectSet<T>();
         }
 
         #region IRepository<T> Members
 
         public virtual IOrderedQueryable<T> GetAll()
         {
-            return _set;
+            return EFDbSet;
         }
 
         public abstract T GetById(object id);

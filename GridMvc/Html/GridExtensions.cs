@@ -41,7 +41,7 @@ namespace GridMvc.Html
         public static IGridHtmlOptions Grid<T>(this HtmlHelper helper, Action<IGridColumnCollection<T>> columnBuilder,
                                                IEnumerable<T> gridItems, string viewName) where T : class
         {
-            var options = new GridHtmlHtmlOptions<T>(gridItems.AsQueryable(), helper.ViewContext, viewName);
+            var options = new GridHtmlOptions<T>(gridItems.AsQueryable(), helper.ViewContext, viewName);
             columnBuilder(options.Columns);
             return options;
         }

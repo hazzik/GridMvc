@@ -6,18 +6,18 @@ namespace GridMvc.Columns
     /// <summary>
     /// Default grid columns builder. Creates the columns from expression
     /// </summary>
-    internal class DefaultColumnBuilder : IColumnBuilder
+    internal class DefaultColumnBuilder<T> : IColumnBuilder<T> where T : class
     {
-        private readonly IGrid _grid;
+        private readonly Grid<T> _grid;
 
-        public DefaultColumnBuilder(IGrid grid)
+        public DefaultColumnBuilder(Grid<T> grid)
         {
             _grid = grid;
         }
 
-        #region IColumnBuilder Members
+        #region IColumnBuilder<T> Members
 
-        public IGridColumn<T> CreateColumn<T, TDataType>(Expression<Func<T, TDataType>> constraint, bool hidden)
+        public IGridColumn<T> CreateColumn<TDataType>(Expression<Func<T, TDataType>> constraint, bool hidden)
         {
             var memberExpression = constraint.Body as MemberExpression;
             if (memberExpression != null)

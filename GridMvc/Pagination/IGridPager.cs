@@ -5,26 +5,28 @@
         int PageSize { get; set; }
 
         /// <summary>
-        /// Общее количество страниц
+        /// Total pages count
         /// </summary>
         int PageCount { get; }
 
         /// <summary>
-        /// Текущая страница
+        /// Current page index
         /// </summary>
         int CurrentPage { get; }
 
         /// <summary>
-        /// Начальная страница для отображения
+        /// Starting displaying page
         /// </summary>
         int StartDisplayedPage { get; }
 
         /// <summary>
-        /// Конечная страница для отображения
+        /// Last displaying page
         /// </summary>
         int EndDisplayedPage { get; }
 
         int MaxDisplayedPages { get; set; }
+
+        int ItemsCount { get; set; }
 
         /// <summary>
         /// Получить адрес для конкретной страницы

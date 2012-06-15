@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using GridMvc.Columns;
 using GridMvc.Pagination;
-using GridMvc.Sorting;
 
 namespace GridMvc
 {
@@ -20,7 +19,7 @@ namespace GridMvc
         /// <summary>
         /// ItemsToDisplay count of the grid
         /// </summary>
-        int ItemsCount { get; }
+        int ItemsCount { get; set; }
 
         /// <summary>
         /// Displaying items count
@@ -38,15 +37,17 @@ namespace GridMvc
         bool EnablePaging { get; }
 
         /// <summary>
-        /// Sort settings for grid
-        /// </summary>
-        IGridSortProvider Sorting { get; }
-
-        /// <summary>
         /// Text in empty grid (no items for display)
         /// </summary>
         string EmptyGridText { get; }
 
+        /// <summary>
+        /// Returns the current Grid language
+        /// </summary>
+        string Language { get; }
+
         ISanitizer Sanitizer { get; }
+
+        void OnPreRender();
     }
 }

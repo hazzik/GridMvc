@@ -7,10 +7,10 @@ using GridMvc.Utility;
 namespace GridMvc.Sorting
 {
     /// <summary>
-    /// Sorting grid items, based on current sorting settings
+    /// Settings grid items, based on current sorting settings
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class SortGridItemsProcessor<T> : IGridItemsProcessor<T> where T : class
+    internal class SortGridItemsProcessor<T> : IGridItemsProcessor<T> where T : class
     {
         private readonly IGrid _grid;
         private readonly IGridSortSettings _settings;
@@ -25,6 +25,8 @@ namespace GridMvc.Sorting
 
         public IQueryable<T> Process(IQueryable<T> items)
         {
+            if (string.IsNullOrEmpty(_settings.ColumnName))
+                return items;
             IEnumerable<PropertyInfo> sequence;
             PropertyInfo pi = PropertiesHelper.GetProperyFromColumnName(_settings.ColumnName, typeof (T), out sequence);
             if (pi == null) return items; // this property does not exist

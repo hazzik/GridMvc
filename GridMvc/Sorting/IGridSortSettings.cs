@@ -1,7 +1,7 @@
 ﻿namespace GridMvc.Sorting
 {
     /// <summary>
-    /// Settings for sort
+    /// SortSettings for sort
     /// </summary>
     public interface IGridSortSettings
     {

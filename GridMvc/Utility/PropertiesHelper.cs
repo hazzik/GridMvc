@@ -29,6 +29,7 @@ namespace GridMvc.Utility
             return sb.ToString();
         }
 
+
         public static PropertyInfo GetProperyFromColumnName(string columnName, Type type,
                                                             out IEnumerable<PropertyInfo> propertyInfoSequence)
         {
@@ -54,6 +55,20 @@ namespace GridMvc.Utility
             }
             propertyInfoSequence = sequence;
             return pi;
+        }
+
+        public static Type GetUnderlyingType(Type type)
+        {
+            Type targetType;
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof (Nullable<>))
+            {
+                targetType = Nullable.GetUnderlyingType(type);
+            }
+            else
+            {
+                targetType = type;
+            }
+            return targetType;
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿For more documentation see: http://gridmvc.codeplex.com/
-Note: Grid.mvc installer has already made the following changes to your project:
+﻿http://gridmvc.codeplex.com/
+
+Note: Grid.Mvc installer has already made the following changes to your project:
 - Views/Shared/_Grid.cshtml, Views/Shared/_GridPager.cshtml - view for grid
-- Content/Grid.mvc.css - default stylesheet for the grid
-- Scripts/grid.mvc.js - client object model
+- Content/Gridmvc.css - default stylesheet for the grid
+- Scripts/gridmvc.js - client object model
 - Reference GridMvc.dll
 
 Follow these steps to start use Grid.mvc:
@@ -47,9 +48,12 @@ Follow these steps to start use Grid.mvc:
 							}, Model.ItemsCollection).WithPaging(20))
 
 
-4. [Not required] Link a grid stylesheet in your _Layouts.cshtml file for using default GridMvc styles:
+4. Register a grid stylesheet and scripts in your _Layouts.cshtml file:
 	
-	<link href="@Url.Content("~/Content/Grid.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" type="text/css" />
 
+	<script src="@Url.Content("~/Scripts/gridmvc.js")" type="text/javascript"> </script>
+
+	Note: also you need to ensure that jQuery has registred on the page before gridmvc.js script.
 
 For more documetation, please see: http://gridmvc.codeplex.com/

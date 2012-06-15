@@ -4,7 +4,7 @@ using GridMvc.Columns;
 
 namespace GridMvc
 {
-    internal abstract class GridStyledRenderer : IGridColumnRenderer
+    public abstract class GridStyledRenderer : IGridColumnRenderer
     {
         private readonly List<string> _classes = new List<string>();
         private readonly List<string> _styles = new List<string>();

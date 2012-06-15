@@ -5,16 +5,34 @@ namespace GridMvc
 {
     public abstract class GridBase<T> where T : class
     {
-        private readonly int _itemsCount; // total items count on collection
-
+        //pre-processors process items before adds to main collection (like filtering)
+        private readonly List<IGridItemsProcessor<T>> _preprocessors = new List<IGridItemsProcessor<T>>();
         private readonly List<IGridItemsProcessor<T>> _processors = new List<IGridItemsProcessor<T>>();
-        private IQueryable<T> _items;
-        private bool _itemsProcessed;
+        private IEnumerable<T> _afterItems;//items after processors
+        private IQueryable<T> _beforeItems;//items before processors
+        private int _itemsCount = -1; // total items count on collection
+        private bool _itemsPreProcessed;//is preprocessors launched?
+        private bool _itemsProcessed;//is processors launched?
 
         protected GridBase(IQueryable<T> items)
         {
-            _items = items;
-            _itemsCount = items.Count();
+            _beforeItems = items;
+        }
+
+        private IQueryable<T> GridItems
+        {
+            get
+            {
+                if (!_itemsPreProcessed)
+                {
+                    _itemsPreProcessed = true;
+                    foreach (var gridItemsProcessor in _preprocessors)
+                    {
+                        _beforeItems = gridItemsProcessor.Process(_beforeItems);
+                    }
+                }
+                return _beforeItems;
+            }
         }
 
         /// <summary>
@@ -24,15 +42,8 @@ namespace GridMvc
         {
             get
             {
-                if (!_itemsProcessed)
-                {
-                    foreach (var processor in _processors.Where(p => p != null))
-                    {
-                        _items = processor.Process(_items);
-                    }
-                    _itemsProcessed = true;
-                }
-                return _items;
+                ProcessItemsToDisplay();
+                return _afterItems;
             }
         }
 
@@ -46,7 +57,13 @@ namespace GridMvc
         /// </summary>
         public int ItemsCount
         {
-            get { return _itemsCount; }
+            get
+            {
+                if (_itemsCount < 0)
+                    _itemsCount = GridItems.Count();
+                return _itemsCount;
+            }
+            set { _itemsCount = value; }
         }
 
         protected void AddItemsProcessor(IGridItemsProcessor<T> processor)
@@ -61,10 +78,36 @@ namespace GridMvc
                 _processors.Remove(processor);
         }
 
+        protected void AddItemsPreProcessor(IGridItemsProcessor<T> processor)
+        {
+            if (!_preprocessors.Contains(processor))
+                _preprocessors.Add(processor);
+        }
+
+        protected void RemoveItemsPreProcessor(IGridItemsProcessor<T> processor)
+        {
+            if (_preprocessors.Contains(processor))
+                _preprocessors.Remove(processor);
+        }
+
         protected void InsertItemsProcessor(int position, IGridItemsProcessor<T> processor)
         {
             if (!_processors.Contains(processor))
                 _processors.Insert(position, processor);
+        }
+
+        protected void ProcessItemsToDisplay()
+        {
+            if (!_itemsProcessed)
+            {
+                _itemsProcessed = true;
+                var itemsToProcess = GridItems;
+                foreach (var processor in _processors.Where(p => p != null))
+                {
+                    itemsToProcess = processor.Process(itemsToProcess);
+                }
+                _afterItems = itemsToProcess.ToList();//select from db (in EF case)
+            }
         }
     }
 }

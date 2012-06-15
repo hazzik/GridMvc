@@ -10,16 +10,24 @@ namespace GridMvc.Sorting
     {
         public const string DefaultDirectionQueryParameter = "grid-dir";
         public const string DefaultColumnQueryParameter = "grid-column";
+        public readonly HttpContext Context;
         private string _columnQueryParameterName;
         private string _directionQueryParameterName;
 
         public QueryStringSortSettings()
+            : this(HttpContext.Current)
         {
-            if (HttpContext.Current == null)
-                throw new Exception("No http context here!");
+        }
+
+        public QueryStringSortSettings(HttpContext context)
+        {
+            if (context == null)
+                throw new ArgumentException("No http context here!");
+            Context = context;
             ColumnQueryParameterName = DefaultColumnQueryParameter;
             DirectionQueryParameterName = DefaultDirectionQueryParameter;
         }
+
 
         public QueryStringSortSettings(string columnName, GridSortDirection direction)
         {
@@ -57,20 +65,18 @@ namespace GridMvc.Sorting
         private void RefreshColumn()
         {
             //Columns
-            string currentSortColumn = HttpContext.Current.Request.QueryString[ColumnQueryParameterName] ?? string.Empty;
+            string currentSortColumn = Context.Request.QueryString[ColumnQueryParameterName] ?? string.Empty;
+            ColumnName = currentSortColumn;
             if (string.IsNullOrEmpty(currentSortColumn))
             {
-                ColumnName = currentSortColumn;
                 Direction = GridSortDirection.Ascending;
-                return;
             }
-            ColumnName = currentSortColumn;
         }
 
         private void RefreshDirection()
         {
             //Direction
-            string currentDirection = HttpContext.Current.Request.QueryString[DirectionQueryParameterName] ??
+            string currentDirection = Context.Request.QueryString[DirectionQueryParameterName] ??
                                       string.Empty;
             if (string.IsNullOrEmpty(currentDirection))
             {

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using GridMvc.Columns;
+using GridMvc.Filtering;
 using GridMvc.Pagination;
+using GridMvc.Resources;
 using GridMvc.Sorting;
 
 namespace GridMvc
@@ -18,22 +20,26 @@ namespace GridMvc
         private IGridPager _pager;
 
         private IGridItemsProcessor<T> _pagerProcessor;
-        private IGridSortProvider _sortingProvider;
+        private IGridSettingsProvider _settings;
 
         public Grid(IQueryable<T> items)
             : base(items)
         {
+            AddItemsPreProcessor(new FilterGridItemsProcessor<T>(this, new QueryStringFilterSettings()));
+
             #region init default properties
 
             //set up sort settings:
-            Sorting = new QueryStringGridSortProvider();
+            Settings = new QueryStringGridSettingsProvider();
             Sanitizer = new Sanitizer();
+            EmptyGridText = Strings.DefaultGridEmptyText;
+            Language = Strings.Lang;
 
             #endregion
 
             //Set up column collection:
-            var columnBuilder = new DefaultColumnBuilder(this);
-            _columnsCollection = new GridColumnCollection<T>(columnBuilder, Sorting);
+            var columnBuilder = new DefaultColumnBuilder<T>(this);
+            _columnsCollection = new GridColumnCollection<T>(columnBuilder, Settings);
         }
 
         /// <summary>
@@ -53,7 +59,39 @@ namespace GridMvc
             set { _columnsCollection.DefaultSortEnabled = value; }
         }
 
+        /// <summary>
+        /// Provides the sort provider, using by the grid
+        /// </summary>
+        public IGridSettingsProvider Settings
+        {
+            get { return _settings; }
+            set
+            {
+                _settings = value;
+                RemoveItemsProcessor(_currentSortItemsProcessor);
+                _currentSortItemsProcessor = new SortGridItemsProcessor<T>(this, _settings.SortSettings);
+                InsertItemsProcessor(0, _currentSortItemsProcessor);
+            }
+        }
+
+        /// <summary>
+        /// Provides the filtering provider, using by the grid
+        /// </summary>
+        public IGridSettingsProvider FilterProvider
+        {
+            get { return _settings; }
+            set
+            {
+                _settings = value;
+                RemoveItemsProcessor(_currentSortItemsProcessor);
+                _currentSortItemsProcessor = new SortGridItemsProcessor<T>(this, _settings.SortSettings);
+                InsertItemsProcessor(0, _currentSortItemsProcessor);
+            }
+        }
+
         #region IGrid Members
+
+
 
         /// <summary>
         /// Count of current displaying items
@@ -82,7 +120,7 @@ namespace GridMvc
                 if (_enablePaging)
                 {
                     if (_pagerProcessor == null)
-                        _pagerProcessor = new PagerGridItemsProcessor<T>(Pager);
+                        _pagerProcessor = new PagerGridItemsProcessor<T>(this, Pager);
                     AddItemsProcessor(_pagerProcessor);
                 }
                 else
@@ -92,32 +130,24 @@ namespace GridMvc
             }
         }
 
-        /// <summary>
-        /// Provides the sort provider, using by the grid
-        /// </summary>
-        public IGridSortProvider Sorting
-        {
-            get { return _sortingProvider; }
-            set
-            {
-                _sortingProvider = value;
-                RemoveItemsProcessor(_currentSortItemsProcessor);
-                _currentSortItemsProcessor = new SortGridItemsProcessor<T>(this, _sortingProvider.Settings);
-                InsertItemsProcessor(0, _currentSortItemsProcessor);
-            }
-        }
+        public string Language { get; set; }
 
         /// <summary>
         /// Gets or set Grid column values sanitizer
         /// </summary>
         public ISanitizer Sanitizer { get; set; }
 
+        public void OnPreRender()
+        {
+            ProcessItemsToDisplay();
+        }
+
         /// <summary>
         /// Manager pager properties
         /// </summary>
         public IGridPager Pager
         {
-            get { return _pager ?? (_pager = new GridPager {ItemsCount = ItemsCount}); }
+            get { return _pager ?? (_pager = new GridPager()); }
             set { _pager = value; }
         }
 

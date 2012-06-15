@@ -27,7 +27,6 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("NorthwindModel", "FK_Orders_Shippers", "Shippers", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GridMvc.Sample.Models.Shippers), "Orders", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GridMvc.Sample.Models.Orders), true)]
 [assembly: EdmRelationshipAttribute("NorthwindModel", "FK_Products_Suppliers", "Suppliers", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GridMvc.Sample.Models.Suppliers), "Products", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GridMvc.Sample.Models.Products), true)]
 [assembly: EdmRelationshipAttribute("NorthwindModel", "FK_Territories_Region", "Region", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GridMvc.Sample.Models.Region), "Territories", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GridMvc.Sample.Models.Territories), true)]
-[assembly: EdmRelationshipAttribute("NorthwindModel", "CustomerCustomerDemo", "CustomerDemographics", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GridMvc.Sample.Models.CustomerDemographics), "Customers", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GridMvc.Sample.Models.Customers))]
 [assembly: EdmRelationshipAttribute("NorthwindModel", "EmployeeTerritories", "Employees", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GridMvc.Sample.Models.Employees), "Territories", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GridMvc.Sample.Models.Territories))]
 
 #endregion
@@ -95,22 +94,6 @@ namespace GridMvc.Sample.Models
             }
         }
         private ObjectSet<Categories> _Categories;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<CustomerDemographics> CustomerDemographics
-        {
-            get
-            {
-                if ((_CustomerDemographics == null))
-                {
-                    _CustomerDemographics = base.CreateObjectSet<CustomerDemographics>("CustomerDemographics");
-                }
-                return _CustomerDemographics;
-            }
-        }
-        private ObjectSet<CustomerDemographics> _CustomerDemographics;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -265,14 +248,6 @@ namespace GridMvc.Sample.Models
         public void AddToCategories(Categories categories)
         {
             base.AddObject("Categories", categories);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the CustomerDemographics EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToCustomerDemographics(CustomerDemographics customerDemographics)
-        {
-            base.AddObject("CustomerDemographics", customerDemographics);
         }
     
         /// <summary>
@@ -512,110 +487,6 @@ namespace GridMvc.Sample.Models
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="NorthwindModel", Name="CustomerDemographics")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class CustomerDemographics : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new CustomerDemographics object.
-        /// </summary>
-        /// <param name="customerTypeID">Initial value of the CustomerTypeID property.</param>
-        public static CustomerDemographics CreateCustomerDemographics(global::System.String customerTypeID)
-        {
-            CustomerDemographics customerDemographics = new CustomerDemographics();
-            customerDemographics.CustomerTypeID = customerTypeID;
-            return customerDemographics;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String CustomerTypeID
-        {
-            get
-            {
-                return _CustomerTypeID;
-            }
-            set
-            {
-                if (_CustomerTypeID != value)
-                {
-                    OnCustomerTypeIDChanging(value);
-                    ReportPropertyChanging("CustomerTypeID");
-                    _CustomerTypeID = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("CustomerTypeID");
-                    OnCustomerTypeIDChanged();
-                }
-            }
-        }
-        private global::System.String _CustomerTypeID;
-        partial void OnCustomerTypeIDChanging(global::System.String value);
-        partial void OnCustomerTypeIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String CustomerDesc
-        {
-            get
-            {
-                return _CustomerDesc;
-            }
-            set
-            {
-                OnCustomerDescChanging(value);
-                ReportPropertyChanging("CustomerDesc");
-                _CustomerDesc = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("CustomerDesc");
-                OnCustomerDescChanged();
-            }
-        }
-        private global::System.String _CustomerDesc;
-        partial void OnCustomerDescChanging(global::System.String value);
-        partial void OnCustomerDescChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("NorthwindModel", "CustomerCustomerDemo", "Customers")]
-        public EntityCollection<Customers> Customers
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Customers>("NorthwindModel.CustomerCustomerDemo", "Customers");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Customers>("NorthwindModel.CustomerCustomerDemo", "Customers", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="NorthwindModel", Name="Customers")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -628,11 +499,13 @@ namespace GridMvc.Sample.Models
         /// </summary>
         /// <param name="customerID">Initial value of the CustomerID property.</param>
         /// <param name="companyName">Initial value of the CompanyName property.</param>
-        public static Customers CreateCustomers(global::System.String customerID, global::System.String companyName)
+        /// <param name="isVip">Initial value of the IsVip property.</param>
+        public static Customers CreateCustomers(global::System.String customerID, global::System.String companyName, global::System.Boolean isVip)
         {
             Customers customers = new Customers();
             customers.CustomerID = customerID;
             customers.CompanyName = companyName;
+            customers.IsVip = isVip;
             return customers;
         }
 
@@ -905,6 +778,30 @@ namespace GridMvc.Sample.Models
         private global::System.String _Fax;
         partial void OnFaxChanging(global::System.String value);
         partial void OnFaxChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsVip
+        {
+            get
+            {
+                return _IsVip;
+            }
+            set
+            {
+                OnIsVipChanging(value);
+                ReportPropertyChanging("IsVip");
+                _IsVip = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsVip");
+                OnIsVipChanged();
+            }
+        }
+        private global::System.Boolean _IsVip;
+        partial void OnIsVipChanging(global::System.Boolean value);
+        partial void OnIsVipChanged();
 
         #endregion
     
@@ -928,28 +825,6 @@ namespace GridMvc.Sample.Models
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Orders>("NorthwindModel.FK_Orders_Customers", "Orders", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("NorthwindModel", "CustomerCustomerDemo", "CustomerDemographics")]
-        public EntityCollection<CustomerDemographics> CustomerDemographics
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CustomerDemographics>("NorthwindModel.CustomerCustomerDemo", "CustomerDemographics");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CustomerDemographics>("NorthwindModel.CustomerCustomerDemo", "CustomerDemographics", value);
                 }
             }
         }

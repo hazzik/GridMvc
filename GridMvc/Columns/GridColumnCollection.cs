@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
-using GridMvc.Sorting;
 
 namespace GridMvc.Columns
 {
@@ -11,13 +10,13 @@ namespace GridMvc.Columns
     /// </summary>
     public class GridColumnCollection<T> : KeyedCollection<string, IGridColumn>, IGridColumnCollection<T>
     {
-        private readonly IColumnBuilder _columnBuilder;
-        private readonly IGridSortProvider _sortProvider;
+        private readonly IColumnBuilder<T> _columnBuilder;
+        private readonly IGridSettingsProvider _settingsProvider;
 
-        public GridColumnCollection(IColumnBuilder columnBuilder, IGridSortProvider sortProvider)
+        public GridColumnCollection(IColumnBuilder<T> columnBuilder, IGridSettingsProvider settingsProvider)
         {
             _columnBuilder = columnBuilder;
-            _sortProvider = sortProvider;
+            _settingsProvider = settingsProvider;
         }
 
         public bool DefaultSortEnabled { get; set; }
@@ -73,13 +72,13 @@ namespace GridMvc.Columns
 
         private void ProcessColumn()
         {
-            if (!string.IsNullOrEmpty(_sortProvider.Settings.ColumnName))
+            if (!string.IsNullOrEmpty(_settingsProvider.SortSettings.ColumnName))
             {
                 foreach (IGridColumn gridColumn in this)
                 {
-                    gridColumn.IsSorted = gridColumn.Name == _sortProvider.Settings.ColumnName;
-                    if (gridColumn.Name == _sortProvider.Settings.ColumnName)
-                        gridColumn.Direction = _sortProvider.Settings.Direction;
+                    gridColumn.IsSorted = gridColumn.Name == _settingsProvider.SortSettings.ColumnName;
+                    if (gridColumn.Name == _settingsProvider.SortSettings.ColumnName)
+                        gridColumn.Direction = _settingsProvider.SortSettings.Direction;
                     else
                         gridColumn.Direction = null;
                 }

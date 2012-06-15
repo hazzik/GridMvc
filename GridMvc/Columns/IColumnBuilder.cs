@@ -3,8 +3,8 @@ using System.Linq.Expressions;
 
 namespace GridMvc.Columns
 {
-    public interface IColumnBuilder
+    public interface IColumnBuilder<T>
     {
-        IGridColumn<T> CreateColumn<T, TDataType>(Expression<Func<T, TDataType>> expression, bool hidden);
+        IGridColumn<T> CreateColumn<TDataType>(Expression<Func<T, TDataType>> expression, bool hidden);
     }
 }

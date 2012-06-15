@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
+using GridMvc.Filtering;
 using GridMvc.Sorting;
 
 namespace GridMvc.Columns
@@ -67,6 +68,15 @@ namespace GridMvc.Columns
         public abstract IGridColumnRenderer HeaderRenderer { get; }
         public abstract IGridColumnRenderer CellRenderer { get; }
         public abstract IGridCell GetCell(object instance);
+
+        public abstract bool FilterEnabled { get; set; }
+        public abstract bool IsFiltered { get; set; }
+        public abstract IGridColumn<T> Filterable(bool showColumnValuesVariants);
+        public abstract IGridColumn<T> SetFilterWidgetType(string typeName);
+
+
+        public abstract IEnumerable<IColumnFilter<T>> Filters { get; }
+        public abstract string FilterWidgetTypeName { get; }
 
         #endregion
 

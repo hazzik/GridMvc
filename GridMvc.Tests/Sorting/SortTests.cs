@@ -156,7 +156,7 @@ namespace GridMvc.Tests.Sorting
                                                         Func<TestModel, TNext> thenByExpression,
                                                         GridSortDirection? thenByDirection)
         {
-            grid.Sorting = new TestSortProvider(columnName, direction);
+            grid.Settings = new TestSettingsProvider(columnName, direction);
 
             IEnumerable<TSelect> resultCollection = _grid.ItemsToDisplay.OfType<TestModel>().Select(selectExpression);
             IOrderedEnumerable<TestModel> etalonCollection;

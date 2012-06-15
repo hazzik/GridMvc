@@ -1,4 +1,5 @@
 ﻿using System;
+using GridMvc.Filtering;
 using GridMvc.Sorting;
 
 namespace GridMvc.Tests.Sorting
@@ -6,13 +7,13 @@ namespace GridMvc.Tests.Sorting
     /// <summary>
     /// Mock of sort provider for the grid
     /// </summary>
-    internal class TestSortProvider : IGridSortProvider
+    internal class TestSettingsProvider : IGridSettingsProvider
     {
-        public TestSortProvider()
+        public TestSettingsProvider()
         {
         }
 
-        public TestSortProvider(string columnName, GridSortDirection direction)
+        public TestSettingsProvider(string columnName, GridSortDirection direction)
         {
             ColumnName = columnName;
             Direction = direction;
@@ -21,16 +22,21 @@ namespace GridMvc.Tests.Sorting
         public string ColumnName { get; set; }
         public GridSortDirection Direction { get; set; }
 
-        #region IGridSortProvider Members
+        #region IGridSettingsProvider Members
 
-        public IGridColumnRenderer HeaderRenderer
+        public GridHeaderRenderer HeaderRenderer
         {
             get { throw new NotImplementedException(); }
         }
 
-        public IGridSortSettings Settings
+        public IGridSortSettings SortSettings
         {
             get { return new TestGridSortSettings(ColumnName, Direction); }
+        }
+
+        public IGridFilterSettings FilterSettings
+        {
+            get { throw new NotImplementedException(); }
         }
 
         #endregion

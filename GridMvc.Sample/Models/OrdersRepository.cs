@@ -11,7 +11,7 @@ namespace GridMvc.Sample.Models
 
         public override IOrderedQueryable<Orders> GetAll()
         {
-            return base.GetAll().OrderByDescending(o => o.OrderDate);
+            return EFDbSet.Include("Customers").OrderByDescending(o => o.OrderDate);
         }
 
         public override Orders GetById(object id)

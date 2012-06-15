@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using GridMvc.Filtering;
 using GridMvc.Sorting;
 using GridMvc.Utility;
 
@@ -36,6 +38,33 @@ namespace GridMvc.Columns
         public override IGridColumnRenderer CellRenderer
         {
             get { return new GridHiddenCellRenderer(); }
+        }
+
+        public override bool FilterEnabled
+        {
+            get { return false; }
+            set { throw new InvalidOperationException("You cannot filter hidden field"); }
+        }
+
+        public override bool IsFiltered
+        {
+            get { return false; }
+            set { throw new InvalidOperationException("You cannot filter hidden field"); }
+        }
+
+        public override IEnumerable<IColumnFilter<T>> Filters
+        {
+            get { return Enumerable.Empty<IColumnFilter<T>>(); }
+        }
+
+        public override string FilterWidgetTypeName
+        {
+            get { return PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName; }
+        }
+
+        public override IGridColumn<T> SetFilterWidgetType(string typeName)
+        {
+            throw new InvalidOperationException("You cannot filter hidden field");
         }
 
         public override IGridColumn<T> SortInitialDirection(GridSortDirection direction)
@@ -81,6 +110,11 @@ namespace GridMvc.Columns
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
             return new GridCell(textValue) {Encode = EncodeEnabled};
+        }
+
+        public override IGridColumn<T> Filterable(bool showColumnValuesVariants)
+        {
+            throw new InvalidOperationException("You cannot filter hidden field");
         }
 
         public override IGridCell GetCell(object instance)

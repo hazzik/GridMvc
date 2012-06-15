@@ -1,7 +1,7 @@
 ﻿@using GridMvc.Html
 @using GridMvc.Sample.Models
 @using GridMvc.Sorting
-@model IEnumerable<GridMvc.Sample.Models.Orders>
+@model IEnumerable<Orders>
 @{
     ViewBag.Title = "Home Page";
 }
@@ -9,26 +9,29 @@
     Orders administration</h2>
 <p>
     <div id="ordersGrid" style="float: left; position: relative; width: 640px;">
-
         @(Html.Grid<Orders>(columns =>
                                  {
                                      /* Adding "OrderID" column: */
-                                     columns.Add(o => o.OrderID).Titled("Number").Width(110);
+                                     columns.Add(o => o.OrderID).Titled("Number").Width(110).Sortable(true).Filterable(true);
                                      /* Adding "OrderDate" column: */
                                      columns.Add(o => o.OrderDate).Titled("Date").Sortable(true)
                                          .SortInitialDirection(GridSortDirection.Descending)
                                          .RenderValueAs(c => c.OrderDate.HasValue ? c.OrderDate.Value.ToShortDateString() : string.Empty)
-                                         .Width(120);
+                                         .Width(120)
+                                         .Filterable(true);
                                      /* Adding "CompanyName" column: */
                                      columns.Add(o => o.Customers.CompanyName).Titled("Company Name")
                                          .Sortable(true)
-                                         .Width(220);
-                                     /* Adding "LastName" column: */
-                                     columns.Add(o => o.Employees.LastName).Titled("Employee")
-                                         .RenderValueAs(o => o.Employees.LastName + " " + o.Employees.FirstName)
+                                         .Filterable(true)
+                                         .Width(220)
+                                         .ThenSortByDescending(o => o.OrderID)
+                                         .SetFilterWidgetType("CustomCompanyNameFilterWidget");
+                                     columns.Add(o => o.Customers.IsVip).Titled("Vip customer")
                                          .Sortable(true)
-                                         .ThenSortByDescending(m => m.Customers.CompanyName);
-                                 }).WithPaging(20))
+                                         .Filterable(true)
+                                         .RenderValueAs(o => o.Customers.IsVip ? "Yes" : "No");
+
+                                 }).WithPaging(20).SetLanguage("en"))
     </div>
     <div id="order-info" style="float: right; width: 280px;">
         <div class="grid-outer paged">
@@ -42,9 +45,10 @@
         </div>
     </div>
     <script>
-        $("#ordersGrid").grid().onRowSelect(function(row) {
+        GridMvc.addFilterWidget(new CustomersFilterWidget());
+        GridMvc.onRowSelect(function (row) {
             //alert(row.OrderID);
-            $.post("/Home/GetOrder?id=" + row.OrderID, function(data) {
+            $.post("/Home/GetOrder?id=" + row.OrderID, function (data) {
                 if (data.Status <= 0) {
                     alert(data.Message);
                     return;

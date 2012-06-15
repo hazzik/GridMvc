@@ -11,7 +11,6 @@ namespace GridMvc.Html
         /// Enable paging for grid
         /// </summary>
         /// <param name="pageSize">Setup the page size of the grid</param>
-        /// <returns></returns>
         IGridHtmlOptions WithPaging(int pageSize);
 
         /// <summary>
@@ -19,14 +18,18 @@ namespace GridMvc.Html
         /// </summary>
         /// <param name="pageSize">Setup the page size of the grid</param>
         /// <param name="maxDisplayedItems">Setup max count of displaying pager links</param>
-        /// <returns></returns>
         IGridHtmlOptions WithPaging(int pageSize, int maxDisplayedItems);
 
         /// <summary>
         /// Setup the text, which will displayed with empty items collection in the grid
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
+        /// <param name="text">Grid empty text</param>
         IGridHtmlOptions EmptyText(string text);
+
+        /// <summary>
+        /// Setup the language of Grid.Mvc
+        /// </summary>
+        /// <param name="lang">Language string (example: "en", "ru", "fr" etc.)</param>
+        IGridHtmlOptions SetLanguage(string lang);
     }
 }

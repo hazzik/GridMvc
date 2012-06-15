@@ -8,11 +8,11 @@ namespace GridMvc.Html
     /// <summary>
     /// Grid adapter for html helper
     /// </summary>
-    public class GridHtmlHtmlOptions<T> : Grid<T>, IGridHtmlOptions where T : class
+    public class GridHtmlOptions<T> : Grid<T>, IGridHtmlOptions where T : class
     {
         private readonly ViewContext _viewContext;
 
-        public GridHtmlHtmlOptions(IQueryable<T> items, ViewContext viewContext, string viewName)
+        public GridHtmlOptions(IQueryable<T> items, ViewContext viewContext, string viewName)
             : base(items)
         {
             _viewContext = viewContext;
@@ -46,6 +46,12 @@ namespace GridMvc.Html
         public IGridHtmlOptions EmptyText(string text)
         {
             EmptyGridText = text;
+            return this;
+        }
+
+        public IGridHtmlOptions SetLanguage(string lang)
+        {
+            Language = lang;
             return this;
         }
 

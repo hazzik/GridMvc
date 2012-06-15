@@ -1,5 +1,8 @@
 ﻿using System.Globalization;
+using System.Web;
 using GridMvc.Columns;
+using GridMvc.Pagination;
+using GridMvc.Utility;
 
 namespace GridMvc.Sorting
 {
@@ -19,9 +22,15 @@ namespace GridMvc.Sorting
 
         public override string Render(IGridColumn column, string content)
         {
+            return base.Render(column, GetSortHeaderContent(column, content));
+        }
+
+        protected string GetSortHeaderContent(IGridColumn column, string content)
+        {
             if (column.SortEnabled)
             {
-                content = string.Format(SortLinkContent, GetLinkForSort(column.Name, column.Direction),
+                var url = GetLinkForSort(column.Name, column.Direction);
+                content = string.Format(SortLinkContent, url,
                                         content);
             }
             if (column.IsSorted)
@@ -30,8 +39,7 @@ namespace GridMvc.Sorting
                 AddCssClass(column.Direction == GridSortDirection.Ascending ? "sorted-asc" : "sorted-desc");
                 content += SortArrowContent;
             }
-
-            return base.Render(column, content);
+            return content;
         }
 
         private string GetLinkForSort(string columnName, GridSortDirection? direction)
@@ -40,7 +48,20 @@ namespace GridMvc.Sorting
             GridSortDirection newDir = direction == GridSortDirection.Ascending
                                            ? GridSortDirection.Descending
                                            : GridSortDirection.Ascending;
-            return string.Format("?{0}={1}&{2}={3}", _settings.ColumnQueryParameterName, columnName,
+            //determine current url:
+            var builder = new CustomQueryStringBuilder(_settings.Context.Request.QueryString);
+            string url =
+                builder.GetQueryStringExcept(new[]
+                                                 {
+                                                     GridPager.DefaultPageQueryParameter,
+                                                     _settings.ColumnQueryParameterName,
+                                                     _settings.DirectionQueryParameterName
+                                                 });
+            if (string.IsNullOrEmpty(url))
+                url = "?";
+            else
+                url += "&";
+            return string.Format("{0}{1}={2}&{3}={4}", url, _settings.ColumnQueryParameterName, columnName,
                                  _settings.DirectionQueryParameterName,
                                  ((int) newDir).ToString(CultureInfo.InvariantCulture));
         }

@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using GridMvc.Filtering;
 using GridMvc.Sorting;
 
 namespace GridMvc.Columns
 {
-    public interface IGridColumn<T> : ISortableColumn<T>, IGridColumn
+    public interface IGridColumn<T> : IGridColumn, IColumn<T>, ISortableColumn<T>, IFilterableColumn<T>
     {
     }
 
-    public interface IGridColumn : ISortableColumn
+    public interface IGridColumn : ISortableColumn, IFilterableColumn
     {
     }
 
+    /// <summary>
+    /// fluent interface for grid column
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IColumn<T>
     {
         /// <summary>
@@ -81,7 +86,11 @@ namespace GridMvc.Columns
         IGridCell GetCell(object instance);
     }
 
-    public interface ISortableColumn<T> : IColumn<T>
+    /// <summary>
+    /// fluent interface for grid sorted column
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public interface ISortableColumn<T> : IColumn
     {
         /// <summary>
         /// List of column orderes
@@ -114,7 +123,7 @@ namespace GridMvc.Columns
     public interface ISortableColumn : IColumn
     {
         /// <summary>
-        /// Internal name of the gridColumn
+        /// Enable sort for this column
         /// </summary>
         bool SortEnabled { get; }
 
@@ -127,5 +136,40 @@ namespace GridMvc.Columns
         ///Sort direction of current column
         /// </summary>
         GridSortDirection? Direction { get; set; }
+    }
+
+    public interface IFilterableColumn<T>
+    {
+        /// <summary>
+        /// Collection of current column filter
+        /// </summary>
+        IEnumerable<IColumnFilter<T>> Filters { get; }
+
+        /// <summary>
+        /// Allows filtering for this column
+        /// </summary>
+        /// <param name="enalbe">Enable/disable filtering</param>
+        IGridColumn<T> Filterable(bool enalbe);
+
+        /// <summary>
+        /// Specify custom filter widget type for this column
+        /// </summary>
+        /// <param name="typeName">Widget type name</param>
+        IGridColumn<T> SetFilterWidgetType(string typeName);
+    }
+
+    public interface IFilterableColumn : IColumn
+    {
+        /// <summary>
+        /// Internal name of the gridColumn
+        /// </summary>
+        bool FilterEnabled { get; }
+
+        /// <summary>
+        /// Is current column filtered
+        /// </summary>
+        bool IsFiltered { get; set; }
+
+        string FilterWidgetTypeName { get; }
     }
 }

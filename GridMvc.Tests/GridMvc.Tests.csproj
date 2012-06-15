@@ -56,7 +56,7 @@
     <Compile Include="TestGrid.cs" />
     <Compile Include="TestModel.cs" />
     <Compile Include="TestRepository.cs" />
-    <Compile Include="Sorting\TestSortProvider.cs" />
+    <Compile Include="Sorting\TestSettingsProvider.cs" />
     <Compile Include="Columns\ColumnTests.cs" />
   </ItemGroup>
   <ItemGroup>
