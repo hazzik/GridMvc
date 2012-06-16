@@ -18,10 +18,17 @@ namespace GridMvc.Pagination
 
         private int _maxDisplayedPages;
         private int _pageSize;
+        private readonly HttpContext _context;
 
         public GridPager()
+            : this(HttpContext.Current)
         {
-            if (HttpContext.Current == null)
+        }
+
+        public GridPager(HttpContext context)
+        {
+            _context = context;
+            if (_context == null)
                 throw new Exception("No http context here!");
 
             _queryBuilder = new CustomQueryStringBuilder(HttpContext.Current.Request.QueryString);
@@ -84,9 +91,9 @@ namespace GridMvc.Pagination
 
         private void RecalculatePages()
         {
-            PageCount = (int) (Math.Ceiling(ItemsCount/(double) PageSize));
+            PageCount = (int)(Math.Ceiling(ItemsCount / (double)PageSize));
 
-            string currentPageString = HttpContext.Current.Request.QueryString[QueryParameterName] ?? "1";
+            string currentPageString = _context.Request.QueryString[QueryParameterName] ?? "1";
             int page;
             if (!int.TryParse(currentPageString, out page))
                 page = 1;
@@ -95,12 +102,12 @@ namespace GridMvc.Pagination
             if (CurrentPage > PageCount)
                 CurrentPage = PageCount;
 
-            StartDisplayedPage = (CurrentPage - MaxDisplayedPages/2) < 1
+            StartDisplayedPage = (CurrentPage - MaxDisplayedPages / 2) < 1
                                      ? 1
-                                     : CurrentPage - MaxDisplayedPages/2;
-            EndDisplayedPage = (CurrentPage + MaxDisplayedPages/2) > PageCount
+                                     : CurrentPage - MaxDisplayedPages / 2;
+            EndDisplayedPage = (CurrentPage + MaxDisplayedPages / 2) > PageCount
                                    ? PageCount
-                                   : CurrentPage + MaxDisplayedPages/2;
+                                   : CurrentPage + MaxDisplayedPages / 2;
         }
     }
 }

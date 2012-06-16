@@ -3,6 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace GridMvc
 {
+    /// <summary>
+    /// Default ISanitizer implementation
+    /// </summary>
     public class Sanitizer : ISanitizer
     {
         private static readonly Regex Tags = new Regex("<[^>]*(>|$)",

@@ -4,7 +4,10 @@ using System.Linq.Expressions;
 
 namespace GridMvc.Sorting
 {
-    public class ThenByColumnOrderer<T, TKey> : IColumnOrderer<T>
+    /// <summary>
+    /// Object applies ThenBy and ThenByDescending order for items collection
+    /// </summary>
+    internal class ThenByColumnOrderer<T, TKey> : IColumnOrderer<T>
     {
         private readonly Expression<Func<T, TKey>> _expression;
         private readonly GridSortDirection _initialDirection;

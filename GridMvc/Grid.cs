@@ -8,7 +8,7 @@ using GridMvc.Sorting;
 namespace GridMvc
 {
     /// <summary>
-    /// Base grid class
+    /// Grid.Mvc base class
     /// </summary>
     public class Grid<T> : GridBase<T>, IGrid where T : class
     {
@@ -28,13 +28,11 @@ namespace GridMvc
             AddItemsPreProcessor(new FilterGridItemsProcessor<T>(this, new QueryStringFilterSettings()));
 
             #region init default properties
-
             //set up sort settings:
             Settings = new QueryStringGridSettingsProvider();
             Sanitizer = new Sanitizer();
             EmptyGridText = Strings.DefaultGridEmptyText;
             Language = Strings.Lang;
-
             #endregion
 
             //Set up column collection:
@@ -51,7 +49,7 @@ namespace GridMvc
         }
 
         /// <summary>
-        /// Sets or get default sorting for all adding columns
+        /// Sets or get default value of sorting for all adding columns
         /// </summary>
         public bool DefaultSortEnabled
         {
@@ -60,7 +58,7 @@ namespace GridMvc
         }
 
         /// <summary>
-        /// Provides the sort provider, using by the grid
+        /// Provides settings, using by the grid
         /// </summary>
         public IGridSettingsProvider Settings
         {
@@ -74,25 +72,7 @@ namespace GridMvc
             }
         }
 
-        /// <summary>
-        /// Provides the filtering provider, using by the grid
-        /// </summary>
-        public IGridSettingsProvider FilterProvider
-        {
-            get { return _settings; }
-            set
-            {
-                _settings = value;
-                RemoveItemsProcessor(_currentSortItemsProcessor);
-                _currentSortItemsProcessor = new SortGridItemsProcessor<T>(this, _settings.SortSettings);
-                InsertItemsProcessor(0, _currentSortItemsProcessor);
-            }
-        }
-
         #region IGrid Members
-
-
-
         /// <summary>
         /// Count of current displaying items
         /// </summary>

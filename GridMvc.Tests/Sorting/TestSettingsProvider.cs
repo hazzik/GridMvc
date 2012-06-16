@@ -34,11 +34,6 @@ namespace GridMvc.Tests.Sorting
             get { return new TestGridSortSettings(ColumnName, Direction); }
         }
 
-        public IGridFilterSettings FilterSettings
-        {
-            get { throw new NotImplementedException(); }
-        }
-
         #endregion
     }
 }

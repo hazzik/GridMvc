@@ -121,7 +121,7 @@
     <value>Нет элементов для отображения</value>
   </data>
   <data name="FilterButtonTooltipText" xml:space="preserve">
-    <value>Aggiungi filtrare sul campo</value>
+    <value>Добавить фильтр по полю</value>
   </data>
   <data name="Lang" xml:space="preserve">
     <value>ru</value>

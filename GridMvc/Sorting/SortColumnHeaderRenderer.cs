@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Web;
 using GridMvc.Columns;
 using GridMvc.Pagination;
 using GridMvc.Utility;
@@ -7,7 +6,8 @@ using GridMvc.Utility;
 namespace GridMvc.Sorting
 {
     /// <summary>
-    /// Renderer for sortable column
+    /// Renderer for sortable column.
+    /// Object renders column name as link
     /// </summary>
     internal class QueryStringSortColumnHeaderRenderer : GridHeaderRenderer
     {

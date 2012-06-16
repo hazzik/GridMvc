@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace GridMvc
 {
+    /// <summary>
+    /// Base implementation of the Grid.Mvc
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class GridBase<T> where T : class
     {
         //pre-processors process items before adds to main collection (like filtering)
@@ -23,6 +27,7 @@ namespace GridMvc
         {
             get
             {
+                //call preprocessors before:
                 if (!_itemsPreProcessed)
                 {
                     _itemsPreProcessed = true;
@@ -63,38 +68,39 @@ namespace GridMvc
                     _itemsCount = GridItems.Count();
                 return _itemsCount;
             }
-            set { _itemsCount = value; }
+            set
+            {
+                _itemsCount = value;//value can be set by pager (for minimizing db calls)
+            }
         }
 
+        #region Processors methods
         protected void AddItemsProcessor(IGridItemsProcessor<T> processor)
         {
             if (!_processors.Contains(processor))
                 _processors.Add(processor);
         }
-
         protected void RemoveItemsProcessor(IGridItemsProcessor<T> processor)
         {
             if (_processors.Contains(processor))
                 _processors.Remove(processor);
         }
-
         protected void AddItemsPreProcessor(IGridItemsProcessor<T> processor)
         {
             if (!_preprocessors.Contains(processor))
                 _preprocessors.Add(processor);
         }
-
         protected void RemoveItemsPreProcessor(IGridItemsProcessor<T> processor)
         {
             if (_preprocessors.Contains(processor))
                 _preprocessors.Remove(processor);
         }
-
         protected void InsertItemsProcessor(int position, IGridItemsProcessor<T> processor)
         {
             if (!_processors.Contains(processor))
                 _processors.Insert(position, processor);
         }
+        #endregion
 
         protected void ProcessItemsToDisplay()
         {

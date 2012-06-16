@@ -4,6 +4,9 @@ using GridMvc.Pagination;
 
 namespace GridMvc
 {
+    /// <summary>
+    /// Grid.Mvc interface
+    /// </summary>
     public interface IGrid
     {
         /// <summary>
@@ -17,12 +20,12 @@ namespace GridMvc
         IEnumerable<object> ItemsToDisplay { get; }
 
         /// <summary>
-        /// ItemsToDisplay count of the grid
+        /// Total grid items count
         /// </summary>
         int ItemsCount { get; set; }
 
         /// <summary>
-        /// Displaying items count
+        /// Displaying grid items count
         /// </summary>
         int DisplayingItemsCount { get; }
 
@@ -46,6 +49,9 @@ namespace GridMvc
         /// </summary>
         string Language { get; }
 
+        /// <summary>
+        /// Object that sanitize grid column values from dangerous content
+        /// </summary>
         ISanitizer Sanitizer { get; }
 
         void OnPreRender();

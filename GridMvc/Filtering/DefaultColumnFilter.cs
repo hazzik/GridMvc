@@ -32,8 +32,7 @@ namespace GridMvc.Filtering
         private Expression<Func<T, bool>> GetFilterExpression(PropertyInfo pi, string value, GridFilterType type)
         {
             //detect nullable
-            bool isNullable = pi.PropertyType.IsGenericType &&
-                              pi.PropertyType.GetGenericTypeDefinition() == typeof (Nullable<>);
+            bool isNullable = pi.PropertyType.IsGenericType && pi.PropertyType.GetGenericTypeDefinition() == typeof (Nullable<>);
             //get target type TODO: refactor
             Type targetType = isNullable ? Nullable.GetUnderlyingType(pi.PropertyType) : pi.PropertyType;
             //get typed value of query string parameter

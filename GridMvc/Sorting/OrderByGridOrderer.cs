@@ -4,6 +4,9 @@ using System.Linq.Expressions;
 
 namespace GridMvc.Sorting
 {
+    /// <summary>
+    /// Object applies order (OrderBy, OrderByDescending) for items collection
+    /// </summary>
     internal class OrderByGridOrderer<T, TKey> : IColumnOrderer<T>
     {
         private readonly Expression<Func<T, TKey>> _expression;

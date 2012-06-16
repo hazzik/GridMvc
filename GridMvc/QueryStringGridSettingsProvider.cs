@@ -4,7 +4,7 @@ using GridMvc.Sorting;
 namespace GridMvc
 {
     /// <summary>
-    /// Provider for  sorting, based on query string parameters
+    /// Provider of grid settings, based on query string parameters
     /// </summary>
     public class QueryStringGridSettingsProvider : IGridSettingsProvider
     {
@@ -15,9 +15,9 @@ namespace GridMvc
         public QueryStringGridSettingsProvider()
         {
             _sortSettings = new QueryStringSortSettings();
-            _filterSettings = new QueryStringFilterSettings();
             _headerRenderer = new QueryStringSortColumnHeaderRenderer(_sortSettings);
             //add additional header renderer for filterable columns:
+            _filterSettings = new QueryStringFilterSettings();
             _headerRenderer.AddAdditionalRenderer(new QueryStringFilterColumnHeaderRenderer(_filterSettings));
         }
 
@@ -31,11 +31,6 @@ namespace GridMvc
         public IGridSortSettings SortSettings
         {
             get { return _sortSettings; }
-        }
-
-        public IGridFilterSettings FilterSettings
-        {
-            get { return _filterSettings; }
         }
 
         #endregion

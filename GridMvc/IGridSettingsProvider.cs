@@ -1,15 +1,13 @@
-﻿using GridMvc.Filtering;
-using GridMvc.Sorting;
+﻿using GridMvc.Sorting;
 
 namespace GridMvc
 {
     /// <summary>
-    /// Settings for grid
+    /// Setting for grid
     /// </summary>
     public interface IGridSettingsProvider
     {
         GridHeaderRenderer HeaderRenderer { get; }
         IGridSortSettings SortSettings { get; }
-        IGridFilterSettings FilterSettings { get; }
     }
 }

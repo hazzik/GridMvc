@@ -8,38 +8,50 @@ using GridMvc.Utility;
 namespace GridMvc.Columns
 {
     /// <summary>
-    /// Grid column for displaying model property
+    /// Default implementation of Grid column
     /// </summary>
     public class DefaultGridColumn<T, TDataType> : GridColumnBase<T> where T : class
     {
+        /// <summary>
+        /// Expression to member, used for this column
+        /// </summary>
         private readonly Func<T, TDataType> _constraint;
+        /// <summary>
+        /// Filters and orderers collection for this columns
+        /// </summary>
         private readonly List<IColumnFilter<T>> _filters = new List<IColumnFilter<T>>();
-        private readonly Grid<T> _grid;
         private readonly List<IColumnOrderer<T>> _orderers = new List<IColumnOrderer<T>>();
+        /// <summary>
+        /// Parent grid of this column
+        /// </summary>
+        private readonly Grid<T> _grid;
+        
         private bool _sanitize;
-        private string _widgetTypeName;
+        private string _filterWidgetTypeName;
 
         public DefaultGridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {
+            
+
             Expression expr = expression.Body;
             if (!(expr is MemberExpression))
                 throw new ArgumentException(string.Format("Expression '{0}' must be a member expression", expression),
                                             "expression");
 
+            #region Setup defaults
+            EncodeEnabled = true;
+            SortEnabled = false;
             _constraint = expression.Compile();
             _orderers.Insert(0, new OrderByGridOrderer<T, TDataType>(expression));
             _filters.Insert(0, new DefaultColumnFilter<T, TDataType>(expression));
+            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName;
             _grid = grid;
-
-            _widgetTypeName = PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName;
+            _sanitize = true;            
+            #endregion
 
             //Generate unique column name:
             Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression) expression.Body);
-            //Default values;
-            Title = Name;
-            EncodeEnabled = true;
-            SortEnabled = false;
-            _sanitize = true;
+            Title = Name;//Useing the same name by default
         }
 
         public override IGridColumnRenderer HeaderRenderer
@@ -67,12 +79,12 @@ namespace GridMvc.Columns
 
         public override string FilterWidgetTypeName
         {
-            get { return _widgetTypeName; }
+            get { return _filterWidgetTypeName; }
         }
 
         public override IGridColumn<T> SetFilterWidgetType(string typeName)
         {
-            _widgetTypeName = typeName;
+            _filterWidgetTypeName = typeName;
             return this;
         }
 

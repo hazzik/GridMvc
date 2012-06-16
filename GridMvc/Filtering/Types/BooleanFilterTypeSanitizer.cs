@@ -9,6 +9,8 @@
 
         public GridFilterType SanitizeType(GridFilterType type)
         {
+            //in any case Boolean types must compare by Equals filter type
+            //We can't compare: contains(true) and etc.
             return GridFilterType.Equals;
         }
 
