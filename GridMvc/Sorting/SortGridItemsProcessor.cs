@@ -28,7 +28,7 @@ namespace GridMvc.Sorting
             if (string.IsNullOrEmpty(_settings.ColumnName))
                 return items;
             IEnumerable<PropertyInfo> sequence;
-            PropertyInfo pi = PropertiesHelper.GetProperyFromColumnName(_settings.ColumnName, typeof (T), out sequence);
+            PropertyInfo pi = PropertiesHelper.GetPropertyFromColumnName(_settings.ColumnName, typeof (T), out sequence);
             if (pi == null) return items; // this property does not exist
 
             //determine gridColumn sortable:

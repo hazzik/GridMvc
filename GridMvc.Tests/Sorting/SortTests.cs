@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using GridMvc.Sorting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace GridMvc.Tests.Sorting
 {
@@ -156,7 +157,10 @@ namespace GridMvc.Tests.Sorting
                                                         Func<TestModel, TNext> thenByExpression,
                                                         GridSortDirection? thenByDirection)
         {
-            grid.Settings = new TestSettingsProvider(columnName, direction);
+            var settingsMock = new Mock<IGridSettingsProvider>();
+            settingsMock.Setup(s => s.SortSettings.ColumnName).Returns(columnName);
+            settingsMock.Setup(s => s.SortSettings.Direction).Returns(direction);
+            grid.Settings = settingsMock.Object;
 
             IEnumerable<TSelect> resultCollection = _grid.ItemsToDisplay.OfType<TestModel>().Select(selectExpression);
             IOrderedEnumerable<TestModel> etalonCollection;

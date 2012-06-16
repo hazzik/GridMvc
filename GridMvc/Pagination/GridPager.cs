@@ -83,7 +83,7 @@ namespace GridMvc.Pagination
 
         public string GetLinkForPage(int pageIndex)
         {
-            return _queryBuilder.GetQueryStringForParameter(QueryParameterName,
+            return _queryBuilder.GetQueryStringWithParameter(QueryParameterName,
                                                             pageIndex.ToString(CultureInfo.InvariantCulture));
         }
 

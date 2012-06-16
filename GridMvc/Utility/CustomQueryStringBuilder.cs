@@ -16,23 +16,13 @@ namespace GridMvc.Utility
         {
         }
 
+
         public override string ToString()
         {
-            var result = new StringBuilder();
-            if (base.AllKeys.Count() != 0) result.Append("?");
-            foreach (string key in base.AllKeys)
-            {
-                string[] values = base.GetValues(key);
-                if (values != null && values.Count() != 0)
-                {
-                    result.Append(key + "=" + HttpUtility.UrlEncode(values[0]) + "&");
-                }
-            }
-            string resultString = result.ToString();
-            return resultString.EndsWith("&") ? resultString.Substring(0, resultString.Length - 1) : resultString;
+            return GetQueryStringExcept(new string[0]);
         }
 
-        public string GetQueryStringForParameter(string parameterName, string parameterValue)
+        public string GetQueryStringWithParameter(string parameterName, string parameterValue)
         {
             if (string.IsNullOrEmpty(parameterName))
                 throw new ArgumentException("parameterName");
@@ -51,11 +41,22 @@ namespace GridMvc.Utility
         /// <param name="parameterNames">Parameter values</param>
         public string GetQueryStringExcept(string[] parameterNames)
         {
-            foreach (string parameterName in parameterNames)
+            var result = new StringBuilder();
+            foreach (string key in base.AllKeys)
             {
-                base.Remove(parameterName);
+                if (parameterNames.Contains(key))
+                    continue;
+                string[] values = base.GetValues(key);
+                if (values != null && values.Count() != 0)
+                {
+                    if (result.Length == 0)
+                        result.Append("?");
+                    result.Append(key + "=" + HttpUtility.UrlEncode(values[0]) + "&");
+                }
             }
-            return ToString();
+            string resultString = result.ToString();
+            return resultString.EndsWith("&") ? resultString.Substring(0, resultString.Length - 1) : resultString;
         }
+
     }
 }

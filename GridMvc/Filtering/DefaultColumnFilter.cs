@@ -18,10 +18,10 @@ namespace GridMvc.Filtering
 
         #region IColumnFilter<T> Members
 
-        public IQueryable<T> ApplyFilter(IQueryable<T> items, string value, GridFilterType type)
+        public IQueryable<T> ApplyFilter(IQueryable<T> items,IGridFilterSettings settings)
         {
-            var pi = (PropertyInfo) ((MemberExpression) _expression.Body).Member;
-            Expression<Func<T, bool>> expr = GetFilterExpression(pi, value, type);
+            var pi = (PropertyInfo)((MemberExpression)_expression.Body).Member;
+            Expression<Func<T, bool>> expr = GetFilterExpression(pi, settings);
             if (expr == null)
                 return items;
             return items.Where(expr);
@@ -29,20 +29,20 @@ namespace GridMvc.Filtering
 
         #endregion
 
-        private Expression<Func<T, bool>> GetFilterExpression(PropertyInfo pi, string value, GridFilterType type)
+        private Expression<Func<T, bool>> GetFilterExpression(PropertyInfo pi, IGridFilterSettings settings)
         {
             //detect nullable
-            bool isNullable = pi.PropertyType.IsGenericType && pi.PropertyType.GetGenericTypeDefinition() == typeof (Nullable<>);
+            bool isNullable = pi.PropertyType.IsGenericType && pi.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
             //get target type TODO: refactor
             Type targetType = isNullable ? Nullable.GetUnderlyingType(pi.PropertyType) : pi.PropertyType;
             //get typed value of query string parameter
-            object typedValue = ConvertToType(value, targetType);
+            object typedValue = ConvertToType(settings.Value, targetType);
             if (typedValue == null)
                 return null; //incorrent filter value;
 
             //determine allowed filter types for property type
             IFilterTypeSanitizer sanitizer = FilterTypeResolver.GetSanitizer(targetType.FullName);
-            type = sanitizer.SanitizeType(type);
+            var type = sanitizer.SanitizeType(settings.Type);
 
             ParameterExpression entityParam = _expression.Parameters[0];
 
@@ -65,15 +65,15 @@ namespace GridMvc.Filtering
                     binaryExpression = Expression.Equal(firstExpr, valueExpr);
                     break;
                 case GridFilterType.Contains:
-                    MethodInfo miContains = targetType.GetMethod("Contains", new[] {typeof (string)});
+                    MethodInfo miContains = targetType.GetMethod("Contains", new[] { typeof(string) });
                     binaryExpression = Expression.Call(firstExpr, miContains, valueExpr);
                     break;
                 case GridFilterType.StartsWith:
-                    MethodInfo miStartsWith = targetType.GetMethod("StartsWith", new[] {typeof (string)});
+                    MethodInfo miStartsWith = targetType.GetMethod("StartsWith", new[] { typeof(string) });
                     binaryExpression = Expression.Call(firstExpr, miStartsWith, valueExpr);
                     break;
                 case GridFilterType.EndsWidth:
-                    MethodInfo miEndssWith = targetType.GetMethod("EndsWith", new[] {typeof (string)});
+                    MethodInfo miEndssWith = targetType.GetMethod("EndsWith", new[] { typeof(string) });
                     binaryExpression = Expression.Call(firstExpr, miEndssWith, valueExpr);
                     break;
                 case GridFilterType.LessThan:

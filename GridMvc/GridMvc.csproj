@@ -38,7 +38,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>sign.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -131,9 +132,6 @@
     <Compile Include="Sorting\QueryStringSortSettings.cs" />
     <Compile Include="Sorting\SortGridItemsProcessor.cs" />
     <Compile Include="Utility\CustomQueryStringBuilder.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="sign.snk" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Strings.it.resx">

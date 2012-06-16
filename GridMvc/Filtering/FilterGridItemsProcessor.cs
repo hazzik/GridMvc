@@ -27,7 +27,7 @@ namespace GridMvc.Filtering
             if (string.IsNullOrEmpty(_settings.ColumnName) || string.IsNullOrEmpty(_settings.Value))
                 return items;
             IEnumerable<PropertyInfo> sequence;
-            PropertyInfo pi = PropertiesHelper.GetProperyFromColumnName(_settings.ColumnName, typeof (T), out sequence);
+            PropertyInfo pi = PropertiesHelper.GetPropertyFromColumnName(_settings.ColumnName, typeof (T), out sequence);
             if (pi == null) return items; // this property does not exist
 
             //determine gridColumn sortable:
@@ -37,7 +37,7 @@ namespace GridMvc.Filtering
 
             foreach (var columnFilter in gridColumn.Filters)
             {
-                items = columnFilter.ApplyFilter(items, _settings.Value, _settings.Type);
+                items = columnFilter.ApplyFilter(items, _settings);
             }
             return items;
         }
