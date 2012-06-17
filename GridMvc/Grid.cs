@@ -28,11 +28,13 @@ namespace GridMvc
             AddItemsPreProcessor(new FilterGridItemsProcessor<T>(this, new QueryStringFilterSettings()));
 
             #region init default properties
+
             //set up sort settings:
             Settings = new QueryStringGridSettingsProvider();
             Sanitizer = new Sanitizer();
             EmptyGridText = Strings.DefaultGridEmptyText;
             Language = Strings.Lang;
+
             #endregion
 
             //Set up column collection:
@@ -73,6 +75,7 @@ namespace GridMvc
         }
 
         #region IGrid Members
+
         /// <summary>
         /// Count of current displaying items
         /// </summary>

@@ -31,7 +31,7 @@ namespace GridMvc.Utility
 
 
         public static PropertyInfo GetPropertyFromColumnName(string columnName, Type type,
-                                                            out IEnumerable<PropertyInfo> propertyInfoSequence)
+                                                             out IEnumerable<PropertyInfo> propertyInfoSequence)
         {
             string[] properies = columnName.Split(new[] {PropertiesQueryStringDelimeter},
                                                   StringSplitOptions.RemoveEmptyEntries);

@@ -8,6 +8,10 @@
 <h2>
     Orders administration</h2>
 <p>
+    This page demonstrates the possibilities of Grid.Mvc. For more documentation, please
+    see: <a href="http://gridmvc.codeplex.com/">http://gridmvc.codeplex.com/</a>
+</p>
+<p>
     <div id="ordersGrid" style="float: left; position: relative; width: 640px;">
         @(Html.Grid<Orders>(columns =>
                                  {
@@ -46,6 +50,7 @@
     </div>
     <script>
         GridMvc.addFilterWidget(new CustomersFilterWidget());
+
         GridMvc.onRowSelect(function (row) {
             //alert(row.OrderID);
             $.post("/Home/GetOrder?id=" + row.OrderID, function (data) {

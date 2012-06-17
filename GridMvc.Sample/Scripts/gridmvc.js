@@ -126,39 +126,50 @@ GridMvc = (function () {
         });
     };
     /***
-    * Shows filter popup window and renders filter widget
+    * Shows filter popup window and render filter widget
     */
     gridMvc.prototype.openFilterPopup = function ($context, html) {
-        //if widget allready rendered - just open popup menu:
-        if (this.hasAttribute("data-rendered"))
-            return $context.openMenuOnClick.call(this, $context);
-        //mark filter as rendered
-        $(this).attr("data-rendered", "1");
         //retrive all column filter parameters from html attrs:
         var columnType = $(this).attr("data-type");
         var columnName = $(this).attr("data-name");
         var filterType = $(this).attr("data-filtertype");
         var filterValue = $(this).attr("data-filtervalue");
         var filterUrl = $(this).attr("data-url");
+
         //determine widget
         var widget = $context.getFilterWidgetForType(columnType);
         //if widget for specified column type not found - do nothing
         if (widget == null)
             return false;
+
+        //if widget allready onRendered - just open popup menu:
+        if (this.hasAttribute("data-onRendered")) {
+            var openResult = $context.openMenuOnClick.call(this, $context);
+            if (!openResult && typeof (widget.onShow) != 'undefined')
+                widget.onShow();
+            return openResult;
+        }
+        //mark filter as onRendered
+        $(this).attr("data-onRendered", "1");
         //append base popup layout:
         $(this).append(html);
         //determine widget container:
         var widgetContainer = $(this).find(".menu-popup-widget");
-        //render target widget
-        widget.render(widgetContainer, $context.lang, columnType, filterType, filterValue, function (type, value) {
-            $context.closeOpenedPopups();
-            $context.applyFilterValue(filterUrl, columnName, type, value);
-        });
+        //onRender target widget
+        if (typeof (widget.onRender) != 'undefined')
+            widget.onRender(widgetContainer, $context.lang, columnType, filterType, filterValue, function (type, value) {
+                $context.closeOpenedPopups();
+                $context.applyFilterValue(filterUrl, columnName, type, value);
+            });
+        //adding 'clear filter' button if needed:
         if ($(this).hasClass("filtered") && widget.showClearFilterButton()) {
             var inner = $(this).find(".menu-popup-additional");
             inner.append($context.getClearFilterButton(filterUrl));
         }
-        return $context.openMenuOnClick.call(this, $context);
+        var openResult = $context.openMenuOnClick.call(this, $context);
+        if (typeof (widget.onShow) != 'undefined')
+            widget.onShow();
+        return openResult;
     };
     /***
     * Returns layout of filter popup menu
@@ -199,6 +210,19 @@ GridMvc = (function () {
                 return this.filterWidgets[i];
         }
         return null;
+    };
+    /***
+    * Replace existed filter widget
+    */
+    gridMvc.prototype.replaceFilterWidget = function (typeNameToReplace, widget) {
+        for (var i = 0; i < this.filterWidgets.length; i++) {
+            if ($.inArray(typeNameToReplace, this.filterWidgets[i].getAssociatedTypes()) >= 0) {
+                this.filterWidgets.splice(i, 1);
+                this.addFilterWidget(widget);
+                return true;
+            }
+        }
+        return false;
     };
     /***
     * Applies selected filter value by redirecting to another url:
@@ -288,8 +312,8 @@ GridMvc.lang.en = {
 };
 /***
 * ============= FILTER WIDGETS =============
-* Filter widget allows render custom filter user interface for different columns. 
-* For example if your added column is of type "DateTime" - widget can render calendar for picking filter value.
+* Filter widget allows onRender custom filter user interface for different columns. 
+* For example if your added column is of type "DateTime" - widget can onRender calendar for picking filter value.
 * This script provider base widget for default .Net types: System.String, System.Int32, System.Decimal etc.
 * If you want to provide custom filter functionality - you can assign your own widget type for column and write widget for this types.
 * For more documentation see: http://gridmvc.codeplex.com/documentation
@@ -297,7 +321,7 @@ GridMvc.lang.en = {
 
 /***
 * TextFilterWidget - Provides filter interface for text columns (of type "System.String")
-* This widget renders filter interface with conditions, which specific for text types: contains, starts with etc.
+* This widget onRenders filter interface with conditions, which specific for text types: contains, starts with etc.
 */
 TextFilterWidget = (function () {
     function textFilterWidget() { }
@@ -307,11 +331,19 @@ TextFilterWidget = (function () {
     */
     textFilterWidget.prototype.getAssociatedTypes = function () { return ["System.String"]; };
     /***
-    * This method specify whether render 'Clear filter' button for this widget.
+    * This method invokes when filter widget was shown on the page
+    */
+    textFilterWidget.prototype.onShow = function () {
+        var textBox = this.container.find(".grid-filter-input");
+        if (textBox.length <= 0) return;
+        textBox.focus();
+    };
+    /***
+    * This method specify whether onRender 'Clear filter' button for this widget.
     */
     textFilterWidget.prototype.showClearFilterButton = function () { return true; };
     /***
-    * This method will invoke when user was clicked on filter button.
+    * This method will invoke when user first clicked on filter button.
     * container - html element, which must contain widget layout;
     * lang - current language settings;
     * typeName - current column type (if widget assign to multipile types, see: getAssociatedTypes);
@@ -319,7 +351,7 @@ TextFilterWidget = (function () {
     * filterValue - current filter value;
     * cb - callback function that must invoked when user want to filter this column. Widget must pass filter type and filter value.
     */
-    textFilterWidget.prototype.render = function (container, lang, typeName, filterType, filterValue, cb) {
+    textFilterWidget.prototype.onRender = function (container, lang, typeName, filterType, filterValue, cb) {
         this.cb = cb;
         this.container = container;
         this.lang = lang;
@@ -365,9 +397,8 @@ TextFilterWidget = (function () {
         });
         //register onEnter event for filter text box:
         this.container.find(".grid-filter-input").keyup(function (event) {
-            if (event.keyCode == 13) {
-                applyBtn.click();
-            }
+            if (event.keyCode == 13) { applyBtn.click(); }
+            if (event.keyCode == 27) { GridMvc.closeOpenedPopups(); }
         });
     };
 
@@ -376,8 +407,8 @@ TextFilterWidget = (function () {
 
 /***
 * NumberFilterWidget - Provides filter interface for number columns
-* This widget renders filter interface with conditions, which specific for number types: great than, less that etc.
-* Also validates user's input TODO
+* This widget onRenders filter interface with conditions, which specific for number types: great than, less that etc.
+* Also validates user's input for digits
 */
 NumberFilterWidget = (function () {
 
@@ -386,13 +417,20 @@ NumberFilterWidget = (function () {
     numberFilterWidget.prototype.showClearFilterButton = function () { return true; };
 
     numberFilterWidget.prototype.getAssociatedTypes = function () {
-        return ["System.Int32", "System.Double", "System.Decimal", "System.Byte", "System.Single"];
+        return ["System.Int32", "System.Double", "System.Decimal", "System.Byte", "System.Single", "System.Float", "System.Int64"];
     };
 
-    numberFilterWidget.prototype.render = function (container, lang, typeName, filterType, filterValue, cb) {
+    numberFilterWidget.prototype.onShow = function () {
+        var textBox = this.container.find(".grid-filter-input");
+        if (textBox.length <= 0) return;
+        textBox.focus();
+    };
+
+    numberFilterWidget.prototype.onRender = function (container, lang, typeName, filterType, filterValue, cb) {
         this.cb = cb;
         this.container = container;
         this.lang = lang;
+        this.typeName = typeName;
         this.filterValue = filterValue;
         this.filterType = filterType;
         this.renderWidget();
@@ -422,21 +460,43 @@ NumberFilterWidget = (function () {
             var value = $context.container.find(".grid-filter-input").val();
             $context.cb(type, value);
         });
-        this.container.find(".grid-filter-input").keyup(function (event) {
-            if (event.keyCode == 13) {
-                applyBtn.click();
-            }
-        });
+        var txt = this.container.find(".grid-filter-input");
+        txt.keyup(function (event) {
+            if (event.keyCode == 13) { applyBtn.click(); }
+            if (event.keyCode == 27) { GridMvc.closeOpenedPopups(); }
+        })
+            .keypress(function (event) { return $context.validateInput.call($context, event); });
+        if (this.typeName == "System.Byte")
+            txt.attr("maxlength", "3");
     };
 
-    //TODO number validation
+    numberFilterWidget.prototype.validateInput = function (evt) {
+        var $event = evt || window.event;
+        var key = $event.keyCode || $event.which;
+        key = String.fromCharCode(key);
+        var regex;
+        switch (this.typeName) {
+            case "System.Byte":
+            case "System.Int32":
+            case "System.Int64":
+                regex = /[0-9]/;
+                break;
+            default:
+                regex = /[0-9]|\.|\,/;
+        }
+        if (!regex.test(key)) {
+            $event.returnValue = false;
+            if ($event.preventDefault) $event.preventDefault();
+        }
+    };
+
     return numberFilterWidget;
 })();
 
 /***
 * DateTimeFilterWidget - Provides filter interface for date columns (of type "System.DateTime").
-* If jQueryUi datepicker script included, this widget render calendar for pick filter values
-* In other case he render textbox field for specifing date value (more info at http://jqueryui.com/)
+* If jQueryUi datepicker script included, this widget onRender calendar for pick filter values
+* In other case he onRender textbox field for specifing date value (more info at http://jqueryui.com/)
 */
 DateTimeFilterWidget = (function () {
 
@@ -446,7 +506,7 @@ DateTimeFilterWidget = (function () {
 
     dateTimeFilterWidget.prototype.showClearFilterButton = function () { return true; };
 
-    dateTimeFilterWidget.prototype.render = function (container, lang, typeName, filterType, filterValue, cb) {
+    dateTimeFilterWidget.prototype.onRender = function (container, lang, typeName, filterType, filterValue, cb) {
         this.jqUiIncluded = typeof ($.datepicker) != 'undefined';
         this.cb = cb;
         this.container = container;
@@ -522,7 +582,7 @@ BooleanFilterWidget = (function () {
 
     booleanFilterWidget.prototype.showClearFilterButton = function () { return true; };
 
-    booleanFilterWidget.prototype.render = function (container, lang, typeName, filterType, filterValue, cb) {
+    booleanFilterWidget.prototype.onRender = function (container, lang, typeName, filterType, filterValue, cb) {
         this.cb = cb;
         this.container = container;
         this.lang = lang;
@@ -535,8 +595,8 @@ BooleanFilterWidget = (function () {
     booleanFilterWidget.prototype.renderWidget = function () {
         var html = '<div class="grid-filter-type-label">' + this.lang.filterValueLabel + '</div>\
                     <ul class="menu-list">\
-                        <li><a class="grid-filter-choose" data-value="true" href="javascript:void(0);">' + this.lang.boolTrueLabel + '</a></li>\
-                        <li><a class="grid-filter-choose" data-value="false" href="javascript:void(0);">' + this.lang.boolFalseLabel + '</a></li>\
+                        <li><a class="grid-filter-choose ' + (this.filterValue == "true" ? "choose-selected" : "") + '" data-value="true" href="javascript:void(0);">' + this.lang.boolTrueLabel + '</a></li>\
+                        <li><a class="grid-filter-choose ' + (this.filterValue == "false" ? "choose-selected" : "") + '" data-value="false" href="javascript:void(0);">' + this.lang.boolFalseLabel + '</a></li>\
                     </ul>';
         this.container.append(html);
     };

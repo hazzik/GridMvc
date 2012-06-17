@@ -3,11 +3,16 @@
     /// <summary>
     /// Object builds filter expressions for text (string) grid columns
     /// </summary>
-    internal class TextFilterTypeSanitizer : IFilterTypeSanitizer
+    internal class TextFilterType : IFilterType
     {
-        #region IFilterTypeSanitizer Members
+        #region IFilterType Members
 
-        public GridFilterType SanitizeType(GridFilterType type)
+        public string TypeName
+        {
+            get { return typeof (string).FullName; }
+        }
+
+        public GridFilterType GetValidType(GridFilterType type)
         {
             switch (type)
             {
@@ -19,6 +24,11 @@
                 default:
                     return GridFilterType.Equals;
             }
+        }
+
+        public object GetTypedValue(string value)
+        {
+            return value;
         }
 
         #endregion

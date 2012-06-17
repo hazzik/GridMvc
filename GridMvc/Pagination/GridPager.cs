@@ -13,12 +13,12 @@ namespace GridMvc.Pagination
         public const int DefaultMaxDisplayedPages = 5;
         public const int DefaultPageSize = 20;
         public const string DefaultPageQueryParameter = "grid-page";
+        private readonly HttpContext _context;
         private readonly CustomQueryStringBuilder _queryBuilder;
         private int _itemsCount;
 
         private int _maxDisplayedPages;
         private int _pageSize;
-        private readonly HttpContext _context;
 
         public GridPager()
             : this(HttpContext.Current)
@@ -84,14 +84,14 @@ namespace GridMvc.Pagination
         public string GetLinkForPage(int pageIndex)
         {
             return _queryBuilder.GetQueryStringWithParameter(QueryParameterName,
-                                                            pageIndex.ToString(CultureInfo.InvariantCulture));
+                                                             pageIndex.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion
 
         private void RecalculatePages()
         {
-            PageCount = (int)(Math.Ceiling(ItemsCount / (double)PageSize));
+            PageCount = (int) (Math.Ceiling(ItemsCount/(double) PageSize));
 
             string currentPageString = _context.Request.QueryString[QueryParameterName] ?? "1";
             int page;
@@ -102,12 +102,12 @@ namespace GridMvc.Pagination
             if (CurrentPage > PageCount)
                 CurrentPage = PageCount;
 
-            StartDisplayedPage = (CurrentPage - MaxDisplayedPages / 2) < 1
+            StartDisplayedPage = (CurrentPage - MaxDisplayedPages/2) < 1
                                      ? 1
-                                     : CurrentPage - MaxDisplayedPages / 2;
-            EndDisplayedPage = (CurrentPage + MaxDisplayedPages / 2) > PageCount
+                                     : CurrentPage - MaxDisplayedPages/2;
+            EndDisplayedPage = (CurrentPage + MaxDisplayedPages/2) > PageCount
                                    ? PageCount
-                                   : CurrentPage + MaxDisplayedPages / 2;
+                                   : CurrentPage + MaxDisplayedPages/2;
         }
     }
 }

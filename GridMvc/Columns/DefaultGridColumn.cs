@@ -16,29 +16,31 @@ namespace GridMvc.Columns
         /// Expression to member, used for this column
         /// </summary>
         private readonly Func<T, TDataType> _constraint;
+
         /// <summary>
         /// Filters and orderers collection for this columns
         /// </summary>
         private readonly List<IColumnFilter<T>> _filters = new List<IColumnFilter<T>>();
-        private readonly List<IColumnOrderer<T>> _orderers = new List<IColumnOrderer<T>>();
+
         /// <summary>
         /// Parent grid of this column
         /// </summary>
         private readonly Grid<T> _grid;
-        
-        private bool _sanitize;
+
+        private readonly List<IColumnOrderer<T>> _orderers = new List<IColumnOrderer<T>>();
+
         private string _filterWidgetTypeName;
+        private bool _sanitize;
 
         public DefaultGridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {
-            
-
             Expression expr = expression.Body;
             if (!(expr is MemberExpression))
                 throw new ArgumentException(string.Format("Expression '{0}' must be a member expression", expression),
                                             "expression");
 
             #region Setup defaults
+
             EncodeEnabled = true;
             SortEnabled = false;
             _constraint = expression.Compile();
@@ -46,12 +48,13 @@ namespace GridMvc.Columns
             _filters.Insert(0, new DefaultColumnFilter<T, TDataType>(expression));
             _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName;
             _grid = grid;
-            _sanitize = true;            
+            _sanitize = true;
+
             #endregion
 
             //Generate unique column name:
             Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression) expression.Body);
-            Title = Name;//Useing the same name by default
+            Title = Name; //Useing the same name by default
         }
 
         public override IGridColumnRenderer HeaderRenderer

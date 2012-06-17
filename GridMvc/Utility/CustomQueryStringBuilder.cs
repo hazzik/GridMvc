@@ -57,6 +57,5 @@ namespace GridMvc.Utility
             string resultString = result.ToString();
             return resultString.EndsWith("&") ? resultString.Substring(0, resultString.Length - 1) : resultString;
         }
-
     }
 }

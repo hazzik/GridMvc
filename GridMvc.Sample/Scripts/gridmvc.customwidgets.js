@@ -13,7 +13,7 @@
 
 /***
 * CustomersFilterWidget - Provides filter user interface for customer name column in this project
-* This widget renders select list with avaliable customers.
+* This widget onRenders select list with avaliable customers.
 */
 CustomersFilterWidget = (function () {
     function customersFilterWidget() { }
@@ -22,7 +22,7 @@ CustomersFilterWidget = (function () {
     */
     customersFilterWidget.prototype.getAssociatedTypes = function () { return ["CustomCompanyNameFilterWidget"]; };
     /***
-    * This method specify whether render 'Clear filter' button for this widget.
+    * This method specify whether onRender 'Clear filter' button for this widget.
     */
     customersFilterWidget.prototype.showClearFilterButton = function () { return true; };
     /***
@@ -34,7 +34,7 @@ CustomersFilterWidget = (function () {
     * filterValue - current filter value;
     * cb - callback function that must invoked when user want to filter this column. Widget must pass filter type and filter value.
     */
-    customersFilterWidget.prototype.render = function (container, lang, typeName, filterType, filterValue, cb) {
+    customersFilterWidget.prototype.onRender = function (container, lang, typeName, filterType, filterValue, cb) {
         //store parameters:
         this.cb = cb;
         this.container = container;
@@ -42,7 +42,7 @@ CustomersFilterWidget = (function () {
         this.filterValue = filterValue;
         this.filterType = filterType;
 
-        this.renderWidget(); //render filter widget
+        this.renderWidget(); //onRender filter widget
         this.loadCustomers(); //load customer's list from the server
         this.registerEvents(); //handle events
     };

@@ -1,10 +1,31 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
+using System.Threading;
+using System.Web;
 using System.Web.Mvc;
 
 namespace GridMvc.Sample.Controllers
 {
     public abstract class ApplicationController : Controller
     {
+
+        protected override void ExecuteCore()
+        {
+            if (Request.UserLanguages != null)
+            {
+
+                // Validate culture name
+                string cultureName = Request.UserLanguages[0]; // obtain it from HTTP header AcceptLanguages
+                if(!string.IsNullOrEmpty(cultureName))
+                {
+                    // Modify current thread's culture            
+                    Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureName);
+                    Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(cultureName);
+                }
+            }
+            base.ExecuteCore();
+        }
+
         protected string RenderPartialViewToString(string viewName, object model)
         {
             if (string.IsNullOrEmpty(viewName))

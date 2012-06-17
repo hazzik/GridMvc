@@ -13,7 +13,7 @@ namespace GridMvc.Filtering
         private const string FilteredButtonCssClass = "filtered";
 
         private const string FilterContent =
-                                    @" <span title=""{0}"" 
+            @" <span title=""{0}"" 
                                             data-type=""{1}"" 
                                             data-name=""{2}""
                                             data-filtertype=""{3}""
@@ -48,8 +48,10 @@ namespace GridMvc.Filtering
             string url =
                 builder.GetQueryStringExcept(new[]
                                                  {
-                                                     GridPager.DefaultPageQueryParameter, _settings.TypeQueryParameterName,
-                                                     _settings.ColumnQueryParameterName, _settings.ValueQueryParameterName
+                                                     GridPager.DefaultPageQueryParameter,
+                                                     _settings.TypeQueryParameterName,
+                                                     _settings.ColumnQueryParameterName,
+                                                     _settings.ValueQueryParameterName
                                                  });
             if (column.FilterEnabled)
                 return string.Format(FilterContent,

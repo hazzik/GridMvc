@@ -29,7 +29,7 @@ namespace GridMvc.Sorting
         {
             if (column.SortEnabled)
             {
-                var url = GetLinkForSort(column.Name, column.Direction);
+                string url = GetLinkForSort(column.Name, column.Direction);
                 content = string.Format(SortLinkContent, url,
                                         content);
             }

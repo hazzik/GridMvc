@@ -1,28 +1,34 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace GridMvc.Filtering.Types
 {
     internal class FilterTypeResolver
     {
-        public static IFilterTypeSanitizer GetSanitizer(string typeName)
+        private readonly List<IFilterType> _filterCollection = new List<IFilterType>();
+
+        public FilterTypeResolver()
         {
-            switch (typeName)
+            //add default filter types to collection:
+            _filterCollection.Add(new TextFilterType());
+            _filterCollection.Add(new IntegerFilterType());
+            _filterCollection.Add(new BooleanFilterType());
+            _filterCollection.Add(new DateTimeFilterType());
+            _filterCollection.Add(new DecimalFilterType());
+            _filterCollection.Add(new FloatFilterType());
+            _filterCollection.Add(new IntegerFilterType());
+            _filterCollection.Add(new ByteFilterType());
+            _filterCollection.Add(new SingleFilterType());
+            _filterCollection.Add(new LongFilterType());
+        }
+
+        public IFilterType GetFilterType(string typeName)
+        {
+            foreach (IFilterType filterType in _filterCollection)
             {
-                case "System.String":
-                    return new TextFilterTypeSanitizer();
-                case "System.Int32":
-                case "System.Double":
-                case "System.Byte":
-                case "System.Decimal":
-                case "System.Single":
-                    return new NumberFilterTypeSanitizeer();
-                case "System.DateTime":
-                    return new DateTimeFilterTypeSanitizer();
-                case "System.Boolean":
-                    return new DateTimeFilterTypeSanitizer();
-                default:
-                    throw new ArgumentException(string.Format("Filtering of type '{0}' not supported", typeName));
+                if (filterType.TypeName == typeName)
+                    return filterType;
             }
+            return new TextFilterType(); //try to process column type as text (not safe)
         }
     }
 }
