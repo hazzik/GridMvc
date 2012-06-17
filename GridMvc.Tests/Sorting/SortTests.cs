@@ -197,8 +197,6 @@ namespace GridMvc.Tests.Sorting
             return true;
         }
 
-        //TODO thenby sort testing...
-
         private bool ValidateCollectionsTheSame<T>(IEnumerable<T> collection1, IEnumerable<T> collection2)
         {
             for (int i = 0; i < collection1.Count(); i++)

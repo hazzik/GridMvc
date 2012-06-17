@@ -119,7 +119,7 @@ GridMvc = (function () {
     gridMvc.prototype.initFilters = function () {
         var filterHtml = this.filterMenuHtml();
         var $context = this;
-        this.jqContainer.find(".grid-filter-btn").each(function () {
+        this.jqContainer.find(".grid-filter").each(function () {
             $(this).click(function () {
                 return $context.openFilterPopup.call(this, $context, filterHtml);
             });

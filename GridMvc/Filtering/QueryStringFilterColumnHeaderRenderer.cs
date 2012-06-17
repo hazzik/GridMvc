@@ -13,13 +13,14 @@ namespace GridMvc.Filtering
         private const string FilteredButtonCssClass = "filtered";
 
         private const string FilterContent =
-            @" <span title=""{0}"" 
+                                    @" <span 
                                             data-type=""{1}"" 
                                             data-name=""{2}""
                                             data-filtertype=""{3}""
                                             data-filtervalue=""{4}""
                                             data-url=""{5}""
-                                            class=""grid-filter-btn {6}"">
+                                            class=""grid-filter {6}"">
+                                        <span class=""grid-filter-btn"" title=""{0}""></span>
                                     </span>";
 
         private readonly QueryStringFilterSettings _settings;

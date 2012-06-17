@@ -23,7 +23,7 @@ namespace GridMvc.Filtering
 
         public IQueryable<T> ApplyFilter(IQueryable<T> items, IGridFilterSettings settings)
         {
-            var pi = (PropertyInfo) ((MemberExpression) _expression.Body).Member;
+            var pi = (PropertyInfo)((MemberExpression)_expression.Body).Member;
             Expression<Func<T, bool>> expr = GetFilterExpression(pi, settings);
             if (expr == null)
                 return items;
@@ -36,7 +36,7 @@ namespace GridMvc.Filtering
         {
             //detect nullable
             bool isNullable = pi.PropertyType.IsGenericType &&
-                              pi.PropertyType.GetGenericTypeDefinition() == typeof (Nullable<>);
+                              pi.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
             //get target type:
             Type targetType = isNullable ? Nullable.GetUnderlyingType(pi.PropertyType) : pi.PropertyType;
 
@@ -63,15 +63,15 @@ namespace GridMvc.Filtering
                     binaryExpression = Expression.Equal(firstExpr, valueExpr);
                     break;
                 case GridFilterType.Contains:
-                    MethodInfo miContains = targetType.GetMethod("Contains", new[] {typeof (string)});
+                    MethodInfo miContains = targetType.GetMethod("Contains", new[] { typeof(string) });
                     binaryExpression = Expression.Call(firstExpr, miContains, valueExpr);
                     break;
                 case GridFilterType.StartsWith:
-                    MethodInfo miStartsWith = targetType.GetMethod("StartsWith", new[] {typeof (string)});
+                    MethodInfo miStartsWith = targetType.GetMethod("StartsWith", new[] { typeof(string) });
                     binaryExpression = Expression.Call(firstExpr, miStartsWith, valueExpr);
                     break;
                 case GridFilterType.EndsWidth:
-                    MethodInfo miEndssWith = targetType.GetMethod("EndsWith", new[] {typeof (string)});
+                    MethodInfo miEndssWith = targetType.GetMethod("EndsWith", new[] { typeof(string) });
                     binaryExpression = Expression.Call(firstExpr, miEndssWith, valueExpr);
                     break;
                 case GridFilterType.LessThan:
@@ -84,7 +84,14 @@ namespace GridMvc.Filtering
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (isNullable)
+            if (targetType == typeof(string))
+            {
+                //check for strings, they may be NULL
+                //It's ok for ORM, but throw exception in linq to objects. Additional check string on null
+                Expression nullExpr = Expression.NotEqual(_expression.Body, Expression.Constant(null));
+                binaryExpression = Expression.AndAlso(nullExpr, binaryExpression);
+            }
+            else if (isNullable)
             {
                 //add additional filter condition for check items on NULL with invoring "HasValue" method.
                 //for example: result of this expression will like - c=> c.HasValue && c.Value = 3

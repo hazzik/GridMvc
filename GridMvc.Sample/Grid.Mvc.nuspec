@@ -21,6 +21,7 @@
     <file src="Views\Shared\_GridPager.cshtml" target="Content\Views\Shared" />
     <file src="Content\Gridmvc.css" target="Content\Content\Gridmvc.css" />
     <file src="Scripts\gridmvc.js" target="Content\Scripts\gridmvc.js" />
+    <file src="Scripts\gridmvc.min.js" target="Content\Scripts\gridmvc.min.js" />
     <file src="Grid.mvc.readme" target="Content\Grid.mvc.readme" />
   </files>
 </package>
