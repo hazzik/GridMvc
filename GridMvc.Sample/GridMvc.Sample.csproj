@@ -65,6 +65,7 @@
     </Compile>
     <Compile Include="Models\OrdersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\gridmvc.customwidgets.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
   </ItemGroup>

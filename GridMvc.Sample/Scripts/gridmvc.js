@@ -1,9 +1,9 @@
 ﻿/***
 * Grid.Mvc
 * Examples and documentation at: http://gridmvc.codeplex.com
-* Version: 2.0.1
+* Version: 2.0.0
 * Requires: jQuery v1.3+
-* LGPL license: http://www.gnu.org/licenses/lgpl.html
+* LGPL license: http://gridmvc.codeplex.com/license
 */
 
 $.fn.extend({
@@ -162,7 +162,7 @@ GridMvc = (function () {
                 $context.applyFilterValue(filterUrl, columnName, type, value);
             });
         //adding 'clear filter' button if needed:
-        if ($(this).hasClass("filtered") && widget.showClearFilterButton()) {
+        if ($(this).find(".grid-filter-btn").hasClass("filtered") && widget.showClearFilterButton()) {
             var inner = $(this).find(".menu-popup-additional");
             inner.append($context.getClearFilterButton(filterUrl));
         }

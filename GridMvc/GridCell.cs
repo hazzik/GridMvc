@@ -26,5 +26,10 @@ namespace GridMvc
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return Value;
+        }
     }
 }

@@ -35,7 +35,7 @@
                                          .Filterable(true)
                                          .RenderValueAs(o => o.Customers.IsVip ? "Yes" : "No");
 
-                                 }).WithPaging(20))
+                                 }).WithPaging(20).SetLanguage("en"))
     </div>
     <div id="order-info" style="float: right; width: 280px;">
         <div class="grid-outer paged">

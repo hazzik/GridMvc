@@ -6,9 +6,8 @@
 }
 @{
     Model.OnPreRender();/* Select items from collection */
-    string gridContainerId = "grid-mvc-" + Guid.NewGuid();
 }
-<div id="@gridContainerId" class="grid-outer @(Model.EnablePaging ? "paged" : string.Empty)">
+<div id="grid-mvc" class="grid-outer @(Model.EnablePaging ? "paged" : string.Empty)">
     @* Draw grid top items infomation panel *@
     @if (Model.EnablePaging)
     {
@@ -43,7 +42,7 @@
                 <tr class="grid-row">
                     @foreach (IGridColumn column in Model.Columns)
                     {
-                        @Html.Raw(column.CellRenderer.Render(column, column.GetCell(item).Value))
+                        @Html.Raw(column.CellRenderer.Render(column, column.GetCell(item).ToString()))
                     }
                 </tr>
                 }
@@ -58,5 +57,5 @@
 </div>
 @* Init Grid.Mvc client script *@
 <script>
-    window.GridMvc = $("#@gridContainerId").gridmvc();
+    window.GridMvc = $("#grid-mvc").gridmvc();
 </script>

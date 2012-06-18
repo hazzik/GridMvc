@@ -29,11 +29,11 @@ Follow these steps to start use Grid.mvc:
 
 	Reference Grid.Mvc.Html in your view:
 
-	@using GridMvc.Html
+		@using GridMvc.Html
 
 	If your model inherits from IEnumerable<T>, you can not specify items for rendering in the grid
 
-	@(Html.Grid<Foo>(columns =>
+		@(Html.Grid<Foo>(columns =>
 						{
 							columns.Add(foo => foo.Title).Titled("Custom column title").Width(110);
 							columns.Add(foo => foo.Description).Sortable(true);
@@ -51,9 +51,8 @@ Follow these steps to start use Grid.mvc:
 4. Register a grid stylesheet and scripts in your _Layouts.cshtml file:
 	
 	<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" type="text/css" />
-
 	<script src="@Url.Content("~/Scripts/gridmvc.min.js")" type="text/javascript"> </script>
 
-	Note: also you need to ensure that jQuery has registred on the page before gridmvc.min.js script.
+Note: also you need to ensure that jQuery has registred on the page before gridmvc.min.js script.
 
 For more documetation, please see: http://gridmvc.codeplex.com/
