@@ -10,7 +10,7 @@ namespace GridMvc.Columns
     /// <summary>
     /// Default implementation of Grid column
     /// </summary>
-    public class DefaultGridColumn<T, TDataType> : GridColumnBase<T> where T : class
+    public class GridColumn<T, TDataType> : GridColumnBase<T> where T : class
     {
         /// <summary>
         /// Expression to member, used for this column
@@ -32,7 +32,7 @@ namespace GridMvc.Columns
         private string _filterWidgetTypeName;
         private bool _sanitize;
 
-        public DefaultGridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
+        public GridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {
             Expression expr = expression.Body;
             if (!(expr is MemberExpression))
@@ -46,14 +46,14 @@ namespace GridMvc.Columns
             _constraint = expression.Compile();
             _orderers.Insert(0, new OrderByGridOrderer<T, TDataType>(expression));
             _filters.Insert(0, new DefaultColumnFilter<T, TDataType>(expression));
-            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName;
+            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName;
             _grid = grid;
             _sanitize = true;
 
             #endregion
 
             //Generate unique column name:
-            Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression) expression.Body);
+            Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression)expression.Body);
             Title = Name; //Useing the same name by default
         }
 
@@ -124,7 +124,7 @@ namespace GridMvc.Columns
 
         public override IGridCell GetCell(object instance)
         {
-            return GetValue((T) instance);
+            return GetValue((T)instance);
         }
 
         public override IGridCell GetValue(T instance)
@@ -137,13 +137,18 @@ namespace GridMvc.Columns
             else
             {
                 TDataType value = _constraint(instance);
-                textValue = value == null ? string.Empty : value.ToString();
+                if (value == null) 
+                    textValue = string.Empty;
+                else if (!string.IsNullOrEmpty(ValuePattern))
+                    textValue = string.Format(ValuePattern, value);
+                else
+                    textValue = value.ToString();
             }
             if (!EncodeEnabled && _sanitize)
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
-            return new GridCell(textValue) {Encode = EncodeEnabled};
+            return new GridCell(textValue) { Encode = EncodeEnabled };
         }
 
         public override IGridColumn<T> Filterable(bool showColumnValuesVariants)

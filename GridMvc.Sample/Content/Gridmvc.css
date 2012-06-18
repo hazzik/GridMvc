@@ -4,14 +4,14 @@
 */
 
 /* Grid */
-.grid-outer.paged { border: 1px solid #CCC; font-family: "Segoe UI" , Arial; padding: 0; }
+.grid-outer.paged { border: 1px solid #DADADA; font-family: "Segoe UI" , Arial; padding: 0; }
 .grid-wrap-header { background: #EEE; color: #666; padding: 6px 5px; }
-.grid-wrap { padding: 6px 0 0 0; position: relative; }
+.grid-wrap { padding: 0; position: relative; }
 .grid-empty-text { color: #666; }
 
 /* Grid headers */
 table.grid-table { border: none; border-collapse: collapse; width: 100%; }
-table.grid-table th { background: none; border: none; font-size: 12px; font-weight: bold; padding: 5px; text-align: left; text-transform: uppercase; }
+table.grid-table th { background: #eee; border: none; font-size: 12px; font-weight: bold; padding: 8px 5px; text-align: left; text-transform: uppercase; }
 table.grid-table th a { color: black; }
 table.grid-table th a:hover { text-decoration: underline; }
 table.grid-table .grid-header.sorted-asc .grid-sort-arrow:after { content: " \2193"; }
@@ -25,10 +25,12 @@ table.grid-table tr.grid-row:hover td { background: #caecfd; }
 table.grid-table > tbody > tr > td { border: none; padding: 6px 5px; }
 table.grid-table .grid-header-sorted { }
 
-/* Grid pager */
-.grid-pager { background: #EEE; color: #666; font-family: "Segoe UI" , Arial; padding: 6px 5px; }
+/* Grid footer */
+.grid-pager {  }
 .grid-pager a.pager-link, .grid-pager span.pager-text { color: inherit; padding: 0 5px 0 0; }
 .grid-pager a.pager-link:hover { text-decoration: underline; }
+.grid-footer { background: #EEE; color: #666; font-family: "Segoe UI" , Arial; padding: 6px 5px; }
+.grid-footer-info { float: right;width: auto; }
 
 /* Grid filtering */
 select.grid-filter-type { padding: 3px; border: 1px solid #ccc; color: #444; font-size: 13px; width: 120px; }

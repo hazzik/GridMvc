@@ -10,6 +10,7 @@ namespace GridMvc.Columns
     public abstract class GridColumnBase<T> : IGridColumn<T>
     {
         protected Func<T, string> ValueConstraint;
+        protected string ValuePattern;
 
         #region IGridColumn<T> Members
 
@@ -53,6 +54,12 @@ namespace GridMvc.Columns
         public IGridColumn<T> RenderValueAs(Func<T, string> constraint)
         {
             ValueConstraint = constraint;
+            return this;
+        }
+
+        public IGridColumn<T> Format(string pattern)
+        {
+            ValuePattern = pattern;
             return this;
         }
 

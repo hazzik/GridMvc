@@ -9,14 +9,6 @@
 }
 <div id="grid-mvc" class="grid-outer @(Model.EnablePaging ? "paged" : string.Empty)">
     @* Draw grid top items infomation panel *@
-    @if (Model.EnablePaging)
-    {
-        <div class="grid-wrap-header">
-            Results: @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + 1)
-            - @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + Model.DisplayingItemsCount)
-            (@Model.ItemsCount)
-        </div>
-    }
     <div class="grid-wrap">
         <table class="grid-table" data-lang="@Model.Language">
             @* Draw grid header *@
@@ -48,11 +40,18 @@
                 }
             }
         </table>
-        @* Draw pager *@
         @if (Model.EnablePaging && Model.Pager != null && Model.Pager.PageCount > 1)
         {
-            @Html.Partial("_GridPager", Model.Pager)
+            <div class="grid-footer">
+                <div class="grid-footer-info">
+                    Displaying items @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + 1)
+                    - @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + Model.DisplayingItemsCount)
+                    (@Model.ItemsCount)
+                </div>
+                @Html.Partial("_GridPager", Model.Pager)
+            </div>
         }
+@* Draw pager *@
     </div>
 </div>
 @* Init Grid.Mvc client script *@

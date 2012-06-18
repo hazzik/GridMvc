@@ -20,6 +20,7 @@ namespace GridMvc.Columns
         }
 
         public bool DefaultSortEnabled { get; set; }
+        public bool DefaultFilteringEnabled { get; set; }
 
         #region IGridColumnCollection<T> Members
 
@@ -37,6 +38,7 @@ namespace GridMvc.Columns
         public IGridColumn<T> Insert(int position, IGridColumn<T> column)
         {
             column.Sortable(DefaultSortEnabled);
+            column.Filterable(DefaultFilteringEnabled);
             base.Insert(position, column);
             ProcessColumn();
             return column;
@@ -56,6 +58,7 @@ namespace GridMvc.Columns
         public IGridColumn<T> Add(IGridColumn<T> column)
         {
             column.Sortable(DefaultSortEnabled);
+            column.Filterable(DefaultFilteringEnabled);
             if (Contains(column))
                 throw new ArgumentException("Column mapped to this field already exist in the grid");
             base.Add(column);

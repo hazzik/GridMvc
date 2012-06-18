@@ -35,5 +35,5 @@
     <div class="property-value">@Html.ActionLink(Model.Employees.LastName + " " + Model.Employees.FirstName, "Index", "Home", new {id = Model.OrderID})</div>
 </div>
 <p>
-    @Html.ActionLink("Edit order", "Index", "Home", new {id = Model.OrderID}, new {@class = "button-link"})
+    @Html.ActionLink("Edit order", "Index", "Home", new {}, new {@class = "button-link"})
 </p>

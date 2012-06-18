@@ -21,7 +21,7 @@ namespace GridMvc.Columns
         {
             _grid = grid;
             _constraint = expression.Compile();
-            Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression) expression.Body);
+            Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression)expression.Body);
             SortEnabled = false;
         }
 
@@ -59,7 +59,7 @@ namespace GridMvc.Columns
 
         public override string FilterWidgetTypeName
         {
-            get { return PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName; }
+            get { return PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName; }
         }
 
         public override IGridColumn<T> SetFilterWidgetType(string typeName)
@@ -103,13 +103,18 @@ namespace GridMvc.Columns
             else
             {
                 TDataType value = _constraint(instance);
-                textValue = value == null ? string.Empty : value.ToString();
+                if (value == null)
+                    textValue = string.Empty;
+                else if (!string.IsNullOrEmpty(ValuePattern))
+                    textValue = string.Format(ValuePattern, value);
+                else
+                    textValue = value.ToString();
             }
             if (!EncodeEnabled && _sanitize)
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
-            return new GridCell(textValue) {Encode = EncodeEnabled};
+            return new GridCell(textValue) { Encode = EncodeEnabled };
         }
 
         public override IGridColumn<T> Filterable(bool showColumnValuesVariants)
@@ -119,7 +124,7 @@ namespace GridMvc.Columns
 
         public override IGridCell GetCell(object instance)
         {
-            return GetValue((T) instance);
+            return GetValue((T)instance);
         }
     }
 }

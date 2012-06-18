@@ -52,6 +52,11 @@ namespace GridMvc.Columns
         /// Setup the custom rendere for property
         /// </summary>
         IGridColumn<T> RenderValueAs(Func<T, string> constraint);
+
+        /// <summary>
+        /// Format column values with specified text pattern
+        /// </summary>
+        IGridColumn<T> Format(string pattern);
     }
 
     public interface IColumn

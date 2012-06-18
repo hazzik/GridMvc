@@ -2,13 +2,14 @@
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using GridMvc.Columns;
 
 namespace GridMvc.Html
 {
     /// <summary>
     /// Grid adapter for html helper
     /// </summary>
-    public class GridHtmlOptions<T> : Grid<T>, IGridHtmlOptions where T : class
+    public class GridHtmlOptions<T> : Grid<T>, IGridHtmlOptions<T> where T : class
     {
         private readonly ViewContext _viewContext;
 
@@ -28,14 +29,21 @@ namespace GridMvc.Html
             return RenderPartialViewToString(GridViewName, this, _viewContext);
         }
 
-        public IGridHtmlOptions WithPaging(int pageSize)
+
+        public new IGridHtmlOptions<T> Columns(Action<IGridColumnCollection<T>> columnBuilder)
+        {
+            columnBuilder(base.Columns);
+            return this;
+        }
+
+        public IGridHtmlOptions<T> WithPaging(int pageSize)
         {
             EnablePaging = true;
             Pager.PageSize = pageSize;
             return this;
         }
 
-        public IGridHtmlOptions WithPaging(int pageSize, int maxDisplayedItems)
+        public IGridHtmlOptions<T> WithPaging(int pageSize, int maxDisplayedItems)
         {
             EnablePaging = true;
             Pager.PageSize = pageSize;
@@ -43,13 +51,48 @@ namespace GridMvc.Html
             return this;
         }
 
-        public IGridHtmlOptions EmptyText(string text)
+        public IGridHtmlOptions<T> Sortable()
+        {
+
+            return Sortable(true);
+        }
+
+        public IGridHtmlOptions<T> Sortable(bool enable)
+        {
+            DefaultSortEnabled = enable;
+            foreach (var column in base.Columns)
+            {
+                var typedColumn = column as IGridColumn<T>;
+                if (typedColumn == null) continue;
+                typedColumn.Sortable(enable);
+            }
+            return this;
+        }
+
+        public IGridHtmlOptions<T> Filterable()
+        {
+            return Filterable(true);
+        }
+
+        public IGridHtmlOptions<T> Filterable(bool enable)
+        {
+            DefaultFilteringEnabled = enable;
+            foreach (var column in base.Columns)
+            {
+                var typedColumn = column as IGridColumn<T>;
+                if (typedColumn == null) continue;
+                typedColumn.Filterable(enable);
+            }
+            return this;
+        }
+
+        public IGridHtmlOptions<T> EmptyText(string text)
         {
             EmptyGridText = text;
             return this;
         }
 
-        public IGridHtmlOptions SetLanguage(string lang)
+        public IGridHtmlOptions<T> SetLanguage(string lang)
         {
             Language = lang;
             return this;

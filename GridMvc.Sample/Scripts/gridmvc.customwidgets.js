@@ -22,8 +22,14 @@ CustomersFilterWidget = (function () {
     */
     customersFilterWidget.prototype.getAssociatedTypes = function () { return ["CustomCompanyNameFilterWidget"]; };
     /***
-    * This method specify whether onRender 'Clear filter' button for this widget.
+    * This method specify whether render 'Clear filter' button for this widget.
     */
+    /***
+    * This method invokes when filter widget was shown on the page
+    */
+    customersFilterWidget.prototype.onShow = function () {
+        /* Place your on show logic here */
+    };
     customersFilterWidget.prototype.showClearFilterButton = function () { return true; };
     /***
     * This method will invoke when user was clicked on filter button.

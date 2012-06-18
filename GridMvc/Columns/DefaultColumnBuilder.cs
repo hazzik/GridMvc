@@ -23,7 +23,7 @@ namespace GridMvc.Columns
             if (memberExpression != null)
             {
                 if (!hidden)
-                    return new DefaultGridColumn<T, TDataType>(constraint, _grid);
+                    return new GridColumn<T, TDataType>(constraint, _grid);
                 return new HiddenGridColumn<T, TDataType>(constraint, _grid);
             }
             throw new NotSupportedException(string.Format("Expression '{0}' not supported by grid", constraint));

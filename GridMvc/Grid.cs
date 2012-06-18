@@ -60,6 +60,15 @@ namespace GridMvc
         }
 
         /// <summary>
+        /// Set or get default value of filtering for all adding columns
+        /// </summary>
+        public bool DefaultFilteringEnabled
+        {
+            get { return _columnsCollection.DefaultFilteringEnabled; }
+            set { _columnsCollection.DefaultFilteringEnabled = value; }
+        }
+
+        /// <summary>
         /// Provides settings, using by the grid
         /// </summary>
         public IGridSettingsProvider Settings

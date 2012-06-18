@@ -114,7 +114,7 @@
     <Compile Include="Sorting\IColumnOrderer.cs" />
     <Compile Include="Sorting\ThenByColumnOrderer.cs" />
     <Compile Include="Utility\PropertiesHelper.cs" />
-    <Compile Include="Columns\DefaultGridColumn.cs" />
+    <Compile Include="Columns\GridColumn.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="GridCell.cs" />
     <Compile Include="GridCellRenderer.cs" />

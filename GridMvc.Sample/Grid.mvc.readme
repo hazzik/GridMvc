@@ -1,7 +1,7 @@
 ﻿http://gridmvc.codeplex.com/
 
 Note: Grid.Mvc installer has already made the following changes to your project:
-- Views/Shared/_Grid.cshtml, Views/Shared/_GridPager.cshtml - view for grid
+- Views/Shared/_Grid.cshtml, Views/Shared/_GridPager.cshtml - views for grid
 - Content/Gridmvc.css - default stylesheet for the grid
 - Scripts/gridmvc.js, Scripts/gridmvc.min.js - Grid.Mvc scripts
 - Reference GridMvc.dll

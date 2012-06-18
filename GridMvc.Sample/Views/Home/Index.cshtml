@@ -13,29 +13,23 @@
 </p>
 <p>
     <div id="ordersGrid" style="float: left; position: relative; width: 640px;">
-        @(Html.Grid<Orders>(columns =>
-                                 {
-                                     /* Adding "OrderID" column: */
-                                     columns.Add(o => o.OrderID).Titled("Number").Width(110).Sortable(true).Filterable(true);
-                                     /* Adding "OrderDate" column: */
-                                     columns.Add(o => o.OrderDate).Titled("Date").Sortable(true)
-                                         .SortInitialDirection(GridSortDirection.Descending)
-                                         .RenderValueAs(c => c.OrderDate.HasValue ? c.OrderDate.Value.ToShortDateString() : string.Empty)
-                                         .Width(120)
-                                         .Filterable(true);
-                                     /* Adding "CompanyName" column: */
-                                     columns.Add(o => o.Customers.CompanyName).Titled("Company Name")
-                                         .Sortable(true)
-                                         .Filterable(true)
-                                         .Width(220)
-                                         .ThenSortByDescending(o => o.OrderID)
-                                         .SetFilterWidgetType("CustomCompanyNameFilterWidget");
-                                     columns.Add(o => o.Customers.IsVip).Titled("Vip customer")
-                                         .Sortable(true)
-                                         .Filterable(true)
-                                         .RenderValueAs(o => o.Customers.IsVip ? "Yes" : "No");
-
-                                 }).WithPaging(20).SetLanguage("en"))
+        @Html.Grid(Model).Columns(columns =>
+                        {
+                            /* Adding "OrderID" column: */
+                            columns.Add(o => o.OrderID).Titled("Number").Width(110);
+                            /* Adding "OrderDate" column: */
+                            columns.Add(o => o.OrderDate).Titled("Date")
+                                .SortInitialDirection(GridSortDirection.Descending)
+                                .Format("{0:dd/MM/yyyy}")
+                                .Width(120);
+                            /* Adding "CompanyName" column: */
+                            columns.Add(o => o.Customers.CompanyName).Titled("Company Name")
+                                .Width(220)
+                                .ThenSortByDescending(o => o.OrderID)
+                                .SetFilterWidgetType("CustomCompanyNameFilterWidget");
+                            columns.Add(o => o.Customers.IsVip).Titled("Vip customer")
+                                .RenderValueAs(o => o.Customers.IsVip ? "Yes" : "No");
+                        }).WithPaging(20).Sortable().Filterable()
     </div>
     <div id="order-info" style="float: right; width: 280px;">
         <div class="grid-outer paged">
