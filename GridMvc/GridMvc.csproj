@@ -59,7 +59,6 @@
     <Compile Include="Filtering\Types\ByteFilterType.cs" />
     <Compile Include="Filtering\Types\LongFilterType.cs" />
     <Compile Include="Filtering\Types\DecimalFilterType.cs" />
-    <Compile Include="Filtering\Types\FloatFilterType.cs" />
     <Compile Include="Filtering\Types\SingleFilterType.cs" />
     <Compile Include="Filtering\Types\DoubleFilterType.cs" />
     <Compile Include="Filtering\Types\DateTimeFilterType.cs" />

@@ -14,7 +14,6 @@ namespace GridMvc.Filtering.Types
             _filterCollection.Add(new BooleanFilterType());
             _filterCollection.Add(new DateTimeFilterType());
             _filterCollection.Add(new DecimalFilterType());
-            _filterCollection.Add(new FloatFilterType());
             _filterCollection.Add(new IntegerFilterType());
             _filterCollection.Add(new ByteFilterType());
             _filterCollection.Add(new SingleFilterType());

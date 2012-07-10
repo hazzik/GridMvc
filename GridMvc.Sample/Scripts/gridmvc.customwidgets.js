@@ -15,22 +15,24 @@
 * CustomersFilterWidget - Provides filter user interface for customer name column in this project
 * This widget onRenders select list with avaliable customers.
 */
-CustomersFilterWidget = (function () {
-    function customersFilterWidget() { }
+
+function CustomersFilterWidget() {
     /***
     * This method must return type of registered widget type in 'SetFilterWidgetType' method
     */
-    customersFilterWidget.prototype.getAssociatedTypes = function () { return ["CustomCompanyNameFilterWidget"]; };
-    /***
-    * This method specify whether render 'Clear filter' button for this widget.
-    */
+    this.getAssociatedTypes = function() {
+        return ["CustomCompanyNameFilterWidget"];
+    };
     /***
     * This method invokes when filter widget was shown on the page
     */
-    customersFilterWidget.prototype.onShow = function () {
+    this.onShow = function () {
         /* Place your on show logic here */
     };
-    customersFilterWidget.prototype.showClearFilterButton = function () { return true; };
+
+    this.showClearFilterButton = function () {
+        return true;
+    };
     /***
     * This method will invoke when user was clicked on filter button.
     * container - html element, which must contain widget layout;
@@ -40,7 +42,7 @@ CustomersFilterWidget = (function () {
     * filterValue - current filter value;
     * cb - callback function that must invoked when user want to filter this column. Widget must pass filter type and filter value.
     */
-    customersFilterWidget.prototype.onRender = function (container, lang, typeName, filterType, filterValue, cb) {
+    this.onRender = function (container, lang, typeName, filterType, filterValue, cb) {
         //store parameters:
         this.cb = cb;
         this.container = container;
@@ -52,21 +54,17 @@ CustomersFilterWidget = (function () {
         this.loadCustomers(); //load customer's list from the server
         this.registerEvents(); //handle events
     };
-    /***
-    * Internal method that build widget layout and append it to the widget container
-    */
-    customersFilterWidget.prototype.renderWidget = function () {
+    this.renderWidget = function () {
         var html = '<div class="grid-filter-type-label"><i>This is custom filter widget demo.</i></div>\
                     <div class="grid-filter-type-label">Select customer to filter:</div>\
                     <select style="width:250px;" class="grid-filter-type customerslist">\
                     </select>';
         this.container.append(html);
     };
-
     /***
     * Method loads all customers from the server via Ajax:
     */
-    customersFilterWidget.prototype.loadCustomers = function () {
+    this.loadCustomers = function () {
         var $this = this;
         $.post("Home/GetCustomersNames", function (data) {
             $this.fillCustomers(data.Items);
@@ -75,7 +73,7 @@ CustomersFilterWidget = (function () {
     /***
     * Method fill customers select list by data
     */
-    customersFilterWidget.prototype.fillCustomers = function (items) {
+    this.fillCustomers = function (items) {
         var customerList = this.container.find(".customerslist");
         for (var i = 0; i < items.length; i++) {
             customerList.append('<option ' + (items[i] == this.filterValue ? 'selected="selected"' : '') + ' value="' + items[i] + '">' + items[i] + '</option>');
@@ -84,7 +82,7 @@ CustomersFilterWidget = (function () {
     /***
     * Internal method that register event handlers for 'apply' button.
     */
-    customersFilterWidget.prototype.registerEvents = function () {
+    this.registerEvents = function () {
         //get list with customers
         var customerList = this.container.find(".customerslist");
         //save current context:
@@ -96,5 +94,4 @@ CustomersFilterWidget = (function () {
         });
     };
 
-    return customersFilterWidget;
-})();
+}

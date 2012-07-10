@@ -31,21 +31,13 @@ Follow these steps to start use Grid.mvc:
 
 		@using GridMvc.Html
 
-	If your model inherits from IEnumerable<T>, you can not specify items for rendering in the grid
+	Render Grid.Mvc:
 
-		@(Html.Grid<Foo>(columns =>
+		@Html.Grid(Model).Columns(columns =>
 						{
 							columns.Add(foo => foo.Title).Titled("Custom column title").Width(110);
 							columns.Add(foo => foo.Description).Sortable(true);
-						}).WithPaging(20))
-
-	Or you can specify your items collection:
-
-	@(Html.Grid<Foo>(columns =>
-							{
-								columns.Add(foo => foo.Title).Titled("Custom column title").Width(110);
-								columns.Add(foo => foo.Description).Sortable(true);
-							}, Model.ItemsCollection).WithPaging(20))
+						}).WithPaging(20)
 
 
 4. Register a grid stylesheet and scripts in your _Layouts.cshtml file:

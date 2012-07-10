@@ -151,9 +151,9 @@ namespace GridMvc.Columns
             return new GridCell(textValue) { Encode = EncodeEnabled };
         }
 
-        public override IGridColumn<T> Filterable(bool showColumnValuesVariants)
+        public override IGridColumn<T> Filterable(bool enable)
         {
-            FilterEnabled = true;
+            FilterEnabled = enable;
             return this;
         }
     }
