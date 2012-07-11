@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Grid.Mvc</id>
-    <version>2.0.2</version>
+    <version>2.0.4</version>
     <title>Grid.Mvc</title>
     <authors>Vyacheslav Bukharin</authors>
     <licenseUrl>http://gridmvc.codeplex.com/license</licenseUrl>
@@ -22,6 +22,7 @@
     <file src="Content\Gridmvc.css" target="Content\Content\Gridmvc.css" />
     <file src="Scripts\gridmvc.js" target="Content\Scripts\gridmvc.js" />
     <file src="Scripts\gridmvc.min.js" target="Content\Scripts\gridmvc.min.js" />
+    <file src="Scripts\gridmvc.lang.ru.js" target="Content\Scripts\gridmvc.lang.ru.js" />
     <file src="Grid.mvc.readme" target="Content\Grid.mvc.readme" />
   </files>
 </package>
