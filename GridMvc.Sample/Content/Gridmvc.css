@@ -14,8 +14,8 @@ table.grid-table { border: none; border-collapse: collapse; width: 100%; }
 table.grid-table th { background: #eee; border: none; font-size: 12px; font-weight: bold; padding: 8px 5px; text-align: left; text-transform: uppercase; }
 table.grid-table th a { color: black; }
 table.grid-table th a:hover { text-decoration: underline; }
-table.grid-table .grid-header.sorted-asc .grid-sort-arrow:after { content: " \2193"; }
-table.grid-table .grid-header.sorted-desc .grid-sort-arrow:after { content: " \2191"; }
+.grid-header.sorted-asc .grid-sort-arrow:after { content: " \2193"; }
+.grid-header.sorted-desc .grid-sort-arrow:after { content: " \2191"; }
 
 /* Grid body */
 table.grid-table tr.grid-row { }

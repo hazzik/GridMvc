@@ -11,12 +11,10 @@ namespace GridMvc.Columns
     public class GridColumnCollection<T> : KeyedCollection<string, IGridColumn>, IGridColumnCollection<T>
     {
         private readonly IColumnBuilder<T> _columnBuilder;
-        private readonly IGridSettingsProvider _settingsProvider;
 
-        public GridColumnCollection(IColumnBuilder<T> columnBuilder, IGridSettingsProvider settingsProvider)
+        public GridColumnCollection(IColumnBuilder<T> columnBuilder)
         {
             _columnBuilder = columnBuilder;
-            _settingsProvider = settingsProvider;
         }
 
         public bool DefaultSortEnabled { get; set; }
@@ -40,7 +38,7 @@ namespace GridMvc.Columns
             column.Sortable(DefaultSortEnabled);
             column.Filterable(DefaultFilteringEnabled);
             base.Insert(position, column);
-            ProcessColumn();
+            //ProcessColumn();
             return column;
         }
 
@@ -62,7 +60,7 @@ namespace GridMvc.Columns
             if (Contains(column))
                 throw new ArgumentException("Column mapped to this field already exist in the grid");
             base.Add(column);
-            ProcessColumn();
+            //ProcessColumn();
             return column;
         }
 
@@ -73,20 +71,7 @@ namespace GridMvc.Columns
 
         #endregion
 
-        private void ProcessColumn()
-        {
-            if (!string.IsNullOrEmpty(_settingsProvider.SortSettings.ColumnName))
-            {
-                foreach (IGridColumn gridColumn in this)
-                {
-                    gridColumn.IsSorted = gridColumn.Name == _settingsProvider.SortSettings.ColumnName;
-                    if (gridColumn.Name == _settingsProvider.SortSettings.ColumnName)
-                        gridColumn.Direction = _settingsProvider.SortSettings.Direction;
-                    else
-                        gridColumn.Direction = null;
-                }
-            }
-        }
+        
 
         protected override string GetKeyForItem(IGridColumn item)
         {

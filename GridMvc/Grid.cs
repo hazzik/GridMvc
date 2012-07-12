@@ -39,7 +39,7 @@ namespace GridMvc
 
             //Set up column collection:
             var columnBuilder = new DefaultColumnBuilder<T>(this);
-            _columnsCollection = new GridColumnCollection<T>(columnBuilder, Settings);
+            _columnsCollection = new GridColumnCollection<T>(columnBuilder);
         }
 
         /// <summary>
@@ -131,6 +131,7 @@ namespace GridMvc
 
         public void OnPreRender()
         {
+            ProcessColumns();
             ProcessItemsToDisplay();
         }
 
@@ -146,6 +147,21 @@ namespace GridMvc
         IGridColumnCollection IGrid.Columns
         {
             get { return _columnsCollection; }
+        }
+
+        private void ProcessColumns()
+        {
+            if (!string.IsNullOrEmpty(Settings.SortSettings.ColumnName))
+            {
+                foreach (IGridColumn gridColumn in Columns)
+                {
+                    gridColumn.IsSorted = gridColumn.Name == Settings.SortSettings.ColumnName;
+                    if (gridColumn.Name == Settings.SortSettings.ColumnName)
+                        gridColumn.Direction = Settings.SortSettings.Direction;
+                    else
+                        gridColumn.Direction = null;
+                }
+            }
         }
 
         #endregion

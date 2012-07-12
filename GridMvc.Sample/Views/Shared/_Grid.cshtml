@@ -12,33 +12,36 @@
     <div class="grid-wrap">
         <table class="grid-table" data-lang="@Model.Language">
             @* Draw grid header *@
-            <tr>
-                @foreach (IGridColumn column in Model.Columns)
-                {
-                    @Html.Raw(column.HeaderRenderer.Render(column, column.Title))
-                }
-            </tr>
-            @if (Model.ItemsCount == 0)
-            {
-                <tr class="grid-empty-text">
-                    <td colspan="@Model.Columns.Count()">
-                        @Model.EmptyGridText
-                    </td>
-                </tr>
-            }
-            else
-            {
-@* Draw grid body *@
-                foreach (object item in Model.ItemsToDisplay)
-                {
-                <tr class="grid-row">
+            <thead>
+                <tr>
                     @foreach (IGridColumn column in Model.Columns)
                     {
-                        @Html.Raw(column.CellRenderer.Render(column, column.GetCell(item).ToString()))
+                        @Html.Raw(column.HeaderRenderer.Render(column, column.Title))
                     }
                 </tr>
+            </thead>
+            <tbody>
+                @if (Model.ItemsCount == 0)
+                {
+                    <tr class="grid-empty-text">
+                        <td colspan="@Model.Columns.Count()">
+                            @Model.EmptyGridText
+                        </td>
+                    </tr>
                 }
-            }
+                else
+                {
+                    foreach (object item in Model.ItemsToDisplay)
+                    {
+                    <tr class="grid-row">
+                        @foreach (IGridColumn column in Model.Columns)
+                        {
+                            @Html.Raw(column.CellRenderer.Render(column, column.GetCell(item).ToString()))
+                        }
+                    </tr>
+                    }
+                }
+            </tbody>
         </table>
         @if (Model.EnablePaging && Model.Pager != null && Model.Pager.PageCount > 1)
         {
