@@ -44,9 +44,9 @@
         </div>
     </div>
     <script>
-        GridMvc.addFilterWidget(new CustomersFilterWidget());
+        gridMvcControl.addFilterWidget(new CustomersFilterWidget());
 
-        GridMvc.onRowSelect(function (row) {
+        gridMvcControl.onRowSelect(function (row) {
             //alert(row.OrderID);
             $.post("/Home/GetOrder?id=" + row.OrderID, function (data) {
                 if (data.Status <= 0) {
