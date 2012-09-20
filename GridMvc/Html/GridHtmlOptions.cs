@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using GridMvc.Columns;
+using GridMvc.Pagination;
 
 namespace GridMvc.Html
 {
@@ -48,6 +49,15 @@ namespace GridMvc.Html
             EnablePaging = true;
             Pager.PageSize = pageSize;
             Pager.MaxDisplayedPages = maxDisplayedItems;
+            return this;
+        }
+
+        public IGridHtmlOptions<T> WithPaging(int pageSize, int maxDisplayedItems, string queryStringParameterName)
+        {
+            EnablePaging = true;
+            Pager.PageSize = pageSize;
+            Pager.MaxDisplayedPages = maxDisplayedItems;
+            ((GridPager)Pager).QueryParameterName = queryStringParameterName;
             return this;
         }
 

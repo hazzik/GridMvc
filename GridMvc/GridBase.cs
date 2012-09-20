@@ -68,7 +68,9 @@ namespace GridMvc
                     _itemsCount = GridItems.Count();
                 return _itemsCount;
             }
-            set { _itemsCount = value; //value can be set by pager (for minimizing db calls)
+            set
+            {
+                _itemsCount = value; //value can be set by pager (for minimizing db calls)
             }
         }
 

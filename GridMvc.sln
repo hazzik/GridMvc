@@ -1,12 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridMvc", "GridMvc\GridMvc.csproj", "{742CA5DD-16DB-464A-A267-A1F4E422733B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridMvc.Sample", "GridMvc.Sample\GridMvc.Sample.csproj", "{44A5FDB4-0895-4F9C-921E-6D5FBEEF6302}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridMvc.Tests", "GridMvc.Tests\GridMvc.Tests.csproj", "{4F128BFC-B7B8-4842-AE9F-D706DC8D819E}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{284B3A26-84E0-4203-8E70-20275107A16D}"
 	ProjectSection(SolutionItems) = preProject
 		GridMvc.vsmdi = GridMvc.vsmdi
@@ -19,6 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F05C1E
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridMvc", "GridMvc\GridMvc.csproj", "{742CA5DD-16DB-464A-A267-A1F4E422733B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridMvc.Sample", "GridMvc.Sample\GridMvc.Sample.csproj", "{44A5FDB4-0895-4F9C-921E-6D5FBEEF6302}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridMvc.Tests", "GridMvc.Tests\GridMvc.Tests.csproj", "{4F128BFC-B7B8-4842-AE9F-D706DC8D819E}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution

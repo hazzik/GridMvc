@@ -24,6 +24,14 @@ namespace GridMvc.Html
         IGridHtmlOptions<T> WithPaging(int pageSize, int maxDisplayedItems);
 
         /// <summary>
+        /// Enable paging for grid
+        /// </summary>
+        /// <param name="pageSize">Setup the page size of the grid</param>
+        /// <param name="maxDisplayedItems">Setup max count of displaying pager links</param>
+        /// <param name="queryStringParameterName">Query string parameter name</param>
+        IGridHtmlOptions<T> WithPaging(int pageSize, int maxDisplayedItems, string queryStringParameterName);
+
+        /// <summary>
         /// Enable sorting for all columns
         /// </summary>
         IGridHtmlOptions<T> Sortable();

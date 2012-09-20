@@ -38,7 +38,7 @@ namespace GridMvc.Pagination
             PageSize = DefaultPageSize;
         }
 
-        public string QueryParameterName { get; protected set; }
+        public string QueryParameterName { get; set; }
 
         #region IGridPager Members
 

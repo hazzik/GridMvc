@@ -136,7 +136,7 @@ namespace GridMvc
         }
 
         /// <summary>
-        /// Manager pager properties
+        /// Manage pager properties
         /// </summary>
         public IGridPager Pager
         {
