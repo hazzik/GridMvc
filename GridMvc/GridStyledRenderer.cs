@@ -35,13 +35,13 @@ namespace GridMvc
             return sb.ToString();
         }
 
-        protected void AddCssClass(string className)
+        public void AddCssClass(string className)
         {
             if (!_classes.Contains(className))
                 _classes.Add(className);
         }
 
-        protected void AddCssStyle(string styleString)
+        public void AddCssStyle(string styleString)
         {
             if (!_styles.Contains(styleString))
                 _styles.Add(styleString);

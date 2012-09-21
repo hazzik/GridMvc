@@ -34,13 +34,15 @@ namespace GridMvc.Filtering
 
         public string Render(IGridColumn column, string content)
         {
-            GridFilterType type = GridFilterType.Equals;
+            if (!column.FilterEnabled)
+                return string.Empty;
+            var filterType = GridFilterType.Equals;
             string value = string.Empty;
             bool isColumnFiltered = false;
             if (column.Name == _settings.ColumnName)
             {
                 //filter on this column:
-                type = _settings.Type;
+                filterType = _settings.Type;
                 value = _settings.Value;
                 isColumnFiltered = true;
             }
@@ -54,16 +56,16 @@ namespace GridMvc.Filtering
                                                      _settings.ColumnQueryParameterName,
                                                      _settings.ValueQueryParameterName
                                                  });
-            if (column.FilterEnabled)
-                return string.Format(FilterContent,
-                                     Strings.FilterButtonTooltipText,
-                                     column.FilterWidgetTypeName,
-                                     column.Name,
-                                     (int) type,
-                                     value,
-                                     url,
-                                     isColumnFiltered ? FilteredButtonCssClass : string.Empty);
-            return string.Empty;
+
+            return string.Format(FilterContent,
+                                 Strings.FilterButtonTooltipText,
+                                 column.FilterWidgetTypeName,
+                                 column.Name,
+                                 (int)filterType,
+                                 value,
+                                 url,
+                                 isColumnFiltered ? FilteredButtonCssClass : string.Empty);
+
         }
 
         #endregion

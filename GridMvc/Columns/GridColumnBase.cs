@@ -73,7 +73,7 @@ namespace GridMvc.Columns
         public abstract IGridColumn<T> Sanitized(bool sanitize);
 
         public abstract IGridColumnRenderer HeaderRenderer { get; }
-        public abstract IGridColumnRenderer CellRenderer { get; }
+        public abstract IGridColumnRenderer CellRenderer { get; set; }
         public abstract IGridCell GetCell(object instance);
 
         public abstract bool FilterEnabled { get; set; }

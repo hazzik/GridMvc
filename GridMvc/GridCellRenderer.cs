@@ -2,7 +2,7 @@
 
 namespace GridMvc
 {
-    internal class GridCellRenderer : GridStyledRenderer
+    public class GridCellRenderer : GridStyledRenderer
     {
         private const string TdClass = "grid-cell";
 

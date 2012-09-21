@@ -1,4 +1,5 @@
-﻿@using GridMvc.Html
+﻿@using GridMvc
+@using GridMvc.Html
 @using GridMvc.Sample.Models
 @using GridMvc.Sorting
 @model IEnumerable<Orders>
@@ -43,9 +44,9 @@
                 /* Adding "Vip customer" column: */
                 columns.Add(o => o.Customers.IsVip).Titled("Vip customer")
                     .RenderValueAs(o => CustomRenderingOfColumn(o));
-                
+
             }).WithPaging(20).Sortable().Filterable()
-        
+
 
     </div>
     <div id="order-info" style="float: right; width: 280px;">

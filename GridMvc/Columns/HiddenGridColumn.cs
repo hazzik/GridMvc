@@ -16,11 +16,13 @@ namespace GridMvc.Columns
         private readonly Func<T, TDataType> _constraint;
         private readonly IGrid _grid;
         private bool _sanitize;
+        private IGridColumnRenderer _cellRenderer;
 
         public HiddenGridColumn(Expression<Func<T, TDataType>> expression, IGrid grid)
         {
             _grid = grid;
             _constraint = expression.Compile();
+            _cellRenderer = new GridHiddenCellRenderer();
             Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression)expression.Body);
             SortEnabled = false;
         }
@@ -37,7 +39,8 @@ namespace GridMvc.Columns
 
         public override IGridColumnRenderer CellRenderer
         {
-            get { return new GridHiddenCellRenderer(); }
+            get { return _cellRenderer; }
+            set { _cellRenderer = value; }
         }
 
         public override bool FilterEnabled

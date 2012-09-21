@@ -82,7 +82,7 @@ namespace GridMvc.Columns
         bool EncodeEnabled { get; }
 
         IGridColumnRenderer HeaderRenderer { get; }
-        IGridColumnRenderer CellRenderer { get; }
+        IGridColumnRenderer CellRenderer { get; set; }
 
         /// <summary>
         /// Gets value of the gridColumn by instance

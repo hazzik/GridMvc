@@ -32,6 +32,8 @@ namespace GridMvc.Columns
         private string _filterWidgetTypeName;
         private bool _sanitize;
 
+        private IGridColumnRenderer _cellRenderer;
+
         public GridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {
             Expression expr = expression.Body;
@@ -49,7 +51,7 @@ namespace GridMvc.Columns
             _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName;
             _grid = grid;
             _sanitize = true;
-
+            _cellRenderer = new GridCellRenderer();
             #endregion
 
             //Generate unique column name:
@@ -59,12 +61,22 @@ namespace GridMvc.Columns
 
         public override IGridColumnRenderer HeaderRenderer
         {
-            get { return _grid.Settings.HeaderRenderer; }
+            get
+            {
+                return _grid.Settings.HeaderRenderer;
+            }
         }
 
         public override IGridColumnRenderer CellRenderer
         {
-            get { return new GridCellRenderer(); }
+            get
+            {
+                return _cellRenderer; ;
+            }
+            set
+            {
+                _cellRenderer = value;
+            }
         }
 
         public override IEnumerable<IColumnOrderer<T>> Orderers
@@ -137,7 +149,7 @@ namespace GridMvc.Columns
             else
             {
                 TDataType value = _constraint(instance);
-                if (value == null) 
+                if (value == null)
                     textValue = string.Empty;
                 else if (!string.IsNullOrEmpty(ValuePattern))
                     textValue = string.Format(ValuePattern, value);
