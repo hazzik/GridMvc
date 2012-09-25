@@ -62,5 +62,10 @@ namespace GridMvc.Html
         /// </summary>
         /// <param name="lang">SetLanguage string (example: "en", "ru", "fr" etc.)</param>
         IGridHtmlOptions<T> SetLanguage(string lang);
+
+        /// <summary>
+        /// Setup specific row css classes
+        /// </summary>
+        IGridHtmlOptions<T> SetRowCssClasses(Func<T, string> contraint);
     }
 }

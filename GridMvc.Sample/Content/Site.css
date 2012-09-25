@@ -61,6 +61,8 @@ h5, h6 { font-size: 1em; }
 /* you can specify a greater or lesser percentage for the 
 page width. Or, you can specify an exact pixel width. */
 
+.grid-row.vip-row{ background: rgb(255, 239, 239);}
+
 .page {
     margin-left: auto;
     margin-right: auto;

@@ -108,6 +108,12 @@ namespace GridMvc.Html
             return this;
         }
 
+        public IGridHtmlOptions<T> SetRowCssClasses(Func<T, string> contraint)
+        {
+            SetRowCssClassesContraint(contraint);
+            return this;
+        }
+
         #endregion
 
         private static string RenderPartialViewToString(string viewName, object model, ViewContext viewContext)

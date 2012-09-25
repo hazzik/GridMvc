@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GridMvc
 {
@@ -14,6 +16,9 @@ namespace GridMvc
         private readonly List<IGridItemsProcessor<T>> _processors = new List<IGridItemsProcessor<T>>();
         private IEnumerable<T> _afterItems; //items after processors
         private IQueryable<T> _beforeItems; //items before processors
+
+        private Func<T, string> _rowCssClassesContraint;
+
         private int _itemsCount = -1; // total items count on collection
         private bool _itemsPreProcessed; //is preprocessors launched?
         private bool _itemsProcessed; //is processors launched?
@@ -73,6 +78,26 @@ namespace GridMvc
                 _itemsCount = value; //value can be set by pager (for minimizing db calls)
             }
         }
+
+        #region Custom row css classes
+
+        protected void SetRowCssClassesContraint(Func<T, string> contraint)
+        {
+            _rowCssClassesContraint = contraint;
+        }
+
+        public string GetRowCssClasses(object item)
+        {
+            if (_rowCssClassesContraint == null)
+                return string.Empty;
+            var typed = item as T;
+            if (typed == null)
+                throw new InvalidCastException(string.Format("The item must be of type '{0}'", typeof(T).FullName));
+            return _rowCssClassesContraint(typed);
+        }
+
+        #endregion
+
 
         #region Processors methods
 

@@ -54,6 +54,11 @@ namespace GridMvc
         /// </summary>
         ISanitizer Sanitizer { get; }
 
+        /// <summary>
+        /// Get all css classes mapped to the item
+        /// </summary>
+        string GetRowCssClasses(object item);
+
         void OnPreRender();
     }
 }

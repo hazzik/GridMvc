@@ -45,7 +45,7 @@
                 columns.Add(o => o.Customers.IsVip).Titled("Vip customer")
                     .RenderValueAs(o => CustomRenderingOfColumn(o));
 
-            }).WithPaging(20).Sortable().Filterable()
+            }).SetRowCssClasses(item => item.Customers.IsVip ? "vip-row" : string.Empty).WithPaging(20).Sortable().Filterable()
 
 
     </div>

@@ -33,7 +33,7 @@
                 {
                     foreach (object item in Model.ItemsToDisplay)
                     {
-                    <tr class="grid-row">
+                    <tr class="grid-row @Model.GetRowCssClasses(item)">
                         @foreach (IGridColumn column in Model.Columns)
                         {
                             @Html.Raw(column.CellRenderer.Render(column, column.GetCell(item).ToString()))
