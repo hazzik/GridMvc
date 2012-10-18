@@ -21,9 +21,14 @@ namespace GridMvc.Columns
         public HiddenGridColumn(Expression<Func<T, TDataType>> expression, IGrid grid)
         {
             _grid = grid;
-            _constraint = expression.Compile();
+            if (expression!=null)
+            {
+                _constraint = expression.Compile();
+                Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression)expression.Body);
+            }
+            
             _cellRenderer = new GridHiddenCellRenderer();
-            Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression)expression.Body);
+            
             SortEnabled = false;
         }
 
@@ -105,6 +110,10 @@ namespace GridMvc.Columns
             }
             else
             {
+                if (_constraint == null)
+                {
+                    throw new InvalidOperationException("You need to specify render expression using RenderValueAs");
+                }
                 TDataType value = _constraint(instance);
                 if (value == null)
                     textValue = string.Empty;

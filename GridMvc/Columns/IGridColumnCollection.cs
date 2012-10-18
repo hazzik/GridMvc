@@ -14,6 +14,19 @@ namespace GridMvc.Columns
         IGridColumn<T> Add(IGridColumn<T> column);
 
         /// <summary>
+        /// Add new column to the grid, without specifying model property. Using this you must specify RenderValueAs method.
+        /// </summary>
+        /// <returns></returns>
+        IGridColumn<T> Add();
+
+        /// <summary>
+        /// Add new column to the grid, without specifying model property. Using this you must specify RenderValueAs method.
+        /// </summary>
+        /// <param name="hidden">Hidden column not display in grid, but you can get values from client side</param>
+        /// <returns></returns>
+        IGridColumn<T> Add(bool hidden);
+
+        /// <summary>
         /// Add new column to the grid
         /// </summary>
         /// <param name="constraint">Member of generic class</param>

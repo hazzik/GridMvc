@@ -19,8 +19,9 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> CreateColumn<TDataType>(Expression<Func<T, TDataType>> constraint, bool hidden)
         {
-            var memberExpression = constraint.Body as MemberExpression;
-            if (memberExpression != null)
+            var isExpressionOk = constraint == null || constraint.Body as MemberExpression != null;
+
+            if (isExpressionOk)
             {
                 if (!hidden)
                     return new GridColumn<T, TDataType>(constraint, _grid);

@@ -36,26 +36,31 @@ namespace GridMvc.Columns
 
         public GridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {
-            Expression expr = expression.Body;
-            if (!(expr is MemberExpression))
-                throw new ArgumentException(string.Format("Expression '{0}' must be a member expression", expression),
-                                            "expression");
-
+            if (expression != null)
+            {
+                Expression expr = expression.Body;
+                if (!(expr is MemberExpression))
+                    throw new ArgumentException(string.Format("Expression '{0}' must be a member expression", expression),
+                                                "expression");
+                _constraint = expression.Compile();
+                _orderers.Insert(0, new OrderByGridOrderer<T, TDataType>(expression));
+                _filters.Insert(0, new DefaultColumnFilter<T, TDataType>(expression));
+                //Generate unique column name:
+                Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression)expression.Body);
+            }
             #region Setup defaults
 
             EncodeEnabled = true;
             SortEnabled = false;
-            _constraint = expression.Compile();
-            _orderers.Insert(0, new OrderByGridOrderer<T, TDataType>(expression));
-            _filters.Insert(0, new DefaultColumnFilter<T, TDataType>(expression));
+
             _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName;
             _grid = grid;
             _sanitize = true;
             _cellRenderer = new GridCellRenderer();
             #endregion
 
-            //Generate unique column name:
-            Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression)expression.Body);
+
+
             Title = Name; //Useing the same name by default
         }
 
@@ -71,7 +76,7 @@ namespace GridMvc.Columns
         {
             get
             {
-                return _cellRenderer; ;
+                return _cellRenderer;
             }
             set
             {
@@ -124,6 +129,10 @@ namespace GridMvc.Columns
 
         public override IGridColumn<T> Sortable(bool sort)
         {
+            if (sort && _constraint == null)
+            {
+                return this;//cannot enable sorting for column without expression
+            }
             SortEnabled = sort;
             return this;
         }
@@ -148,6 +157,10 @@ namespace GridMvc.Columns
             }
             else
             {
+                if (_constraint == null)
+                {
+                    throw new InvalidOperationException("You need to specify render expression using RenderValueAs");
+                }
                 TDataType value = _constraint(instance);
                 if (value == null)
                     textValue = string.Empty;
@@ -165,6 +178,10 @@ namespace GridMvc.Columns
 
         public override IGridColumn<T> Filterable(bool enable)
         {
+            if (enable && _constraint == null)
+            {
+                return this;//cannot enable filtering for column without expression
+            }
             FilterEnabled = enable;
             return this;
         }

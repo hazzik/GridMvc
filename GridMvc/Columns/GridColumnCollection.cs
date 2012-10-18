@@ -22,6 +22,16 @@ namespace GridMvc.Columns
 
         #region IGridColumnCollection<T> Members
 
+        public IGridColumn<T> Add()
+        {
+            return Add(false);
+        }
+
+        public IGridColumn<T> Add(bool hidden)
+        {
+            return Add((Expression<Func<T, string>>)null, hidden);
+        }
+
         public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint)
         {
             return Add(constraint, false);
@@ -31,6 +41,17 @@ namespace GridMvc.Columns
         {
             IGridColumn<T> newColumn = _columnBuilder.CreateColumn(constraint, hidden);
             return Add(newColumn);
+        }
+
+        public IGridColumn<T> Add(IGridColumn<T> column)
+        {
+            column.Sortable(DefaultSortEnabled);
+            column.Filterable(DefaultFilteringEnabled);
+            if (Contains(column))
+                throw new ArgumentException("Column mapped to this field already exist in the grid");
+            base.Add(column);
+            //ProcessColumn();
+            return column;
         }
 
         public IGridColumn<T> Insert(int position, IGridColumn<T> column)
@@ -53,16 +74,7 @@ namespace GridMvc.Columns
             return Insert(position, newColumn);
         }
 
-        public IGridColumn<T> Add(IGridColumn<T> column)
-        {
-            column.Sortable(DefaultSortEnabled);
-            column.Filterable(DefaultFilteringEnabled);
-            if (Contains(column))
-                throw new ArgumentException("Column mapped to this field already exist in the grid");
-            base.Add(column);
-            //ProcessColumn();
-            return column;
-        }
+
 
         public new IEnumerator<IGridColumn> GetEnumerator()
         {
@@ -71,7 +83,7 @@ namespace GridMvc.Columns
 
         #endregion
 
-        
+
 
         protected override string GetKeyForItem(IGridColumn item)
         {
