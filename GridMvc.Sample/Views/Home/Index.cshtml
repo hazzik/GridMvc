@@ -1,6 +1,4 @@
-﻿@using System.Globalization
-@using GridMvc
-@using GridMvc.Html
+﻿@using GridMvc.Html
 @using GridMvc.Sample.Models
 @using GridMvc.Sorting
 @model IEnumerable<Orders>
@@ -18,20 +16,22 @@
     <text>No</text>
     }
 }
+
 <h2>Orders administration</h2>
 <p>
     This page demonstrates the possibilities of Grid.Mvc. For more documentation, please
     see: <a href="http://gridmvc.codeplex.com/">http://gridmvc.codeplex.com/</a>
 </p>
-<p>
-    <div id="ordersGrid" style="float: left; position: relative; width: 640px;">
 
-        @Html.Grid(Model).Columns(columns =>
+<div id="ordersGrid" style="float: left; position: relative; width: 680px;">
+
+    @Html.Grid(Model).Columns(columns =>
                                       {
                                           columns.Add()
                                               .Encoded(false)
                                               .Sanitized(false)
                                               .RenderValueAs(d => Html.ActionLink("Edit", "Index"));
+
                                           /* Adding "OrderID" column: */
                                           columns.Add(o => o.OrderID)
                                               .Titled("Number").Width(110);
@@ -50,37 +50,34 @@
                                           columns.Add(o => o.Customers.IsVip).Titled("Vip customer")
                                               .RenderValueAs(o => CustomRenderingOfColumn(o));
 
-                                      }).SetRowCssClasses(item => item.Customers.IsVip ? "vip-row" : string.Empty).WithPaging(20).Sortable().Filterable()
+                                      }).SetRowCssClasses(item => item.Customers.IsVip ? "success" : string.Empty).WithPaging(20).Sortable().Filterable()
 
 
-    </div>
-    <div id="order-info" style="float: right; width: 280px;">
-        <div class="grid-outer paged">
-            <div class="grid-wrap-header">
-                Order details
-            </div>
-            <div id="order-content" style="min-height: 500px; padding: 0 5px;">
-                <p style="color: #777;">
-                    Select order to display detailed infomation
-                </p>
-            </div>
-        </div>
-    </div>
-    <script>
-        gridMvcControl.addFilterWidget(new CustomersFilterWidget());
-
-        gridMvcControl.onRowSelect(function (row) {
-            //alert(row.OrderID);
-            $.post("/Home/GetOrder?id=" + row.OrderID, function (data) {
-                if (data.Status <= 0) {
-                    alert(data.Message);
-                    return;
-                }
-                $("#order-content").html(data.Content);
-            });
-            //window.location.href = "/Order/Item/" + row.OrderID;
-        });
-    </script>
-</p>
-<div class="clear">
 </div>
+<div id="order-info" style="float: right; width: 280px;">
+
+    <h4>Order details
+    </h4>
+    <div id="order-content" style="min-height: 500px; padding: 0 5px;">
+        <p style="color: #777;">
+            Select order to display detailed infomation
+        </p>
+    </div>
+
+</div>
+<script>
+    gridMvcControl.addFilterWidget(new CustomersFilterWidget());
+
+    gridMvcControl.onRowSelect(function (row) {
+        //alert(row.OrderID);
+        $.post("/Home/GetOrder?id=" + row.OrderID, function (data) {
+            if (data.Status <= 0) {
+                alert(data.Message);
+                return;
+            }
+            $("#order-content").html(data.Content);
+        });
+        //window.location.href = "/Order/Item/" + row.OrderID;
+    });
+</script>
+

@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>@ViewBag.Title</title>
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Main.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("/Content/cupertino/jquery-ui-1.8.21.custom.css")" rel="stylesheet" type="text/css" />
 
@@ -15,18 +16,14 @@
 <body>
     <div class="page">
         <div id="header">
-            <div id="title">
-                <h1>
-                    Grid.Mvc sample application</h1>
-            </div>
-            <div id="logindisplay">
-                @Html.Partial("_LogOnPartial")
-            </div>
-            <div id="menucontainer">
-                <ul id="menu">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                </ul>
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <a class="brand" href="/">Grid.Mvc</a>
+                    <ul class="nav">
+                        <li class="@(ViewBag.ActiveMenuTitle == "Demo" ? "active" : string.Empty )">@Html.ActionLink("Demo", "Index", "Home")</li>
+                        <li class="@(ViewBag.ActiveMenuTitle == "About" ? "active" : string.Empty )">@Html.ActionLink("About", "About", "Home")</li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div id="main">

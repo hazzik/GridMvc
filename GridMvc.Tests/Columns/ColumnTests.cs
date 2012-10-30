@@ -25,8 +25,10 @@ namespace GridMvc.Tests.Columns
         [TestMethod]
         public void TestColumnsCollection()
         {
+            _grid.Columns.Add();
+            _grid.Columns.Add();
             _grid.Columns.Add(x => x.Id);
-            Assert.AreEqual(_grid.Columns.Count(), 1);
+            Assert.AreEqual(_grid.Columns.Count(), 3);
             try
             {
                 _grid.Columns.Add(x => x.Id);
@@ -40,7 +42,7 @@ namespace GridMvc.Tests.Columns
                 Assert.Fail();
             }
             _grid.Columns.Insert(0, x => x.Title);
-            Assert.AreEqual(_grid.Columns.Count(), 2);
+            Assert.AreEqual(_grid.Columns.Count(), 4);
             Assert.AreEqual(_grid.Columns.ElementAt(0).Name, "Title");
             //test hidden columns
             try

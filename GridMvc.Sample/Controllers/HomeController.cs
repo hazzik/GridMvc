@@ -9,11 +9,13 @@ namespace GridMvc.Sample.Controllers
         public ActionResult Index()
         {
             var repository = new OrdersRepository();
+            ViewBag.ActiveMenuTitle = "Demo";
             return View(repository.GetAll());
         }
 
         public ActionResult About()
         {
+            ViewBag.ActiveMenuTitle = "About";
             return View();
         }
 

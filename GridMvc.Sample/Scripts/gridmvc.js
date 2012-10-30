@@ -70,7 +70,8 @@ GridMvc = (function () {
         var gridRow = {};
         row.find(".grid-cell").each(function () {
             var columnName = $(this).attr("data-name");
-            gridRow[columnName] = $(this).text();
+            if (columnName.length > 0)
+                gridRow[columnName] = $(this).text();
         });
         $context.markRowSelected(row);
         $context.notifyOnRowSelect(gridRow);
