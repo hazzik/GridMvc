@@ -20,8 +20,8 @@
                 <div class="navbar-inner">
                     <a class="brand" href="/">Grid.Mvc</a>
                     <ul class="nav">
-                        <li class="@(ViewBag.ActiveMenuTitle == "Demo" ? "active" : string.Empty )">@Html.ActionLink("Demo", "Index", "Home")</li>
-                        <li class="@(ViewBag.ActiveMenuTitle == "About" ? "active" : string.Empty )">@Html.ActionLink("About", "About", "Home")</li>
+                        <li class="@(ViewBag.ActiveMenuTitle == "Demo" ? "active" : string.Empty)">@Html.ActionLink("Demo", "Index", "Home")</li>
+                        <li class="@(ViewBag.ActiveMenuTitle == "About" ? "active" : string.Empty)">@Html.ActionLink("About", "About", "Home")</li>
                     </ul>
                 </div>
             </div>
@@ -29,8 +29,8 @@
         <div id="main">
             @RenderBody()
         </div>
-        <div id="footer">
-        </div>
+
+
     </div>
 </body>
 </html>

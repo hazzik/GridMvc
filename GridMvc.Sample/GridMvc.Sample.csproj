@@ -29,6 +29,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +50,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -67,13 +72,19 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\CustomersRepository.cs" />
+    <Compile Include="Models\Domain\Category.cs" />
+    <Compile Include="Models\Domain\Customer.cs" />
+    <Compile Include="Models\Domain\Employee.cs" />
+    <Compile Include="Models\Domain\Order.cs" />
+    <Compile Include="Models\Domain\OrderDetails.cs" />
+    <Compile Include="Models\Domain\Product.cs" />
+    <Compile Include="Models\Domain\Region.cs" />
+    <Compile Include="Models\Domain\Shipper.cs" />
+    <Compile Include="Models\Domain\Supplier.cs" />
+    <Compile Include="Models\Domain\Territory.cs" />
+    <Compile Include="Models\NorthwindDbContext.cs" />
     <Compile Include="Models\SqlRepository.cs" />
     <Compile Include="Models\IRepository.cs" />
-    <Compile Include="Models\Northwind.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Northwind.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\OrdersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\bootstrap\css\bootstrap-responsive.css" />
@@ -155,7 +166,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
@@ -167,12 +177,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="Models\Northwind.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Northwind.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Home\_OrderInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -181,12 +185,16 @@
   <ItemGroup>
     <None Include="Grid.Mvc.nuspec" />
     <None Include="Grid.mvc.readme" />
+    <None Include="Properties\PublishProfiles\local.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GridMvc\GridMvc.csproj">
       <Project>{742CA5DD-16DB-464A-A267-A1F4E422733B}</Project>
       <Name>GridMvc</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -227,4 +235,5 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

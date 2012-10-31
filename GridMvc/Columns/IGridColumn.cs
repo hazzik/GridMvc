@@ -41,12 +41,12 @@ namespace GridMvc.Columns
         /// <summary>
         /// Sets the width of the column
         /// </summary>
-        IGridColumn<T> Width(string width);
+        IGridColumn<T> SetWidth(string width);
 
         /// <summary>
         /// Sets the width of the column in pizels
         /// </summary>
-        IGridColumn<T> Width(int width);
+        IGridColumn<T> SetWidth(int width);
 
         /// <summary>
         /// Setup the custom rendere for property
@@ -80,6 +80,8 @@ namespace GridMvc.Columns
         /// EncodeEnabled
         /// </summary>
         bool EncodeEnabled { get; }
+
+        bool SanitizeEnabled { get; }
 
         IGridColumnRenderer HeaderRenderer { get; }
         IGridColumnRenderer CellRenderer { get; set; }

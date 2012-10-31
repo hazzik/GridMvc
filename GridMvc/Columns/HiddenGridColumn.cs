@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using GridMvc.DataAnnotations;
 using GridMvc.Filtering;
 using GridMvc.Sorting;
 using GridMvc.Utility;
@@ -15,21 +17,32 @@ namespace GridMvc.Columns
     {
         private readonly Func<T, TDataType> _constraint;
         private readonly IGrid _grid;
-        private bool _sanitize;
         private IGridColumnRenderer _cellRenderer;
 
         public HiddenGridColumn(Expression<Func<T, TDataType>> expression, IGrid grid)
         {
             _grid = grid;
-            if (expression!=null)
-            {
-                _constraint = expression.Compile();
-                Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression)expression.Body);
-            }
-            
             _cellRenderer = new GridHiddenCellRenderer();
-            
             SortEnabled = false;
+
+            if (expression != null)
+            {
+                var expr = expression.Body as MemberExpression;
+                if (expr == null)
+                    throw new ArgumentException(string.Format("Expression '{0}' must be a member expression", expression),
+                                                "expression");
+
+                _constraint = expression.Compile();
+
+                Name = PropertiesHelper.BuildColumnNameFromMemberExpression(expr);
+
+                //Apply data annotation options
+                var pi = expr.Member as PropertyInfo;
+                if (pi != null)
+                    ApplyColumnSettings(pi);
+            }
+
+
         }
 
         public override IEnumerable<IColumnOrderer<T>> Orderers
@@ -51,13 +64,13 @@ namespace GridMvc.Columns
         public override bool FilterEnabled
         {
             get { return false; }
-            set { throw new InvalidOperationException("You cannot filter hidden field"); }
+            set {  }
         }
 
         public override bool IsFiltered
         {
             get { return false; }
-            set { throw new InvalidOperationException("You cannot filter hidden field"); }
+            set {  }
         }
 
         public override IEnumerable<IColumnFilter<T>> Filters
@@ -72,33 +85,27 @@ namespace GridMvc.Columns
 
         public override IGridColumn<T> SetFilterWidgetType(string typeName)
         {
-            throw new InvalidOperationException("You cannot filter hidden field");
+            return this;//Do nothing
         }
 
         public override IGridColumn<T> SortInitialDirection(GridSortDirection direction)
         {
-            throw new InvalidOperationException("You cannot setup initial sorting of hidden column");
+            return this;//Do nothing
         }
 
         public override IGridColumn<T> ThenSortBy<TKey>(Expression<Func<T, TKey>> expression)
         {
-            throw new InvalidOperationException("You cannot sort hidden field");
+            return this;//Do nothing
         }
 
         public override IGridColumn<T> ThenSortByDescending<TKey>(Expression<Func<T, TKey>> expression)
         {
-            throw new InvalidOperationException("You cannot sort hidden field");
+            return this;//Do nothing
         }
 
         public override IGridColumn<T> Sortable(bool sort)
         {
-            throw new InvalidOperationException("You cannot sort hidden field");
-        }
-
-        public override IGridColumn<T> Sanitized(bool sanitize)
-        {
-            _sanitize = sanitize;
-            return this;
+            return this;//Do nothing
         }
 
         public override IGridCell GetValue(T instance)
@@ -122,7 +129,7 @@ namespace GridMvc.Columns
                 else
                     textValue = value.ToString();
             }
-            if (!EncodeEnabled && _sanitize)
+            if (!EncodeEnabled && SanitizeEnabled)
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
@@ -131,12 +138,22 @@ namespace GridMvc.Columns
 
         public override IGridColumn<T> Filterable(bool showColumnValuesVariants)
         {
-            throw new InvalidOperationException("You cannot filter hidden field");
+            return this;
         }
 
         public override IGridCell GetCell(object instance)
         {
             return GetValue((T)instance);
+        }
+
+        private void ApplyColumnSettings(PropertyInfo pi)
+        {
+            var options = pi.GetAttribute<GridHiddenColumnAttribute>();
+            if (options == null) return;
+            Encoded(options.Encoded)
+                .Sanitized(options.Sanitized);
+            if (!string.IsNullOrEmpty(options.Format))
+                Format(options.Format);
         }
     }
 }

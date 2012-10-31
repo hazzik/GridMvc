@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
+using GridMvc.DataAnnotations;
 using GridMvc.Filtering;
 using GridMvc.Sorting;
 using GridMvc.Utility;
@@ -30,38 +32,44 @@ namespace GridMvc.Columns
         private readonly List<IColumnOrderer<T>> _orderers = new List<IColumnOrderer<T>>();
 
         private string _filterWidgetTypeName;
-        private bool _sanitize;
+
 
         private IGridColumnRenderer _cellRenderer;
 
         public GridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {
-            if (expression != null)
-            {
-                Expression expr = expression.Body;
-                if (!(expr is MemberExpression))
-                    throw new ArgumentException(string.Format("Expression '{0}' must be a member expression", expression),
-                                                "expression");
-                _constraint = expression.Compile();
-                _orderers.Insert(0, new OrderByGridOrderer<T, TDataType>(expression));
-                _filters.Insert(0, new DefaultColumnFilter<T, TDataType>(expression));
-                //Generate unique column name:
-                Name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression)expression.Body);
-            }
             #region Setup defaults
 
             EncodeEnabled = true;
             SortEnabled = false;
+            SanitizeEnabled = true;
 
             _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName;
             _grid = grid;
-            _sanitize = true;
+
             _cellRenderer = new GridCellRenderer();
+
             #endregion
 
+            if (expression != null)
+            {
+                var expr = expression.Body as MemberExpression;
+                if (expr == null)
+                    throw new ArgumentException(string.Format("Expression '{0}' must be a member expression", expression),
+                                                "expression");
 
 
-            Title = Name; //Useing the same name by default
+                _constraint = expression.Compile();
+                _orderers.Insert(0, new OrderByGridOrderer<T, TDataType>(expression));
+                _filters.Insert(0, new DefaultColumnFilter<T, TDataType>(expression));
+                //Generate unique column name:
+                Name = PropertiesHelper.BuildColumnNameFromMemberExpression(expr);
+                Title = Name; //Using the same name by default
+                //Apply data annotation options
+                var pi = expr.Member as PropertyInfo;
+                if (pi != null)
+                    ApplyColumnSettings(pi);
+            }
         }
 
         public override IGridColumnRenderer HeaderRenderer
@@ -137,12 +145,6 @@ namespace GridMvc.Columns
             return this;
         }
 
-        public override IGridColumn<T> Sanitized(bool sanitize)
-        {
-            _sanitize = sanitize;
-            return this;
-        }
-
         public override IGridCell GetCell(object instance)
         {
             return GetValue((T)instance);
@@ -169,7 +171,7 @@ namespace GridMvc.Columns
                 else
                     textValue = value.ToString();
             }
-            if (!EncodeEnabled && _sanitize)
+            if (!EncodeEnabled && SanitizeEnabled)
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
@@ -184,6 +186,31 @@ namespace GridMvc.Columns
             }
             FilterEnabled = enable;
             return this;
+        }
+
+        private void ApplyColumnSettings(PropertyInfo pi)
+        {
+            var options = pi.GetAttribute<GridColumnAttribute>();
+            if (options == null) return;
+
+            Encoded(options.EncodeEnabled)
+                .Sanitized(options.SanitizeEnabled)
+                .Filterable(options.FilterEnabled)
+                .Sortable(options.SortEnabled);
+
+            var initialDirection = options.GetInitialSortDirection();
+            if (initialDirection.HasValue)
+                SortInitialDirection(initialDirection.Value);
+
+            if (!string.IsNullOrEmpty(options.FilterWidgetType))
+                SetFilterWidgetType(options.FilterWidgetType);
+
+            if (!string.IsNullOrEmpty(options.Format))
+                Format(options.Format);
+            if (!string.IsNullOrEmpty(options.Title))
+                Titled(options.Title);
+            if (!string.IsNullOrEmpty(options.Width))
+                Width = options.Width;
         }
     }
 }

@@ -1,22 +1,22 @@
-﻿using System.Data.Objects;
+﻿using System.Data.Entity;
 using System.Linq;
 
 namespace GridMvc.Sample.Models
 {
     public abstract class SqlRepository<T> : IRepository<T> where T : class
     {
-        protected readonly ObjectSet<T> EFDbSet;
+        protected readonly DbSet<T> EfDbSet;
 
-        protected SqlRepository(ObjectContext context)
+        protected SqlRepository(DbContext context)
         {
-            EFDbSet = context.CreateObjectSet<T>();
+            EfDbSet = context.Set<T>();
         }
 
         #region IRepository<T> Members
 
         public virtual IOrderedQueryable<T> GetAll()
         {
-            return EFDbSet;
+            return EfDbSet;
         }
 
         public abstract T GetById(object id);

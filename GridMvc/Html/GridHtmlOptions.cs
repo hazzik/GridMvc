@@ -114,6 +114,16 @@ namespace GridMvc.Html
             return this;
         }
 
+        /// <summary>
+        /// Generates columns for all properties of the model.
+        /// Use data annotations to customize columns
+        /// </summary>
+        public new IGridHtmlOptions<T> AutoGenerateColumns()
+        {
+            base.AutoGenerateColumns();
+            return this;
+        }
+
         #endregion
 
         private static string RenderPartialViewToString(string viewName, object model, ViewContext viewContext)

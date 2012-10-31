@@ -8,9 +8,11 @@ namespace GridMvc.Sample.Controllers
     {
         public ActionResult Index()
         {
+
             var repository = new OrdersRepository();
+
             ViewBag.ActiveMenuTitle = "Demo";
-            return View(repository.GetAll());
+            return View(repository.GetAll().ToList());
         }
 
         public ActionResult About()
@@ -23,7 +25,7 @@ namespace GridMvc.Sample.Controllers
         public JsonResult GetOrder(int id)
         {
             var repository = new OrdersRepository();
-            Orders order = repository.GetById(id);
+            Order order = repository.GetById(id);
             if (order == null)
                 return Json(new { Status = 0, Message = "Not found" });
 

@@ -23,7 +23,7 @@ namespace GridMvc.Filtering
 
         public IQueryable<T> ApplyFilter(IQueryable<T> items, IGridFilterSettings settings)
         {
-            var pi = (PropertyInfo) ((MemberExpression) _expression.Body).Member;
+            var pi = (PropertyInfo)((MemberExpression)_expression.Body).Member;
             Expression<Func<T, bool>> expr = GetFilterExpression(pi, settings);
             if (expr == null)
                 return items;
@@ -36,7 +36,7 @@ namespace GridMvc.Filtering
         {
             //detect nullable
             bool isNullable = pi.PropertyType.IsGenericType &&
-                              pi.PropertyType.GetGenericTypeDefinition() == typeof (Nullable<>);
+                              pi.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
             //get target type:
             Type targetType = isNullable ? Nullable.GetUnderlyingType(pi.PropertyType) : pi.PropertyType;
 
@@ -63,15 +63,19 @@ namespace GridMvc.Filtering
                     binaryExpression = Expression.Equal(firstExpr, valueExpr);
                     break;
                 case GridFilterType.Contains:
-                    MethodInfo miContains = targetType.GetMethod("Contains", new[] {typeof (string)});
-                    binaryExpression = Expression.Call(firstExpr, miContains, valueExpr);
+                    MethodInfo miContains = targetType.GetMethod("Contains", new[] { typeof(string) });
+                    MethodInfo miUpper = targetType.GetMethod("ToUpper", new Type[] { });
+                    //case insensitive compartion:
+                    var upperValueExpr = Expression.Call(valueExpr, miUpper);
+                    var upperFirstExpr = Expression.Call(firstExpr, miUpper);
+                    binaryExpression = Expression.Call(upperFirstExpr, miContains, upperValueExpr);
                     break;
                 case GridFilterType.StartsWith:
-                    MethodInfo miStartsWith = targetType.GetMethod("StartsWith", new[] {typeof (string)});
+                    MethodInfo miStartsWith = targetType.GetMethod("StartsWith", new[] { typeof(string) });
                     binaryExpression = Expression.Call(firstExpr, miStartsWith, valueExpr);
                     break;
                 case GridFilterType.EndsWidth:
-                    MethodInfo miEndssWith = targetType.GetMethod("EndsWith", new[] {typeof (string)});
+                    MethodInfo miEndssWith = targetType.GetMethod("EndsWith", new[] { typeof(string) });
                     binaryExpression = Expression.Call(firstExpr, miEndssWith, valueExpr);
                     break;
                 case GridFilterType.LessThan:
@@ -84,7 +88,7 @@ namespace GridMvc.Filtering
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (targetType == typeof (string))
+            if (targetType == typeof(string))
             {
                 //check for strings, they may be NULL
                 //It's ok for ORM, but throw exception in linq to objects. Additional check string on null

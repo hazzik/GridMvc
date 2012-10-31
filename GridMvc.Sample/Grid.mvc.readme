@@ -45,6 +45,15 @@ Follow these steps to start use Grid.mvc:
 	<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" type="text/css" />
 	<script src="@Url.Content("~/Scripts/gridmvc.min.js")" type="text/javascript"> </script>
 
-Note: also you need to ensure that jQuery has registred on the page before gridmvc.min.js script.
+
+Notes:
+	
+Default layout of Grid.Mvc uses Twitter Bootstrap (css framework). You also need to include stylesheets on your page. You can download it from - http://twitter.github.com/bootstrap/
+like:
+
+	<link href="@Url.Content("~/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+
+
+Also you need to ensure that jQuery has registred on the page before gridmvc.min.js script.
 
 For more documetation, please see: http://gridmvc.codeplex.com/

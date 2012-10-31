@@ -1,13 +1,13 @@
 ﻿@using GridMvc.Html
 @using GridMvc.Sample.Models
 @using GridMvc.Sorting
-@model IEnumerable<Orders>
+@model IEnumerable<Order>
 @{
     ViewBag.Title = "Home Page";
 }
-@helper CustomRenderingOfColumn(Orders order)
+@helper CustomRenderingOfColumn(Order order)
 {
-    if (order.Customers.IsVip)
+    if (order.Customer.IsVip)
     {
     <text>Yes</text>
     }
@@ -23,7 +23,7 @@
     see: <a href="http://gridmvc.codeplex.com/">http://gridmvc.codeplex.com/</a>
 </p>
 
-<div id="ordersGrid" style="float: left; position: relative; width: 680px;">
+<div id="ordersGrid" style="float: left; position: relative; width: 660px;">
 
     @Html.Grid(Model).Columns(columns =>
                                       {
@@ -34,27 +34,30 @@
 
                                           /* Adding "OrderID" column: */
                                           columns.Add(o => o.OrderID)
-                                              .Titled("Number").Width(110);
+                                              .Titled("Number")
+                                              .SetWidth(100);
                                           /* Adding "OrderDate" column: */
-                                          columns.Add(o => o.OrderDate).Titled("Date")
+                                          columns.Add(o => o.OrderDate)
+                                              .Titled("Date")
                                               .SortInitialDirection(GridSortDirection.Descending)
                                               .Format("{0:dd/MM/yyyy}")
-                                              .Width(120);
+                                              .SetWidth(120);
                                           /* Adding "CompanyName" column: */
-                                          columns.Add(o => o.Customers.CompanyName)
+                                          columns.Add(o => o.Customer.CompanyName)
                                               .Titled("Company Name")
-                                              .Width(220)
+                                              .SetWidth(220)
                                               .ThenSortByDescending(o => o.OrderID)
                                               .SetFilterWidgetType("CustomCompanyNameFilterWidget");
                                           /* Adding "Vip customer" column: */
-                                          columns.Add(o => o.Customers.IsVip).Titled("Vip customer")
+                                          columns.Add(o => o.Customer.IsVip)
+                                              .Titled("Vip customer")
                                               .RenderValueAs(o => CustomRenderingOfColumn(o));
 
-                                      }).SetRowCssClasses(item => item.Customers.IsVip ? "success" : string.Empty).WithPaging(20).Sortable().Filterable()
+                                      }).SetRowCssClasses(item => item.Customer.IsVip ? "warning" : string.Empty).WithPaging(15, 6).Sortable().Filterable()
 
 
 </div>
-<div id="order-info" style="float: right; width: 280px;">
+<div id="order-info" style="float: right; width: 270px;">
 
     <h4>Order details
     </h4>

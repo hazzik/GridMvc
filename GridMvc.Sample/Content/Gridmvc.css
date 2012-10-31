@@ -13,12 +13,10 @@
 
 /* Grid body */
 table.grid-table tr.grid-row { }
-table.grid-table tr.grid-row-selected td { background: #1BA1E2 !important; color: white; }
+table.grid-table tr.grid-row-selected td { background: #0086C7 !important; color: white; }
 table.grid-table tr.grid-row-selected a { color: white; }
 table.grid-table .grid-header-sorted { }
 
-/* Grid footer */
-/*.grid-footer-info { float: right;width: auto;margin: 10px 0; }*/
 
 /* Grid filtering */
 select.grid-filter-type { padding: 3px; border: 1px solid #DDD; color: #444; font-size: 13px; width: 120px; }

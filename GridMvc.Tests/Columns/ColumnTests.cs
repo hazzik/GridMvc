@@ -45,18 +45,9 @@ namespace GridMvc.Tests.Columns
             Assert.AreEqual(_grid.Columns.Count(), 4);
             Assert.AreEqual(_grid.Columns.ElementAt(0).Name, "Title");
             //test hidden columns
-            try
-            {
-                _grid.Columns.Add(x => x.Created, true).Sortable(true);
-                Assert.Fail();
-            }
-            catch (InvalidOperationException)
-            {
-            }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
+
+            _grid.Columns.Add(x => x.Created, true);
+            Assert.AreEqual(_grid.Columns.Count(), 5);
         }
     }
 }

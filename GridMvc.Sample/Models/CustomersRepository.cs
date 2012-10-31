@@ -2,19 +2,19 @@
 
 namespace GridMvc.Sample.Models
 {
-    public class CustomersRepository : SqlRepository<Customers>
+    public class CustomersRepository : SqlRepository<Customer>
     {
         public CustomersRepository()
-            : base(new NorthwindEntities())
+            : base(new NorthwindDbContext())
         {
         }
 
-        public override IOrderedQueryable<Customers> GetAll()
+        public override IOrderedQueryable<Customer> GetAll()
         {
             return base.GetAll().OrderBy(o => o.CompanyName);
         }
 
-        public override Customers GetById(object id)
+        public override Customer GetById(object id)
         {
             return GetAll().FirstOrDefault(c => c.CustomerID == (string)id);
         }

@@ -54,6 +54,10 @@
     <Compile Include="Columns\HiddenGridColumn.cs" />
     <Compile Include="Columns\IColumnBuilder.cs" />
     <Compile Include="Columns\IGridColumnCollection.cs" />
+    <Compile Include="DataAnnotations\GridTableAttribute.cs" />
+    <Compile Include="DataAnnotations\GridColumnAttribute.cs" />
+    <Compile Include="DataAnnotations\GridHiddenColumnAttribute.cs" />
+    <Compile Include="DataAnnotations\NotMappedColumnAttribute.cs" />
     <Compile Include="Filtering\DefaultColumnFilter.cs" />
     <Compile Include="Filtering\Types\BooleanFilterType.cs" />
     <Compile Include="Filtering\Types\ByteFilterType.cs" />

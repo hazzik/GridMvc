@@ -15,6 +15,7 @@ namespace GridMvc.Columns
         #region IGridColumn<T> Members
 
         public bool EncodeEnabled { get; protected set; }
+        public bool SanitizeEnabled { get; set; }
 
         public string Width { get; protected set; }
 
@@ -38,13 +39,13 @@ namespace GridMvc.Columns
             return this;
         }
 
-        IGridColumn<T> IColumn<T>.Width(string width)
+        IGridColumn<T> IColumn<T>.SetWidth(string width)
         {
             Width = width;
             return this;
         }
 
-        IGridColumn<T> IColumn<T>.Width(int width)
+        IGridColumn<T> IColumn<T>.SetWidth(int width)
         {
             Width = width.ToString(CultureInfo.InvariantCulture) + "px";
             return this;
@@ -63,6 +64,12 @@ namespace GridMvc.Columns
             return this;
         }
 
+        public virtual IGridColumn<T> Sanitized(bool sanitize)
+        {
+            SanitizeEnabled = sanitize;
+            return this;
+        }
+
         public abstract IGridColumn<T> SortInitialDirection(GridSortDirection direction);
 
         public abstract IGridColumn<T> ThenSortBy<TKey>(Expression<Func<T, TKey>> expression);
@@ -70,7 +77,6 @@ namespace GridMvc.Columns
 
         public abstract IEnumerable<IColumnOrderer<T>> Orderers { get; }
         public abstract IGridColumn<T> Sortable(bool sort);
-        public abstract IGridColumn<T> Sanitized(bool sanitize);
 
         public abstract IGridColumnRenderer HeaderRenderer { get; }
         public abstract IGridColumnRenderer CellRenderer { get; set; }

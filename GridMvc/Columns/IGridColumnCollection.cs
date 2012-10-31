@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace GridMvc.Columns
 {
@@ -40,6 +41,12 @@ namespace GridMvc.Columns
         /// <param name="hidden">Hidden column not display in grid, but you can get values from client side</param>
         /// <returns>Added column</returns>
         IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint, bool hidden);
+
+        /// <summary>
+        /// Add new column based on property info, using reflection
+        /// </summary>
+        /// <returns>Added column</returns>
+        IGridColumn<T> Add(PropertyInfo pi);
 
         /// <summary>
         /// Add new column to the grid

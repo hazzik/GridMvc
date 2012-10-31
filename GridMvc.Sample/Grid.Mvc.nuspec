@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Grid.Mvc</id>
-    <version>2.0.6</version>
+    <version>2.1.0</version>
     <title>Grid.Mvc</title>
     <authors>Vyacheslav Bukharin</authors>
     <licenseUrl>http://gridmvc.codeplex.com/license</licenseUrl>
     <projectUrl>http://gridmvc.codeplex.com/</projectUrl>
     <iconUrl>http://www.codeplex.com/Download?ProjectName=gridmvc&amp;DownloadId=386651</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>This package provides functionality to build GridView based on your model. Grid.Mvc support sorting, filtering and paging your data.</description>
+    <description>Package provides functionality to build GridView based on your model items collection. Grid.Mvc support sorting, filtering and paging your data.</description>
     <tags>ASP.NET MVC Control GridView Grid Generic</tags>
     <references>
       <reference file="GridMvc.dll" />

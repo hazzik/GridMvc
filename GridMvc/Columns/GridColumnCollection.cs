@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace GridMvc.Columns
 {
@@ -43,13 +44,29 @@ namespace GridMvc.Columns
             return Add(newColumn);
         }
 
+        public IGridColumn<T> Add(PropertyInfo pi)
+        {
+            IGridColumn<T> newColumn = _columnBuilder.CreateColumn(pi);
+            if (newColumn == null) return null;
+            return Add(newColumn);
+        }
+
         public IGridColumn<T> Add(IGridColumn<T> column)
         {
+            if (column == null)
+                throw new ArgumentNullException("column");
+
             column.Sortable(DefaultSortEnabled);
             column.Filterable(DefaultFilteringEnabled);
-            if (Contains(column))
-                throw new ArgumentException("Column mapped to this field already exist in the grid");
-            base.Add(column);
+
+            try
+            {
+                base.Add(column);
+            }
+            catch(ArgumentException)
+            {
+                throw new ArgumentException(string.Format("Column '{0}' already exist in the grid", column.Name));
+            }
             //ProcessColumn();
             return column;
         }
@@ -74,16 +91,12 @@ namespace GridMvc.Columns
             return Insert(position, newColumn);
         }
 
-
-
         public new IEnumerator<IGridColumn> GetEnumerator()
         {
             return base.GetEnumerator();
         }
 
         #endregion
-
-
 
         protected override string GetKeyForItem(IGridColumn item)
         {

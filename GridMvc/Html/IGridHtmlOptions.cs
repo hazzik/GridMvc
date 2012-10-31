@@ -67,5 +67,12 @@ namespace GridMvc.Html
         /// Setup specific row css classes
         /// </summary>
         IGridHtmlOptions<T> SetRowCssClasses(Func<T, string> contraint);
+
+        /// <summary>
+        /// Generates columns for all properties of the model.
+        /// Use data annotations to customize columns
+        /// </summary>
+        /// <returns></returns>
+        IGridHtmlOptions<T> AutoGenerateColumns();
     }
 }

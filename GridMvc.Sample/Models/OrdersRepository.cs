@@ -2,19 +2,19 @@
 
 namespace GridMvc.Sample.Models
 {
-    public class OrdersRepository : SqlRepository<Orders>
+    public class OrdersRepository : SqlRepository<Order>
     {
         public OrdersRepository()
-            : base(new NorthwindEntities())
+            : base(new NorthwindDbContext())
         {
         }
 
-        public override IOrderedQueryable<Orders> GetAll()
+        public override IOrderedQueryable<Order> GetAll()
         {
-            return EFDbSet.Include("Customers").OrderByDescending(o => o.OrderDate);
+            return EfDbSet.Include("Customer").OrderByDescending(o => o.OrderDate);
         }
 
-        public override Orders GetById(object id)
+        public override Order GetById(object id)
         {
             return GetAll().FirstOrDefault(o => o.OrderID == (int) id);
         }
