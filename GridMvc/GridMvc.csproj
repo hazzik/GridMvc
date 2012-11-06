@@ -61,6 +61,7 @@
     <Compile Include="Filtering\DefaultColumnFilter.cs" />
     <Compile Include="Filtering\Types\BooleanFilterType.cs" />
     <Compile Include="Filtering\Types\ByteFilterType.cs" />
+    <Compile Include="Filtering\Types\FilterTypeBase.cs" />
     <Compile Include="Filtering\Types\LongFilterType.cs" />
     <Compile Include="Filtering\Types\DecimalFilterType.cs" />
     <Compile Include="Filtering\Types\SingleFilterType.cs" />

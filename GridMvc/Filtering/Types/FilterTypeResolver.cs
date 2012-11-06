@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GridMvc.Filtering.Types
 {
@@ -20,11 +21,11 @@ namespace GridMvc.Filtering.Types
             _filterCollection.Add(new LongFilterType());
         }
 
-        public IFilterType GetFilterType(string typeName)
+        public IFilterType GetFilterType(Type type)
         {
             foreach (IFilterType filterType in _filterCollection)
             {
-                if (filterType.TypeName == typeName)
+                if (filterType.TargetType.FullName == type.FullName)
                     return filterType;
             }
             return new TextFilterType(); //try to process column type as text (not safe)

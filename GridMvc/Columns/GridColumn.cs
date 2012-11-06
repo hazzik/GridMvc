@@ -31,10 +31,9 @@ namespace GridMvc.Columns
 
         private readonly List<IColumnOrderer<T>> _orderers = new List<IColumnOrderer<T>>();
 
-        private string _filterWidgetTypeName;
-
 
         private IGridColumnRenderer _cellRenderer;
+        private string _filterWidgetTypeName;
 
         public GridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {
@@ -44,7 +43,7 @@ namespace GridMvc.Columns
             SortEnabled = false;
             SanitizeEnabled = true;
 
-            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName;
+            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName;
             _grid = grid;
 
             _cellRenderer = new GridCellRenderer();
@@ -55,8 +54,9 @@ namespace GridMvc.Columns
             {
                 var expr = expression.Body as MemberExpression;
                 if (expr == null)
-                    throw new ArgumentException(string.Format("Expression '{0}' must be a member expression", expression),
-                                                "expression");
+                    throw new ArgumentException(
+                        string.Format("Expression '{0}' must be a member expression", expression),
+                        "expression");
 
 
                 _constraint = expression.Compile();
@@ -74,22 +74,13 @@ namespace GridMvc.Columns
 
         public override IGridColumnRenderer HeaderRenderer
         {
-            get
-            {
-                return _grid.Settings.HeaderRenderer;
-            }
+            get { return _grid.Settings.HeaderRenderer; }
         }
 
         public override IGridColumnRenderer CellRenderer
         {
-            get
-            {
-                return _cellRenderer;
-            }
-            set
-            {
-                _cellRenderer = value;
-            }
+            get { return _cellRenderer; }
+            set { _cellRenderer = value; }
         }
 
         public override IEnumerable<IColumnOrderer<T>> Orderers
@@ -139,7 +130,7 @@ namespace GridMvc.Columns
         {
             if (sort && _constraint == null)
             {
-                return this;//cannot enable sorting for column without expression
+                return this; //cannot enable sorting for column without expression
             }
             SortEnabled = sort;
             return this;
@@ -147,7 +138,7 @@ namespace GridMvc.Columns
 
         public override IGridCell GetCell(object instance)
         {
-            return GetValue((T)instance);
+            return GetValue((T) instance);
         }
 
         public override IGridCell GetValue(T instance)
@@ -175,14 +166,14 @@ namespace GridMvc.Columns
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
-            return new GridCell(textValue) { Encode = EncodeEnabled };
+            return new GridCell(textValue) {Encode = EncodeEnabled};
         }
 
         public override IGridColumn<T> Filterable(bool enable)
         {
             if (enable && _constraint == null)
             {
-                return this;//cannot enable filtering for column without expression
+                return this; //cannot enable filtering for column without expression
             }
             FilterEnabled = enable;
             return this;
@@ -198,7 +189,7 @@ namespace GridMvc.Columns
                 .Filterable(options.FilterEnabled)
                 .Sortable(options.SortEnabled);
 
-            var initialDirection = options.GetInitialSortDirection();
+            GridSortDirection? initialDirection = options.GetInitialSortDirection();
             if (initialDirection.HasValue)
                 SortInitialDirection(initialDirection.Value);
 

@@ -41,7 +41,7 @@
                                               .Titled("Date")
                                               .SortInitialDirection(GridSortDirection.Descending)
                                               .Format("{0:dd/MM/yyyy}")
-                                              .SetWidth(120);
+                                              .SetWidth(110);
                                           /* Adding "CompanyName" column: */
                                           columns.Add(o => o.Customer.CompanyName)
                                               .Titled("Company Name")
@@ -55,7 +55,7 @@
 
                                       }).SetRowCssClasses(item => item.Customer.IsVip ? "warning" : string.Empty).WithPaging(15, 6).Sortable().Filterable()
 
-
+     
 </div>
 <div id="order-info" style="float: right; width: 270px;">
 

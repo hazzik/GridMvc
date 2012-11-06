@@ -17,11 +17,13 @@ namespace GridMvc.Html
             return Grid(helper, items, DefaultPartialViewName);
         }
 
-        public static IGridHtmlOptions<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items, string viewName) where T : class
+        public static IGridHtmlOptions<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items, string viewName)
+            where T : class
         {
             var options = new GridHtmlOptions<T>(items.AsQueryable(), helper.ViewContext, viewName);
             return options;
         }
+
         //support IHtmlString in RenderValueAs method
         public static IGridColumn<T> RenderValueAs<T>(this IGridColumn<T> column, Func<T, IHtmlString> constraint)
         {

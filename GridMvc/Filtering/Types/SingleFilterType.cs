@@ -5,16 +5,14 @@ namespace GridMvc.Filtering.Types
     /// <summary>
     /// Object contains some logic for filtering Single columns
     /// </summary>
-    internal class SingleFilterType : IFilterType
+    internal sealed class SingleFilterType : FilterTypeBase
     {
-        #region IFilterType Members
-
-        public string TypeName
+        public override Type TargetType
         {
-            get { return typeof (Single).FullName; }
+            get { return typeof (Single); }
         }
 
-        public GridFilterType GetValidType(GridFilterType type)
+        public override GridFilterType GetValidType(GridFilterType type)
         {
             switch (type)
             {
@@ -27,14 +25,12 @@ namespace GridMvc.Filtering.Types
             }
         }
 
-        public object GetTypedValue(string value)
+        public override object GetTypedValue(string value)
         {
             Single sng;
             if (!Single.TryParse(value, out sng))
                 return null;
             return sng;
         }
-
-        #endregion
     }
 }

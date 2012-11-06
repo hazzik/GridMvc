@@ -30,7 +30,7 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> Add(bool hidden)
         {
-            return Add((Expression<Func<T, string>>)null, hidden);
+            return Add((Expression<Func<T, string>>) null, hidden);
         }
 
         public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint)
@@ -63,7 +63,7 @@ namespace GridMvc.Columns
             {
                 base.Add(column);
             }
-            catch(ArgumentException)
+            catch (ArgumentException)
             {
                 throw new ArgumentException(string.Format("Column '{0}' already exist in the grid", column.Name));
             }

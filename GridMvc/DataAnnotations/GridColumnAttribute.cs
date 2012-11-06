@@ -9,6 +9,8 @@ namespace GridMvc.DataAnnotations
     [AttributeUsage(AttributeTargets.Property)]
     public class GridColumnAttribute : Attribute
     {
+        private GridSortDirection? _initialDirection;
+
         public GridColumnAttribute()
         {
             EncodeEnabled = true;
@@ -58,11 +60,14 @@ namespace GridMvc.DataAnnotations
         public string FilterWidgetType { get; set; }
 
 
-        private GridSortDirection? _initialDirection;
         /// <summary>
         /// Sets or get sort initial direction
         /// </summary>
-        public GridSortDirection SortInitialDirection { get { return _initialDirection.HasValue ? _initialDirection.Value : GridSortDirection.Ascending; } set { _initialDirection = value; } }
+        public GridSortDirection SortInitialDirection
+        {
+            get { return _initialDirection.HasValue ? _initialDirection.Value : GridSortDirection.Ascending; }
+            set { _initialDirection = value; }
+        }
 
         public GridSortDirection? GetInitialSortDirection()
         {

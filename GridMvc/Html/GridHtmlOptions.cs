@@ -23,7 +23,7 @@ namespace GridMvc.Html
 
         public string GridViewName { get; set; }
 
-        #region IGridHtmlOptions Members
+        #region IGridHtmlOptions<T> Members
 
         public string ToHtmlString()
         {
@@ -57,20 +57,19 @@ namespace GridMvc.Html
             EnablePaging = true;
             Pager.PageSize = pageSize;
             Pager.MaxDisplayedPages = maxDisplayedItems;
-            ((GridPager)Pager).QueryParameterName = queryStringParameterName;
+            ((GridPager) Pager).QueryParameterName = queryStringParameterName;
             return this;
         }
 
         public IGridHtmlOptions<T> Sortable()
         {
-
             return Sortable(true);
         }
 
         public IGridHtmlOptions<T> Sortable(bool enable)
         {
             DefaultSortEnabled = enable;
-            foreach (var column in base.Columns)
+            foreach (IGridColumn column in base.Columns)
             {
                 var typedColumn = column as IGridColumn<T>;
                 if (typedColumn == null) continue;
@@ -87,7 +86,7 @@ namespace GridMvc.Html
         public IGridHtmlOptions<T> Filterable(bool enable)
         {
             DefaultFilteringEnabled = enable;
-            foreach (var column in base.Columns)
+            foreach (IGridColumn column in base.Columns)
             {
                 var typedColumn = column as IGridColumn<T>;
                 if (typedColumn == null) continue;

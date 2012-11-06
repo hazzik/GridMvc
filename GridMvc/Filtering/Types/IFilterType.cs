@@ -1,11 +1,14 @@
-﻿namespace GridMvc.Filtering.Types
+﻿using System;
+using System.Linq.Expressions;
+
+namespace GridMvc.Filtering.Types
 {
     internal interface IFilterType
     {
         /// <summary>
         /// .Net type name for current filter
         /// </summary>
-        string TypeName { get; }
+        Type TargetType { get; }
 
         /// <summary>
         /// Sanitize filter type for specific column data type
@@ -20,5 +23,7 @@
         /// <param name="value"></param>
         /// <returns></returns>
         object GetTypedValue(string value);
+
+        Expression GetFilterExpression(Expression leftExpr, string value, GridFilterType filterType);
     }
 }

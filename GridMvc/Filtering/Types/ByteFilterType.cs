@@ -1,18 +1,22 @@
-﻿namespace GridMvc.Filtering.Types
+﻿using System;
+
+namespace GridMvc.Filtering.Types
 {
     /// <summary>
     /// Object contains some logic for filtering Byte columns
     /// </summary>
-    internal class ByteFilterType : IFilterType
+    internal sealed class ByteFilterType : FilterTypeBase
     {
-        #region IFilterType Members
-
-        public string TypeName
+        /// <summary>
+        /// Get target filter type
+        /// </summary>
+        /// <returns></returns>
+        public override Type TargetType
         {
-            get { return typeof (byte).FullName; }
+            get { return typeof (Byte); }
         }
 
-        public GridFilterType GetValidType(GridFilterType type)
+        public override GridFilterType GetValidType(GridFilterType type)
         {
             switch (type)
             {
@@ -25,14 +29,12 @@
             }
         }
 
-        public object GetTypedValue(string value)
+        public override object GetTypedValue(string value)
         {
             byte bt;
             if (!byte.TryParse(value, out bt))
                 return null;
             return bt;
         }
-
-        #endregion
     }
 }

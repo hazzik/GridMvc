@@ -61,11 +61,10 @@ namespace GridMvc.Filtering
                                  Strings.FilterButtonTooltipText,
                                  column.FilterWidgetTypeName,
                                  column.Name,
-                                 (int)filterType,
+                                 (int) filterType,
                                  value,
                                  url,
                                  isColumnFiltered ? FilteredButtonCssClass : string.Empty);
-
         }
 
         #endregion

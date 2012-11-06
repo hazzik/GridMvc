@@ -23,7 +23,7 @@ namespace GridMvc.Filtering
 
         public IQueryable<T> ApplyFilter(IQueryable<T> items, IGridFilterSettings settings)
         {
-            var pi = (PropertyInfo)((MemberExpression)_expression.Body).Member;
+            var pi = (PropertyInfo) ((MemberExpression) _expression.Body).Member;
             Expression<Func<T, bool>> expr = GetFilterExpression(pi, settings);
             if (expr == null)
                 return items;
@@ -36,59 +36,23 @@ namespace GridMvc.Filtering
         {
             //detect nullable
             bool isNullable = pi.PropertyType.IsGenericType &&
-                              pi.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
+                              pi.PropertyType.GetGenericTypeDefinition() == typeof (Nullable<>);
             //get target type:
             Type targetType = isNullable ? Nullable.GetUnderlyingType(pi.PropertyType) : pi.PropertyType;
 
-            IFilterType filterType = _typeResolver.GetFilterType(targetType.FullName);
-            //get typed value of query string parameter
-            object typedValue = filterType.GetTypedValue(settings.Value);
-            if (typedValue == null)
-                return null; //incorrent filter value;
-            //determine allowed filter types for property type
-            GridFilterType type = filterType.GetValidType(settings.Type);
+            IFilterType filterType = _typeResolver.GetFilterType(targetType);
 
             //build expression to filter collection:
             ParameterExpression entityParam = _expression.Parameters[0];
-            Expression valueExpr = Expression.Constant(typedValue);
             //support nullable types:
             Expression firstExpr = isNullable
                                        ? Expression.Property(_expression.Body, pi.PropertyType.GetProperty("Value"))
                                        : _expression.Body;
 
-            Expression binaryExpression;
-            switch (type)
-            {
-                case GridFilterType.Equals:
-                    binaryExpression = Expression.Equal(firstExpr, valueExpr);
-                    break;
-                case GridFilterType.Contains:
-                    MethodInfo miContains = targetType.GetMethod("Contains", new[] { typeof(string) });
-                    MethodInfo miUpper = targetType.GetMethod("ToUpper", new Type[] { });
-                    //case insensitive compartion:
-                    var upperValueExpr = Expression.Call(valueExpr, miUpper);
-                    var upperFirstExpr = Expression.Call(firstExpr, miUpper);
-                    binaryExpression = Expression.Call(upperFirstExpr, miContains, upperValueExpr);
-                    break;
-                case GridFilterType.StartsWith:
-                    MethodInfo miStartsWith = targetType.GetMethod("StartsWith", new[] { typeof(string) });
-                    binaryExpression = Expression.Call(firstExpr, miStartsWith, valueExpr);
-                    break;
-                case GridFilterType.EndsWidth:
-                    MethodInfo miEndssWith = targetType.GetMethod("EndsWith", new[] { typeof(string) });
-                    binaryExpression = Expression.Call(firstExpr, miEndssWith, valueExpr);
-                    break;
-                case GridFilterType.LessThan:
-                    binaryExpression = Expression.LessThan(firstExpr, valueExpr);
-                    break;
-                case GridFilterType.GreaterThan:
-                    binaryExpression = Expression.GreaterThan(firstExpr, valueExpr);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            Expression binaryExpression = filterType.GetFilterExpression(firstExpr, settings.Value, settings.Type);
+            if (binaryExpression == null) return null;
 
-            if (targetType == typeof(string))
+            if (targetType == typeof (string))
             {
                 //check for strings, they may be NULL
                 //It's ok for ORM, but throw exception in linq to objects. Additional check string on null

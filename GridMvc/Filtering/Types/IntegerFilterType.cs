@@ -1,18 +1,18 @@
-﻿namespace GridMvc.Filtering.Types
+﻿using System;
+
+namespace GridMvc.Filtering.Types
 {
     /// <summary>
     /// Object contains some logic for filtering Int32 columns
     /// </summary>
-    internal class IntegerFilterType : IFilterType
+    internal sealed class IntegerFilterType : FilterTypeBase
     {
-        #region IFilterType Members
-
-        public string TypeName
+        public override Type TargetType
         {
-            get { return typeof (int).FullName; }
+            get { return typeof (Int32); }
         }
 
-        public GridFilterType GetValidType(GridFilterType type)
+        public override GridFilterType GetValidType(GridFilterType type)
         {
             switch (type)
             {
@@ -25,14 +25,12 @@
             }
         }
 
-        public object GetTypedValue(string value)
+        public override object GetTypedValue(string value)
         {
             int i;
             if (!int.TryParse(value, out i))
                 return null;
             return i;
         }
-
-        #endregion
     }
 }

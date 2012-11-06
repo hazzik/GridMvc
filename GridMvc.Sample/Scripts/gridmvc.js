@@ -1,7 +1,7 @@
 ﻿/***
 * Grid.Mvc
 * Examples and documentation at: http://gridmvc.codeplex.com
-* Version: 2.0.0
+* Version: 2.1.5
 * Requires: jQuery v1.3+
 * LGPL license: http://gridmvc.codeplex.com/license
 */
@@ -234,7 +234,7 @@ GridMvc = (function () {
         var valueParameterName = "grid-filter-val";
         if (initialUrl.length > 0)
             initialUrl += "&";
-        window.location.search = initialUrl + columnParameterName + "=" + escape(columnName) + "&" + typeParameterName + "=" + escape(filterType) + "&" + valueParameterName + "=" + escape(filterValue);
+        window.location.search = initialUrl + columnParameterName + "=" + encodeURIComponent(columnName) + "&" + typeParameterName + "=" + encodeURIComponent(filterType) + "&" + valueParameterName + "=" + encodeURIComponent(filterValue);
     };
     /***
     * ============= POPUP MENU =============

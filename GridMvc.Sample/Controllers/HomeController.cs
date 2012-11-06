@@ -4,6 +4,8 @@ using GridMvc.Sample.Models;
 
 namespace GridMvc.Sample.Controllers
 {
+
+
     public class HomeController : ApplicationController
     {
         public ActionResult Index()

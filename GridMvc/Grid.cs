@@ -48,20 +48,6 @@ namespace GridMvc
         }
 
         /// <summary>
-        /// Applies data annotations settings
-        /// </summary>
-        private void ApplyGridSettings()
-        {
-            var opt = typeof(T).GetAttribute<GridTableAttribute>();
-            if (opt == null) return;
-            EnablePaging = opt.PagingEnabled;
-            if (opt.PageSize > 0)
-                Pager.PageSize = opt.PageSize;
-            if (opt.PagingMaxDisplayedPages > 0)
-                Pager.MaxDisplayedPages = opt.PagingMaxDisplayedPages;
-        }
-
-        /// <summary>
         /// Grid columns collection
         /// </summary>
         public IGridColumnCollection<T> Columns
@@ -168,6 +154,22 @@ namespace GridMvc
             get { return _columnsCollection; }
         }
 
+        #endregion
+
+        /// <summary>
+        /// Applies data annotations settings
+        /// </summary>
+        private void ApplyGridSettings()
+        {
+            var opt = typeof (T).GetAttribute<GridTableAttribute>();
+            if (opt == null) return;
+            EnablePaging = opt.PagingEnabled;
+            if (opt.PageSize > 0)
+                Pager.PageSize = opt.PageSize;
+            if (opt.PagingMaxDisplayedPages > 0)
+                Pager.MaxDisplayedPages = opt.PagingMaxDisplayedPages;
+        }
+
         private void ProcessColumns()
         {
             if (!string.IsNullOrEmpty(Settings.SortSettings.ColumnName))
@@ -183,15 +185,13 @@ namespace GridMvc
             }
         }
 
-        #endregion
-
         /// <summary>
         /// Generates columns for all properties of the model
         /// </summary>
         public virtual void AutoGenerateColumns()
         {
-            var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var pi in properties)
+            PropertyInfo[] properties = typeof (T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo pi in properties)
             {
                 if (pi.CanRead)
                     Columns.Add(pi);

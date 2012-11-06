@@ -10,6 +10,7 @@ namespace GridMvc.Html
     public interface IGridHtmlOptions<T> : IGrid, IHtmlString
     {
         IGridHtmlOptions<T> Columns(Action<IGridColumnCollection<T>> columnBuilder);
+
         /// <summary>
         /// Enable paging for grid
         /// </summary>

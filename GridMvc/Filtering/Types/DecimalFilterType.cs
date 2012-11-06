@@ -1,18 +1,18 @@
-﻿namespace GridMvc.Filtering.Types
+﻿using System;
+
+namespace GridMvc.Filtering.Types
 {
     /// <summary>
     /// Object contains some logic for filtering decimal columns
     /// </summary>
-    internal class DecimalFilterType : IFilterType
+    internal sealed class DecimalFilterType : FilterTypeBase
     {
-        #region IFilterType Members
-
-        public string TypeName
+        public override Type TargetType
         {
-            get { return typeof (float).FullName; }
+            get { return typeof (Decimal); }
         }
 
-        public GridFilterType GetValidType(GridFilterType type)
+        public override GridFilterType GetValidType(GridFilterType type)
         {
             switch (type)
             {
@@ -25,14 +25,12 @@
             }
         }
 
-        public object GetTypedValue(string value)
+        public override object GetTypedValue(string value)
         {
             decimal dec;
             if (!decimal.TryParse(value, out dec))
                 return null;
             return dec;
         }
-
-        #endregion
     }
 }

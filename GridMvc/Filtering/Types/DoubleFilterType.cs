@@ -1,18 +1,18 @@
-﻿namespace GridMvc.Filtering.Types
+﻿using System;
+
+namespace GridMvc.Filtering.Types
 {
     /// <summary>
     /// Object contains some logic for filtering Double columns
     /// </summary>
-    internal class DoubleFilterType : IFilterType
+    internal sealed class DoubleFilterType : FilterTypeBase
     {
-        #region IFilterType Members
-
-        public string TypeName
+        public override Type TargetType
         {
-            get { return typeof (double).FullName; }
+            get { return typeof (Double); }
         }
 
-        public GridFilterType GetValidType(GridFilterType type)
+        public override GridFilterType GetValidType(GridFilterType type)
         {
             switch (type)
             {
@@ -25,14 +25,12 @@
             }
         }
 
-        public object GetTypedValue(string value)
+        public override object GetTypedValue(string value)
         {
             double db;
             if (!double.TryParse(value, out db))
                 return null;
             return db;
         }
-
-        #endregion
     }
 }

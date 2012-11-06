@@ -29,8 +29,9 @@ namespace GridMvc.Columns
             {
                 var expr = expression.Body as MemberExpression;
                 if (expr == null)
-                    throw new ArgumentException(string.Format("Expression '{0}' must be a member expression", expression),
-                                                "expression");
+                    throw new ArgumentException(
+                        string.Format("Expression '{0}' must be a member expression", expression),
+                        "expression");
 
                 _constraint = expression.Compile();
 
@@ -41,8 +42,6 @@ namespace GridMvc.Columns
                 if (pi != null)
                     ApplyColumnSettings(pi);
             }
-
-
         }
 
         public override IEnumerable<IColumnOrderer<T>> Orderers
@@ -64,13 +63,13 @@ namespace GridMvc.Columns
         public override bool FilterEnabled
         {
             get { return false; }
-            set {  }
+            set { }
         }
 
         public override bool IsFiltered
         {
             get { return false; }
-            set {  }
+            set { }
         }
 
         public override IEnumerable<IColumnFilter<T>> Filters
@@ -80,32 +79,32 @@ namespace GridMvc.Columns
 
         public override string FilterWidgetTypeName
         {
-            get { return PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName; }
+            get { return PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName; }
         }
 
         public override IGridColumn<T> SetFilterWidgetType(string typeName)
         {
-            return this;//Do nothing
+            return this; //Do nothing
         }
 
         public override IGridColumn<T> SortInitialDirection(GridSortDirection direction)
         {
-            return this;//Do nothing
+            return this; //Do nothing
         }
 
         public override IGridColumn<T> ThenSortBy<TKey>(Expression<Func<T, TKey>> expression)
         {
-            return this;//Do nothing
+            return this; //Do nothing
         }
 
         public override IGridColumn<T> ThenSortByDescending<TKey>(Expression<Func<T, TKey>> expression)
         {
-            return this;//Do nothing
+            return this; //Do nothing
         }
 
         public override IGridColumn<T> Sortable(bool sort)
         {
-            return this;//Do nothing
+            return this; //Do nothing
         }
 
         public override IGridCell GetValue(T instance)
@@ -133,7 +132,7 @@ namespace GridMvc.Columns
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
-            return new GridCell(textValue) { Encode = EncodeEnabled };
+            return new GridCell(textValue) {Encode = EncodeEnabled};
         }
 
         public override IGridColumn<T> Filterable(bool showColumnValuesVariants)
@@ -143,7 +142,7 @@ namespace GridMvc.Columns
 
         public override IGridCell GetCell(object instance)
         {
-            return GetValue((T)instance);
+            return GetValue((T) instance);
         }
 
         private void ApplyColumnSettings(PropertyInfo pi)

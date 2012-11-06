@@ -6,13 +6,11 @@ namespace GridMvc.Filtering.Types
     /// <summary>
     /// Object contains some logic for filtering DateTime columns
     /// </summary>
-    internal class DateTimeFilterType : IFilterType
+    internal sealed class DateTimeFilterType : FilterTypeBase
     {
-        #region IFilterType Members
-
-        public string TypeName
+        public override Type TargetType
         {
-            get { return typeof (DateTime).FullName; }
+            get { return typeof (DateTime); }
         }
 
         /// <summary>
@@ -20,7 +18,7 @@ namespace GridMvc.Filtering.Types
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public GridFilterType GetValidType(GridFilterType type)
+        public override GridFilterType GetValidType(GridFilterType type)
         {
             switch (type)
             {
@@ -33,14 +31,12 @@ namespace GridMvc.Filtering.Types
             }
         }
 
-        public object GetTypedValue(string value)
+        public override object GetTypedValue(string value)
         {
             DateTime date;
             if (!DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                 return null;
             return date;
         }
-
-        #endregion
     }
 }

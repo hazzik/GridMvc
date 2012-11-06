@@ -22,7 +22,7 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> CreateColumn<TDataType>(Expression<Func<T, TDataType>> constraint, bool hidden)
         {
-            var isExpressionOk = constraint == null || constraint.Body as MemberExpression != null;
+            bool isExpressionOk = constraint == null || constraint.Body as MemberExpression != null;
             if (isExpressionOk)
             {
                 if (!hidden)
@@ -60,28 +60,27 @@ namespace GridMvc.Columns
             return column;
         }
 
+        #endregion
+
         private IGridColumn<T> CreateColumn(PropertyInfo pi, bool hidden)
         {
-            var entityType = typeof(T);
+            Type entityType = typeof (T);
             Type columnType;
 
             if (!hidden)
-                columnType = typeof(GridColumn<,>).MakeGenericType(entityType, pi.PropertyType);
+                columnType = typeof (GridColumn<,>).MakeGenericType(entityType, pi.PropertyType);
             else
-                columnType = typeof(HiddenGridColumn<,>).MakeGenericType(entityType, pi.PropertyType);
+                columnType = typeof (HiddenGridColumn<,>).MakeGenericType(entityType, pi.PropertyType);
 
             //Build expression
 
-            var parameter = Expression.Parameter(entityType, "e");
-            var expressionProperty = Expression.Property(parameter, pi);
+            ParameterExpression parameter = Expression.Parameter(entityType, "e");
+            MemberExpression expressionProperty = Expression.Property(parameter, pi);
 
-            var funcType = typeof(Func<,>).MakeGenericType(entityType, pi.PropertyType);
-            var lambda = Expression.Lambda(funcType, expressionProperty, parameter);
+            Type funcType = typeof (Func<,>).MakeGenericType(entityType, pi.PropertyType);
+            LambdaExpression lambda = Expression.Lambda(funcType, expressionProperty, parameter);
 
             return Activator.CreateInstance(columnType, lambda, _grid) as IGridColumn<T>;
         }
-
-
-        #endregion
     }
 }
