@@ -1,7 +1,7 @@
 ﻿/***
 * Grid.Mvc
 * Examples and documentation at: http://gridmvc.codeplex.com
-* Version: 2.1.5
+* Version: 2.2.0
 * Requires: jQuery v1.3+
 * LGPL license: http://gridmvc.codeplex.com/license
 */
@@ -249,7 +249,7 @@ GridMvc = (function () {
         popup.show();
         popup.addClass("opened");
         $context.openedMenuBtn = $(this);
-        $(document).click(function (e) {
+        $(document).bind("click.gridmvc", function (e) {
             $context.documentCallback(e, $context);
         });
         return false;
@@ -272,7 +272,7 @@ GridMvc = (function () {
         }
         if ($context.openedMenuBtn != null)
             $context.openedMenuBtn.removeClass("clicked");
-        $(document).unbind("click");
+        $(document).unbind("click.gridmvc");
     };
 
     gridMvc.prototype.closeOpenedPopups = function () {

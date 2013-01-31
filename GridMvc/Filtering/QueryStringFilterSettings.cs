@@ -75,6 +75,14 @@ namespace GridMvc.Filtering
         public string Value { get; set; }
         public GridFilterType Type { get; set; }
 
+        public bool IsEmpty
+        {
+            get
+            {
+                return string.IsNullOrEmpty(ColumnName) || string.IsNullOrEmpty(Value);
+            }
+        }
+
         #endregion
 
         private void RefreshColumn()

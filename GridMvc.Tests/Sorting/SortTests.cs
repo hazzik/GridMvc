@@ -83,7 +83,7 @@ namespace GridMvc.Tests.Sorting
             _grid.Columns.Add(x => x.Child.ChildTitle).Sortable(true);
             if (
                 !ValidateSorting<string, string, object>(_grid, x => x.Child.ChildTitle, x => x.Child.ChildTitle,
-                                                         "Child__ChildTitle", GridSortDirection.Ascending, null, null))
+                                                         "Child.ChildTitle", GridSortDirection.Ascending, null, null))
             {
                 Assert.Fail("Sort works incorrect");
             }
@@ -95,7 +95,7 @@ namespace GridMvc.Tests.Sorting
             _grid.Columns.Add(x => x.Child.ChildTitle).Sortable(true);
             if (
                 !ValidateSorting<string, string, object>(_grid, x => x.Child.ChildTitle, x => x.Child.ChildTitle,
-                                                         "Child__ChildTitle", GridSortDirection.Descending, null, null))
+                                                         "Child.ChildTitle", GridSortDirection.Descending, null, null))
             {
                 Assert.Fail("Sort works incorrect");
             }
@@ -107,7 +107,7 @@ namespace GridMvc.Tests.Sorting
             _grid.Columns.Add(x => x.Child.ChildCreated).Sortable(true);
             if (
                 !ValidateSorting<DateTime, DateTime, object>(_grid, x => x.Child.ChildCreated, x => x.Child.ChildCreated,
-                                                             "Child__ChildCreated", GridSortDirection.Descending, null,
+                                                             "Child.ChildCreated", GridSortDirection.Descending, null,
                                                              null))
             {
                 Assert.Fail("Sort works incorrect");
@@ -120,7 +120,7 @@ namespace GridMvc.Tests.Sorting
             _grid.Columns.Add(x => x.Child.ChildCreated).Sortable(true);
             if (
                 !ValidateSorting<DateTime, DateTime, object>(_grid, x => x.Child.ChildCreated, x => x.Child.ChildCreated,
-                                                             "Child__ChildCreated", GridSortDirection.Ascending, null,
+                                                             "Child.ChildCreated", GridSortDirection.Ascending, null,
                                                              null))
             {
                 Assert.Fail("Sort works incorrect");
@@ -132,7 +132,7 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Child.ChildCreated).Sortable(true).ThenSortBy(x => x.Title);
             if (
-                !ValidateSorting(_grid, x => x.Child.ChildCreated, x => x.Title, "Child__ChildCreated",
+                !ValidateSorting(_grid, x => x.Child.ChildCreated, x => x.Title, "Child.ChildCreated",
                                  GridSortDirection.Ascending, x => x.Title, GridSortDirection.Ascending))
             {
                 Assert.Fail("Sort works incorrect");
@@ -144,7 +144,7 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Child.ChildCreated).Sortable(true).ThenSortByDescending(x => x.Title);
             if (
-                !ValidateSorting(_grid, x => x.Child.ChildCreated, x => x.Title, "Child__ChildCreated",
+                !ValidateSorting(_grid, x => x.Child.ChildCreated, x => x.Title, "Child.ChildCreated",
                                  GridSortDirection.Ascending, x => x.Title, GridSortDirection.Descending))
             {
                 Assert.Fail("Sort works incorrect");

@@ -24,18 +24,31 @@ namespace GridMvc.Filtering
 
         public IQueryable<T> Process(IQueryable<T> items)
         {
-            if (string.IsNullOrEmpty(_settings.ColumnName) || string.IsNullOrEmpty(_settings.Value))
+            if (_settings.IsEmpty)
+            {
+                //filter not set
+                foreach (var column in _grid.Columns)
+                {
+                    var gridColumn = column as IGridColumn<T>;
+                    if (gridColumn == null) continue;
+                    if (gridColumn.InitialFilterSettings != null)
+                        foreach (var columnFilter in gridColumn.Filters)
+                        {
+                            items = columnFilter.ApplyFilter(items, gridColumn.InitialFilterSettings);
+                        }
+                }
                 return items;
+            }
             IEnumerable<PropertyInfo> sequence;
-            PropertyInfo pi = PropertiesHelper.GetPropertyFromColumnName(_settings.ColumnName, typeof (T), out sequence);
+            PropertyInfo pi = PropertiesHelper.GetPropertyFromColumnName(_settings.ColumnName, typeof(T), out sequence);
             if (pi == null) return items; // this property does not exist
 
             //determine gridColumn sortable:
-            var gridColumn = _grid.Columns.FirstOrDefault(c => c.Name == _settings.ColumnName) as IGridColumn<T>;
-            if (gridColumn == null || !gridColumn.FilterEnabled)
+            var filterByColumn = _grid.Columns.FirstOrDefault(c => c.Name == _settings.ColumnName) as IGridColumn<T>;
+            if (filterByColumn == null || !filterByColumn.FilterEnabled)
                 return items;
 
-            foreach (var columnFilter in gridColumn.Filters)
+            foreach (var columnFilter in filterByColumn.Filters)
             {
                 items = columnFilter.ApplyFilter(items, _settings);
             }

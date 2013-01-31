@@ -35,7 +35,7 @@ namespace GridMvc.Tests.Utility
         {
             Expression<Func<TestModel, string>> expr = m => m.Child.ChildTitle;
             string name = PropertiesHelper.BuildColumnNameFromMemberExpression((MemberExpression)expr.Body);
-            Assert.AreEqual(name, "Child__ChildTitle");
+            Assert.AreEqual(name, "Child.ChildTitle");
 
         }
 
@@ -52,7 +52,7 @@ namespace GridMvc.Tests.Utility
         [TestMethod]
         public void TestGetPropertyFromColumnNameChilds()
         {
-            const string columnName = "Child__ChildTitle";
+            const string columnName = "Child.ChildTitle";
             IEnumerable<PropertyInfo> sequence;
             var pi = PropertiesHelper.GetPropertyFromColumnName(columnName, typeof(TestModel), out sequence);
             Assert.AreEqual(sequence.Count(), 2);

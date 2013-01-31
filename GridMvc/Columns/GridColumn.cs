@@ -89,7 +89,7 @@ namespace GridMvc.Columns
         }
 
         public override bool FilterEnabled { get; set; }
-        public override bool IsFiltered { get; set; }
+
 
         public override IEnumerable<IColumnFilter<T>> Filters
         {

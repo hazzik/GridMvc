@@ -61,4 +61,5 @@ namespace GridMvc.Sample.Models
 
         //public virtual Shipper Shipper { get; set; }
     }
+
 }

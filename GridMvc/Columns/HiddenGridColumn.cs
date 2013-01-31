@@ -66,12 +66,6 @@ namespace GridMvc.Columns
             set { }
         }
 
-        public override bool IsFiltered
-        {
-            get { return false; }
-            set { }
-        }
-
         public override IEnumerable<IColumnFilter<T>> Filters
         {
             get { return Enumerable.Empty<IColumnFilter<T>>(); }

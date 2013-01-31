@@ -53,9 +53,10 @@
                                               .Titled("Vip customer")
                                               .RenderValueAs(o => CustomRenderingOfColumn(o));
 
+
                                       }).SetRowCssClasses(item => item.Customer.IsVip ? "warning" : string.Empty).WithPaging(15, 6).Sortable().Filterable()
 
-     
+
 </div>
 <div id="order-info" style="float: right; width: 270px;">
 

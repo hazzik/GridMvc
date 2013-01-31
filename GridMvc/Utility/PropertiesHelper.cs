@@ -12,7 +12,7 @@ namespace GridMvc.Utility
     /// </summary>
     internal static class PropertiesHelper
     {
-        private const string PropertiesQueryStringDelimeter = "__";
+        private const string PropertiesQueryStringDelimeter = ".";
 
         public static string BuildColumnNameFromMemberExpression(MemberExpression memberExpr)
         {

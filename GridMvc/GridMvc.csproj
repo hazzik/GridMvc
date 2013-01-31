@@ -58,6 +58,7 @@
     <Compile Include="DataAnnotations\GridColumnAttribute.cs" />
     <Compile Include="DataAnnotations\GridHiddenColumnAttribute.cs" />
     <Compile Include="DataAnnotations\NotMappedColumnAttribute.cs" />
+    <Compile Include="Filtering\CustomFilterSettings.cs" />
     <Compile Include="Filtering\DefaultColumnFilter.cs" />
     <Compile Include="Filtering\Types\BooleanFilterType.cs" />
     <Compile Include="Filtering\Types\ByteFilterType.cs" />

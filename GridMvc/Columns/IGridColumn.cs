@@ -159,6 +159,13 @@ namespace GridMvc.Columns
         IGridColumn<T> Filterable(bool enalbe);
 
         /// <summary>
+        /// Set up initial filter for this column
+        /// </summary>
+        /// <param name="type">Filter type</param>
+        /// <param name="value">Filter value</param>
+        IGridColumn<T> SetInitialFilter(GridFilterType type, string value);
+
+        /// <summary>
         /// Specify custom filter widget type for this column
         /// </summary>
         /// <param name="typeName">Widget type name</param>
@@ -173,9 +180,9 @@ namespace GridMvc.Columns
         bool FilterEnabled { get; }
 
         /// <summary>
-        /// Is current column filtered
+        /// Initial filter settings for the column
         /// </summary>
-        bool IsFiltered { get; set; }
+        IGridFilterSettings InitialFilterSettings { get; set; }
 
         string FilterWidgetTypeName { get; }
     }

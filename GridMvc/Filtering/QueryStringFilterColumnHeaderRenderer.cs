@@ -36,14 +36,20 @@ namespace GridMvc.Filtering
         {
             if (!column.FilterEnabled)
                 return string.Empty;
+
+            IGridFilterSettings filterSettings = _settings.IsEmpty && column.InitialFilterSettings != null
+                                                     ? column.InitialFilterSettings
+                                                     : _settings;
+
             var filterType = GridFilterType.Equals;
             string value = string.Empty;
             bool isColumnFiltered = false;
-            if (column.Name == _settings.ColumnName)
+            if (column.Name == filterSettings.ColumnName)
             {
                 //filter on this column:
-                filterType = _settings.Type;
-                value = _settings.Value;
+                filterType = filterSettings.Type;
+
+                value = filterSettings.Value;
                 isColumnFiltered = true;
             }
             //determine current url:
@@ -61,7 +67,7 @@ namespace GridMvc.Filtering
                                  Strings.FilterButtonTooltipText,
                                  column.FilterWidgetTypeName,
                                  column.Name,
-                                 (int) filterType,
+                                 (int)filterType,
                                  value,
                                  url,
                                  isColumnFiltered ? FilteredButtonCssClass : string.Empty);
