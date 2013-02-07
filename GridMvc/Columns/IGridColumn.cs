@@ -69,7 +69,7 @@ namespace GridMvc.Columns
         /// <summary>
         /// Internal name of the gridColumn
         /// </summary>
-        string Name { get; }
+        string Name { get; set; }
 
         /// <summary>
         /// Width of the column

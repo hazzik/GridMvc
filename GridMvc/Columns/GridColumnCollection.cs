@@ -30,12 +30,19 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> Add(bool hidden)
         {
-            return Add((Expression<Func<T, string>>) null, hidden);
+            return Add((Expression<Func<T, string>>)null, hidden);
         }
 
         public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint)
         {
             return Add(constraint, false);
+        }
+
+        public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint, string columnName)
+        {
+            var addedColumn = Add(constraint, false);
+            addedColumn.Name = columnName;
+            return addedColumn;
         }
 
         public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint, bool hidden)
@@ -83,6 +90,13 @@ namespace GridMvc.Columns
         public IGridColumn<T> Insert<TKey>(int position, Expression<Func<T, TKey>> constraint)
         {
             return Insert(position, constraint, false);
+        }
+
+        public IGridColumn<T> Insert<TKey>(int position, Expression<Func<T, TKey>> constraint, string columnName)
+        {
+            var addedColumn = Insert(position, constraint, false);
+            addedColumn.Name = columnName;
+            return addedColumn;
         }
 
         public IGridColumn<T> Insert<TKey>(int position, Expression<Func<T, TKey>> constraint, bool hidden)

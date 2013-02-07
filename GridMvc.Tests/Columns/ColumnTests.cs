@@ -49,5 +49,13 @@ namespace GridMvc.Tests.Columns
             _grid.Columns.Add(x => x.Created, true);
             Assert.AreEqual(_grid.Columns.Count(), 5);
         }
+
+        [TestMethod]
+        public void TestColumnInternalNameSetup()
+        {
+            const string name = "MyId";
+            var column = _grid.Columns.Add(x => x.Id, name);
+            Assert.AreEqual(column.Name, name);
+        }
     }
 }

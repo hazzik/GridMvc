@@ -17,14 +17,14 @@ namespace GridMvc.Columns
         /// <summary>
         /// Add new column to the grid, without specifying model property. Using this you must specify RenderValueAs method.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Added column</returns>
         IGridColumn<T> Add();
 
         /// <summary>
         /// Add new column to the grid, without specifying model property. Using this you must specify RenderValueAs method.
         /// </summary>
         /// <param name="hidden">Hidden column not display in grid, but you can get values from client side</param>
-        /// <returns></returns>
+        /// <returns>Added column</returns>
         IGridColumn<T> Add(bool hidden);
 
         /// <summary>
@@ -33,6 +33,14 @@ namespace GridMvc.Columns
         /// <param name="constraint">Member of generic class</param>
         /// <returns>Added column</returns>
         IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint);
+
+        /// <summary>
+        /// Add new column to the grid
+        /// </summary>
+        /// <param name="constraint">Member of generic class</param>
+        /// <param name="columnName">Specify column internal static name, used for sorting and filtering</param>
+        /// <returns>Added column</returns>
+        IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint, string columnName);
 
         /// <summary>
         /// Add new column to the grid
@@ -63,6 +71,15 @@ namespace GridMvc.Columns
         /// <param name="constraint">Member of generic class</param>
         /// <returns>Added column</returns>
         IGridColumn<T> Insert<TKey>(int position, Expression<Func<T, TKey>> constraint);
+
+        /// <summary>
+        /// Add new column to the grid
+        /// </summary>
+        /// <param name="position">Position to insert</param>
+        /// <param name="constraint">Member of generic class</param>
+        /// <param name="columnName">Specify column internal static name, used for sorting and filtering</param>
+        /// <returns>Added column</returns>
+        IGridColumn<T> Insert<TKey>(int position, Expression<Func<T, TKey>> constraint, string columnName);
 
         /// <summary>
         /// Add new column to the grid

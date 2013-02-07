@@ -10,6 +10,11 @@ namespace GridMvc
     public interface IGrid
     {
         /// <summary>
+        /// Return Grid unigue Id
+        /// </summary>
+        string Id { get; }
+
+        /// <summary>
         /// Grid columns
         /// </summary>
         IGridColumnCollection Columns { get; }

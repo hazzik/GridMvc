@@ -9,7 +9,7 @@ namespace GridMvc.Html
 {
     public static class GridExtensions
     {
-        private const string DefaultPartialViewName = "_Grid";
+        internal const string DefaultPartialViewName = "_Grid";
 
         public static IGridHtmlOptions<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items)
             where T : class
@@ -20,7 +20,14 @@ namespace GridMvc.Html
         public static IGridHtmlOptions<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items, string viewName)
             where T : class
         {
-            var options = new GridHtmlOptions<T>(items.AsQueryable(), helper.ViewContext, viewName);
+            return Grid(helper, items, GridRenderOptions.Create(string.Empty, viewName));
+        }
+
+        public static IGridHtmlOptions<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items, GridRenderOptions renderOptions)
+            where T : class
+        {
+            var options = new GridHtmlOptions<T>(items.AsQueryable(), helper.ViewContext, renderOptions.ViewName);
+            options.Id = renderOptions.GridId;
             return options;
         }
 

@@ -82,6 +82,7 @@
     <Compile Include="GridBase.cs" />
     <Compile Include="Html\GridExtensions.cs" />
     <Compile Include="Html\GridHtmlOptions.cs" />
+    <Compile Include="Html\GridRenderOptions.cs" />
     <Compile Include="Html\IGridHtmlOptions.cs" />
     <Compile Include="ISanitizer.cs" />
     <Compile Include="Resources\Strings.it.Designer.cs">
@@ -118,6 +119,7 @@
     <Compile Include="Sorting\OrderByGridOrderer.cs" />
     <Compile Include="Sorting\IColumnOrderer.cs" />
     <Compile Include="Sorting\ThenByColumnOrderer.cs" />
+    <Compile Include="Utility\Helpers.cs" />
     <Compile Include="Utility\PropertiesHelper.cs" />
     <Compile Include="Columns\GridColumn.cs" />
     <Compile Include="Grid.cs" />

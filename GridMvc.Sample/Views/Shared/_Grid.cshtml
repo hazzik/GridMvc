@@ -6,8 +6,9 @@
 }
 @{
     Model.OnPreRender();/* Select items from collection */
+    var gridClinetId = "grid-mvc-" + Model.Id;
 }
-<div id="grid-mvc" class="grid-outer @(Model.EnablePaging ? "paged" : string.Empty)">
+<div id="@gridClinetId" class="grid-outer @(Model.EnablePaging ? "paged" : string.Empty)">
     @* Draw grid top items infomation panel *@
     <div class="grid-wrap">
         <table class="table table-striped grid-table" data-lang="@Model.Language">
@@ -59,5 +60,9 @@
 </div>
 @* Init Grid.Mvc client script *@
 <script>
-    window.gridMvcControl = $("#grid-mvc").gridmvc();
+    var grid = $("#@gridClinetId").gridmvc();
+    window.gridMvcControl = grid;//when using only 1 grid on the page
+    if (typeof (window.pageGrids) == 'undefined')
+        window.pageGrids = {};
+    window.pageGrids['@Model.Id'] = grid;
 </script>

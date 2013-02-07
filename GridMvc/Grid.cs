@@ -47,6 +47,23 @@ namespace GridMvc
             ApplyGridSettings();
         }
 
+        private string _id;
+        public string Id
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_id))
+                {
+                    _id = Helpers.GenerateGridId();
+                }
+                return _id;
+            }
+            set
+            {
+                _id = string.IsNullOrEmpty(value) ? Helpers.GenerateGridId() : Helpers.SanitizeGridId(value);
+            }
+        }
+
         /// <summary>
         /// Grid columns collection
         /// </summary>
@@ -161,7 +178,7 @@ namespace GridMvc
         /// </summary>
         private void ApplyGridSettings()
         {
-            var opt = typeof (T).GetAttribute<GridTableAttribute>();
+            var opt = typeof(T).GetAttribute<GridTableAttribute>();
             if (opt == null) return;
             EnablePaging = opt.PagingEnabled;
             if (opt.PageSize > 0)
@@ -190,7 +207,7 @@ namespace GridMvc
         /// </summary>
         public virtual void AutoGenerateColumns()
         {
-            PropertyInfo[] properties = typeof (T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (PropertyInfo pi in properties)
             {
                 if (pi.CanRead)
