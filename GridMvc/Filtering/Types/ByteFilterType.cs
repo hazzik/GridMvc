@@ -3,12 +3,12 @@
 namespace GridMvc.Filtering.Types
 {
     /// <summary>
-    /// Object contains some logic for filtering Byte columns
+    ///     Object contains some logic for filtering Byte columns
     /// </summary>
     internal sealed class ByteFilterType : FilterTypeBase
     {
         /// <summary>
-        /// Get target filter type
+        ///     Get target filter type
         /// </summary>
         /// <returns></returns>
         public override Type TargetType

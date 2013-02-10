@@ -6,8 +6,8 @@ using GridMvc.Utility;
 namespace GridMvc.Sorting
 {
     /// <summary>
-    /// Renderer for sortable column.
-    /// Object renders column name as link
+    ///     Renderer for sortable column.
+    ///     Object renders column name as link
     /// </summary>
     internal class QueryStringSortColumnHeaderRenderer : GridHeaderRenderer
     {
@@ -52,11 +52,11 @@ namespace GridMvc.Sorting
             var builder = new CustomQueryStringBuilder(_settings.Context.Request.QueryString);
             string url =
                 builder.GetQueryStringExcept(new[]
-                                                 {
-                                                     GridPager.DefaultPageQueryParameter,
-                                                     _settings.ColumnQueryParameterName,
-                                                     _settings.DirectionQueryParameterName
-                                                 });
+                    {
+                        GridPager.DefaultPageQueryParameter,
+                        _settings.ColumnQueryParameterName,
+                        _settings.DirectionQueryParameterName
+                    });
             if (string.IsNullOrEmpty(url))
                 url = "?";
             else

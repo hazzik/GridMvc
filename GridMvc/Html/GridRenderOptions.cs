@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GridMvc.Html
+﻿namespace GridMvc.Html
 {
     public class GridRenderOptions
     {
@@ -14,12 +9,12 @@ namespace GridMvc.Html
         }
 
         /// <summary>
-        /// Specify partial view name for render grid
+        ///     Specify partial view name for render grid
         /// </summary>
         public string ViewName { get; set; }
 
         /// <summary>
-        /// Specify grid Id on the client side
+        ///     Specify grid Id on the client side
         /// </summary>
         public string GridId { get; set; }
 

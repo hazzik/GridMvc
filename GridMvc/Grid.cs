@@ -11,15 +11,17 @@ using GridMvc.Utility;
 namespace GridMvc
 {
     /// <summary>
-    /// Grid.Mvc base class
+    ///     Grid.Mvc base class
     /// </summary>
     public class Grid<T> : GridBase<T>, IGrid where T : class
     {
         private readonly GridColumnCollection<T> _columnsCollection;
-        private SortGridItemsProcessor<T> _currentSortItemsProcessor;
+        private readonly FilterGridItemsProcessor<T> _currentFilterItemsProcessor;
+        private readonly SortGridItemsProcessor<T> _currentSortItemsProcessor;
 
         private int _displayingItemsCount = -1; // count of displaying items (if using pagination)
         private bool _enablePaging;
+        private string _id;
         private IGridPager _pager;
 
         private IGridItemsProcessor<T> _pagerProcessor;
@@ -28,15 +30,18 @@ namespace GridMvc
         public Grid(IQueryable<T> items)
             : base(items)
         {
-            AddItemsPreProcessor(new FilterGridItemsProcessor<T>(this, new QueryStringFilterSettings()));
-
             #region init default properties
 
             //set up sort settings:
-            Settings = new QueryStringGridSettingsProvider();
+            _settings = new QueryStringGridSettingsProvider();
             Sanitizer = new Sanitizer();
             EmptyGridText = Strings.DefaultGridEmptyText;
             Language = Strings.Lang;
+
+            _currentSortItemsProcessor = new SortGridItemsProcessor<T>(this, _settings.SortSettings);
+            _currentFilterItemsProcessor = new FilterGridItemsProcessor<T>(this, _settings.FilterSettings);
+            AddItemsPreProcessor(_currentFilterItemsProcessor);
+            InsertItemsProcessor(0, _currentSortItemsProcessor);
 
             #endregion
 
@@ -47,33 +52,16 @@ namespace GridMvc
             ApplyGridSettings();
         }
 
-        private string _id;
-        public string Id
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_id))
-                {
-                    _id = Helpers.GenerateGridId();
-                }
-                return _id;
-            }
-            set
-            {
-                _id = string.IsNullOrEmpty(value) ? Helpers.GenerateGridId() : Helpers.SanitizeGridId(value);
-            }
-        }
-
         /// <summary>
-        /// Grid columns collection
+        ///     Grid columns collection
         /// </summary>
-        public IGridColumnCollection<T> Columns
+        public override IGridColumnCollection<T> Columns
         {
             get { return _columnsCollection; }
         }
 
         /// <summary>
-        /// Sets or get default value of sorting for all adding columns
+        ///     Sets or get default value of sorting for all adding columns
         /// </summary>
         public bool DefaultSortEnabled
         {
@@ -82,7 +70,7 @@ namespace GridMvc
         }
 
         /// <summary>
-        /// Set or get default value of filtering for all adding columns
+        ///     Set or get default value of filtering for all adding columns
         /// </summary>
         public bool DefaultFilteringEnabled
         {
@@ -91,24 +79,26 @@ namespace GridMvc
         }
 
         /// <summary>
-        /// Provides settings, using by the grid
+        ///     Provides settings, using by the grid
         /// </summary>
-        public IGridSettingsProvider Settings
+        public override IGridSettingsProvider Settings
         {
             get { return _settings; }
             set
             {
                 _settings = value;
-                RemoveItemsProcessor(_currentSortItemsProcessor);
-                _currentSortItemsProcessor = new SortGridItemsProcessor<T>(this, _settings.SortSettings);
-                InsertItemsProcessor(0, _currentSortItemsProcessor);
+                _currentSortItemsProcessor.UpdateSettings(_settings.SortSettings);
+                _currentFilterItemsProcessor.UpdateSettings(_settings.FilterSettings);
+                //RemoveItemsProcessor(_currentSortItemsProcessor);
+                //_currentSortItemsProcessor = new SortGridItemsProcessor<T>(this, _settings.SortSettings);
+                //InsertItemsProcessor(0, _currentSortItemsProcessor);
             }
         }
 
         #region IGrid Members
 
         /// <summary>
-        /// Count of current displaying items
+        ///     Count of current displaying items
         /// </summary>
         public int DisplayingItemsCount
         {
@@ -122,7 +112,7 @@ namespace GridMvc
         }
 
         /// <summary>
-        /// Enable or disable paging for the grid
+        ///     Enable or disable paging for the grid
         /// </summary>
         public bool EnablePaging
         {
@@ -147,18 +137,19 @@ namespace GridMvc
         public string Language { get; set; }
 
         /// <summary>
-        /// Gets or set Grid column values sanitizer
+        ///     Gets or set Grid column values sanitizer
         /// </summary>
         public ISanitizer Sanitizer { get; set; }
 
         public void OnPreRender()
         {
-            ProcessColumns();
-            ProcessItemsToDisplay();
+            //backward compatibility
+            //ProcessColumns();
+            //ProcessItemsToDisplay();
         }
 
         /// <summary>
-        /// Manage pager properties
+        ///     Manage pager properties
         /// </summary>
         public IGridPager Pager
         {
@@ -168,17 +159,34 @@ namespace GridMvc
 
         IGridColumnCollection IGrid.Columns
         {
-            get { return _columnsCollection; }
+            get
+            {
+                ProcessColumns();
+                return _columnsCollection;
+            }
         }
 
         #endregion
 
+        public string Id
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_id))
+                {
+                    _id = Helpers.GenerateGridId();
+                }
+                return _id;
+            }
+            set { _id = string.IsNullOrEmpty(value) ? Helpers.GenerateGridId() : Helpers.SanitizeGridId(value); }
+        }
+
         /// <summary>
-        /// Applies data annotations settings
+        ///     Applies data annotations settings
         /// </summary>
         private void ApplyGridSettings()
         {
-            var opt = typeof(T).GetAttribute<GridTableAttribute>();
+            var opt = typeof (T).GetAttribute<GridTableAttribute>();
             if (opt == null) return;
             EnablePaging = opt.PagingEnabled;
             if (opt.PageSize > 0)
@@ -187,27 +195,13 @@ namespace GridMvc
                 Pager.MaxDisplayedPages = opt.PagingMaxDisplayedPages;
         }
 
-        private void ProcessColumns()
-        {
-            if (!string.IsNullOrEmpty(Settings.SortSettings.ColumnName))
-            {
-                foreach (IGridColumn gridColumn in Columns)
-                {
-                    gridColumn.IsSorted = gridColumn.Name == Settings.SortSettings.ColumnName;
-                    if (gridColumn.Name == Settings.SortSettings.ColumnName)
-                        gridColumn.Direction = Settings.SortSettings.Direction;
-                    else
-                        gridColumn.Direction = null;
-                }
-            }
-        }
 
         /// <summary>
-        /// Generates columns for all properties of the model
+        ///     Generates columns for all properties of the model
         /// </summary>
         public virtual void AutoGenerateColumns()
         {
-            PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo[] properties = typeof (T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (PropertyInfo pi in properties)
             {
                 if (pi.CanRead)

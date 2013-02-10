@@ -3,12 +3,12 @@
 namespace GridMvc.Filtering.Types
 {
     /// <summary>
-    /// Object builds filter expressions for boolean grid columns
+    ///     Object builds filter expressions for boolean grid columns
     /// </summary>
     internal sealed class BooleanFilterType : FilterTypeBase
     {
         /// <summary>
-        /// Get target filter type
+        ///     Get target filter type
         /// </summary>
         /// <returns></returns>
         public override Type TargetType

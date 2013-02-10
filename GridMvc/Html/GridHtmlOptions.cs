@@ -8,7 +8,7 @@ using GridMvc.Pagination;
 namespace GridMvc.Html
 {
     /// <summary>
-    /// Grid adapter for html helper
+    ///     Grid adapter for html helper
     /// </summary>
     public class GridHtmlOptions<T> : Grid<T>, IGridHtmlOptions<T> where T : class
     {
@@ -57,7 +57,7 @@ namespace GridMvc.Html
             EnablePaging = true;
             Pager.PageSize = pageSize;
             Pager.MaxDisplayedPages = maxDisplayedItems;
-            ((GridPager) Pager).QueryParameterName = queryStringParameterName;
+            ((GridPager) Pager).ParameterName = queryStringParameterName;
             return this;
         }
 
@@ -114,8 +114,8 @@ namespace GridMvc.Html
         }
 
         /// <summary>
-        /// Generates columns for all properties of the model.
-        /// Use data annotations to customize columns
+        ///     Generates columns for all properties of the model.
+        ///     Use data annotations to customize columns
         /// </summary>
         public new IGridHtmlOptions<T> AutoGenerateColumns()
         {
@@ -136,12 +136,12 @@ namespace GridMvc.Html
                 ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(context, viewName);
                 var newViewContext = new ViewContext(context, viewResult.View, viewContext.ViewData,
                                                      viewContext.TempData, sw)
-                                         {
-                                             ViewData =
-                                                 {
-                                                     Model = model
-                                                 }
-                                         };
+                    {
+                        ViewData =
+                            {
+                                Model = model
+                            }
+                    };
                 viewResult.View.Render(newViewContext, sw);
                 return sw.GetStringBuilder().ToString();
             }

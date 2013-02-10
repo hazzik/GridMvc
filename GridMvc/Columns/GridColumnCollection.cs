@@ -7,7 +7,7 @@ using System.Reflection;
 namespace GridMvc.Columns
 {
     /// <summary>
-    /// Collection of collumns
+    ///     Collection of collumns
     /// </summary>
     public class GridColumnCollection<T> : KeyedCollection<string, IGridColumn>, IGridColumnCollection<T>
     {
@@ -30,7 +30,7 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> Add(bool hidden)
         {
-            return Add((Expression<Func<T, string>>)null, hidden);
+            return Add((Expression<Func<T, string>>) null, hidden);
         }
 
         public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint)
@@ -40,7 +40,7 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint, string columnName)
         {
-            var addedColumn = Add(constraint, false);
+            IGridColumn<T> addedColumn = Add(constraint, false);
             addedColumn.Name = columnName;
             return addedColumn;
         }
@@ -94,7 +94,7 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> Insert<TKey>(int position, Expression<Func<T, TKey>> constraint, string columnName)
         {
-            var addedColumn = Insert(position, constraint, false);
+            IGridColumn<T> addedColumn = Insert(position, constraint, false);
             addedColumn.Name = columnName;
             return addedColumn;
         }

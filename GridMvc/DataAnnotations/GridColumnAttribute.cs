@@ -4,7 +4,7 @@ using GridMvc.Sorting;
 namespace GridMvc.DataAnnotations
 {
     /// <summary>
-    /// Marks property as Grid.Mvc column, with specified parameters
+    ///     Marks property as Grid.Mvc column, with specified parameters
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class GridColumnAttribute : Attribute
@@ -19,49 +19,49 @@ namespace GridMvc.DataAnnotations
         }
 
         /// <summary>
-        /// Sets or get the column title
+        ///     Sets or get the column title
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// Specify that content of this column need to be encoded
+        ///     Specify that content of this column need to be encoded
         /// </summary>
         public bool EncodeEnabled { get; set; }
 
         /// <summary>
-        /// Specify that content of this column need to be sanitized
+        ///     Specify that content of this column need to be sanitized
         /// </summary>
         public bool SanitizeEnabled { get; set; }
 
         /// <summary>
-        /// Enable or disable column sorting
+        ///     Enable or disable column sorting
         /// </summary>
         public bool SortEnabled { get; set; }
 
         /// <summary>
-        /// Enable or disable column filtering
+        ///     Enable or disable column filtering
         /// </summary>
         public bool FilterEnabled { get; set; }
 
         /// <summary>
-        /// Specify the format of column data
+        ///     Specify the format of column data
         /// </summary>
         public string Format { get; set; }
 
         /// <summary>
-        /// Sets or get column width,
-        /// Sample: "100px", "13%" ...
+        ///     Sets or get column width,
+        ///     Sample: "100px", "13%" ...
         /// </summary>
         public string Width { get; set; }
 
         /// <summary>
-        /// Sets or get column custom filter widget type
+        ///     Sets or get column custom filter widget type
         /// </summary>
         public string FilterWidgetType { get; set; }
 
 
         /// <summary>
-        /// Sets or get sort initial direction
+        ///     Sets or get sort initial direction
         /// </summary>
         public GridSortDirection SortInitialDirection
         {

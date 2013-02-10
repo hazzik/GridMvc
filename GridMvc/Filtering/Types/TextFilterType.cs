@@ -5,7 +5,7 @@ using System.Reflection;
 namespace GridMvc.Filtering.Types
 {
     /// <summary>
-    /// Object builds filter expressions for text (string) grid columns
+    ///     Object builds filter expressions for text (string) grid columns
     /// </summary>
     internal sealed class TextFilterType : FilterTypeBase
     {

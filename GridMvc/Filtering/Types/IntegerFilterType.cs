@@ -3,7 +3,7 @@
 namespace GridMvc.Filtering.Types
 {
     /// <summary>
-    /// Object contains some logic for filtering Int32 columns
+    ///     Object contains some logic for filtering Int32 columns
     /// </summary>
     internal sealed class IntegerFilterType : FilterTypeBase
     {

@@ -4,7 +4,7 @@ using System.Globalization;
 namespace GridMvc.Filtering.Types
 {
     /// <summary>
-    /// Object contains some logic for filtering DateTime columns
+    ///     Object contains some logic for filtering DateTime columns
     /// </summary>
     internal sealed class DateTimeFilterType : FilterTypeBase
     {
@@ -14,7 +14,7 @@ namespace GridMvc.Filtering.Types
         }
 
         /// <summary>
-        /// There are filter types that allowed for DateTime column
+        ///     There are filter types that allowed for DateTime column
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>

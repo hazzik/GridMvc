@@ -3,7 +3,7 @@
 namespace GridMvc
 {
     /// <summary>
-    /// Object to render the content
+    ///     Object to render the content
     /// </summary>
     public interface IGridColumnRenderer
     {

@@ -1,22 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Reflection;
 using GridMvc.Columns;
-using GridMvc.Utility;
 
 namespace GridMvc.Filtering
 {
     /// <summary>
-    /// Grid items filter proprocessor
+    ///     Grid items filter proprocessor
     /// </summary>
     internal class FilterGridItemsProcessor<T> : IGridItemsProcessor<T> where T : class
     {
         private readonly IGrid _grid;
-        private readonly IGridFilterSettings _settings;
+        private IGridFilterSettings _settings;
 
         public FilterGridItemsProcessor(IGrid grid, IGridFilterSettings settings)
         {
+            if (settings == null)
+                throw new ArgumentNullException("settings");
             _grid = grid;
+            _settings = settings;
+        }
+
+        public void UpdateSettings(IGridFilterSettings settings)
+        {
+            if (settings == null)
+                throw new ArgumentNullException("settings");
             _settings = settings;
         }
 
@@ -27,7 +34,7 @@ namespace GridMvc.Filtering
             if (_settings.IsEmpty)
             {
                 //filter not set
-                foreach (var column in _grid.Columns)
+                foreach (IGridColumn column in _grid.Columns)
                 {
                     var gridColumn = column as IGridColumn<T>;
                     if (gridColumn == null) continue;
@@ -39,9 +46,6 @@ namespace GridMvc.Filtering
                 }
                 return items;
             }
-            IEnumerable<PropertyInfo> sequence;
-            PropertyInfo pi = PropertiesHelper.GetPropertyFromColumnName(_settings.ColumnName, typeof(T), out sequence);
-            if (pi == null) return items; // this property does not exist
 
             //determine gridColumn sortable:
             var filterByColumn = _grid.Columns.FirstOrDefault(c => c.Name == _settings.ColumnName) as IGridColumn<T>;

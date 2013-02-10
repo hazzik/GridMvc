@@ -10,30 +10,32 @@ using GridMvc.Utility;
 namespace GridMvc.Columns
 {
     /// <summary>
-    /// Default implementation of Grid column
+    ///     Default implementation of Grid column
     /// </summary>
     public class GridColumn<T, TDataType> : GridColumnBase<T> where T : class
     {
         /// <summary>
-        /// Expression to member, used for this column
+        ///     Expression to member, used for this column
         /// </summary>
         private readonly Func<T, TDataType> _constraint;
 
         /// <summary>
-        /// Filters and orderers collection for this columns
+        ///     Filters and orderers collection for this columns
         /// </summary>
         private readonly List<IColumnFilter<T>> _filters = new List<IColumnFilter<T>>();
 
         /// <summary>
-        /// Parent grid of this column
+        ///     Parent grid of this column
         /// </summary>
         private readonly Grid<T> _grid;
 
         private readonly List<IColumnOrderer<T>> _orderers = new List<IColumnOrderer<T>>();
 
-
         private IGridColumnRenderer _cellRenderer;
         private string _filterWidgetTypeName;
+        private bool? _isSorted;
+        private GridSortDirection? _sortDirection;
+        private bool _sortDirectionIsSet;
 
         public GridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {
@@ -99,6 +101,48 @@ namespace GridMvc.Columns
         public override string FilterWidgetTypeName
         {
             get { return _filterWidgetTypeName; }
+        }
+
+        //public override bool IsSorted
+        //{
+        //    get
+        //    {
+        //        if (!_isSorted.HasValue)
+        //        {
+        //            if (string.IsNullOrEmpty(Name)) return false;
+        //            _isSorted = _grid.Settings.SortSettings.ColumnName.ToUpper() == Name.ToUpper();
+        //        }
+        //        return _isSorted.Value;
+        //    }
+        //    set { _isSorted = value; }
+        //}
+
+        //public override GridSortDirection? Direction
+        //{
+        //    get
+        //    {
+        //        if (!_sortDirectionIsSet)
+        //        {
+        //            _sortDirectionIsSet = true;
+        //            if (string.IsNullOrEmpty(Name))
+        //                return null;
+        //            if (Name.ToUpper() == _grid.Settings.SortSettings.ColumnName.ToUpper())
+        //                _sortDirection = _grid.Settings.SortSettings.Direction;
+        //            else
+        //                _sortDirection = null;
+        //        }
+        //        return _sortDirection;
+        //    }
+        //    set
+        //    {
+        //        _sortDirectionIsSet = true;
+        //        _sortDirection = value;
+        //    }
+        //}
+
+        public override IGrid ParentGrid
+        {
+            get { return _grid; }
         }
 
         public override IGridColumn<T> SetFilterWidgetType(string typeName)

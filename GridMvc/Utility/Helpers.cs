@@ -10,7 +10,7 @@ namespace GridMvc.Utility
         public static string GenerateGridId()
         {
             var rng = new Random();
-            char[] buffer = new char[IdSize];
+            var buffer = new char[IdSize];
 
             for (int i = 0; i < IdSize; i++)
             {
@@ -21,7 +21,7 @@ namespace GridMvc.Utility
 
         public static string SanitizeGridId(string id)
         {
-            return id.Replace(" ", string.Empty);//TODO add other sanitize rules
+            return id.Replace(" ", string.Empty); //TODO add other sanitize rules
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 namespace GridMvc.Sorting
 {
     /// <summary>
-    /// Object applies ThenBy and ThenByDescending order for items collection
+    ///     Object applies ThenBy and ThenByDescending order for items collection
     /// </summary>
     internal class ThenByColumnOrderer<T, TKey> : IColumnOrderer<T>
     {

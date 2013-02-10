@@ -11,7 +11,7 @@ using GridMvc.Utility;
 namespace GridMvc.Columns
 {
     /// <summary>
-    /// Колонка, которая выводит содержимое свойства модели
+    ///     Колонка, которая выводит содержимое свойства модели
     /// </summary>
     public class HiddenGridColumn<T, TDataType> : GridColumnBase<T>
     {
@@ -74,6 +74,14 @@ namespace GridMvc.Columns
         public override string FilterWidgetTypeName
         {
             get { return PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName; }
+        }
+
+        //public override bool IsSorted { get; set; }
+        //public override GridSortDirection? Direction { get; set; }
+
+        public override IGrid ParentGrid
+        {
+            get { return _grid; }
         }
 
         public override IGridColumn<T> SetFilterWidgetType(string typeName)

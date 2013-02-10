@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using GridMvc.Filtering;
 using GridMvc.Sorting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -34,7 +35,18 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Title).Sortable(true);
             if (
-                !ValidateSorting<string, string, object>(_grid, x => x.Title, x => x.Title, "Title",
+                !ValidateSorting<string,  object>(_grid, x => x.Title,  "Title", GridSortDirection.Descending, null, null))
+            {
+                Assert.Fail("Sort works incorrect");
+            }
+        }
+
+        [TestMethod]
+        public void TestSortingStringDescendingWithCustomColumnInternalName()
+        {
+            _grid.Columns.Add(x => x.Title, "someid").Sortable(true);
+            if (
+                !ValidateSorting<string,  object>(_grid, x => x.Title, "someid",
                                                          GridSortDirection.Descending, null, null))
             {
                 Assert.Fail("Sort works incorrect");
@@ -46,7 +58,19 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Title).Sortable(true);
             if (
-                !ValidateSorting<string, string, object>(_grid, x => x.Title, x => x.Title, "Title",
+                !ValidateSorting<string,  object>(_grid, x => x.Title, "Title",
+                                                         GridSortDirection.Ascending, null, null))
+            {
+                Assert.Fail("Sort works incorrect");
+            }
+        }
+
+        [TestMethod]
+        public void TestSortingStringAscendingWithCustomColumnInternalName()
+        {
+            _grid.Columns.Add(x => x.Title, "someid").Sortable(true);
+            if (
+                !ValidateSorting<string,  object>(_grid, x => x.Title, "someid",
                                                          GridSortDirection.Ascending, null, null))
             {
                 Assert.Fail("Sort works incorrect");
@@ -58,7 +82,7 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Id).Sortable(true);
             if (
-                !ValidateSorting<int, int, object>(_grid, x => x.Id, x => x.Id, "Id", GridSortDirection.Ascending, null,
+                !ValidateSorting<int,  object>(_grid, x => x.Id,"Id", GridSortDirection.Ascending, null,
                                                    null))
             {
                 Assert.Fail("Sort works incorrect");
@@ -70,7 +94,7 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Id).Sortable(true);
             if (
-                !ValidateSorting<int, int, object>(_grid, x => x.Id, x => x.Id, "Id", GridSortDirection.Descending, null,
+                !ValidateSorting<int,  object>(_grid, x => x.Id, "Id", GridSortDirection.Descending, null,
                                                    null))
             {
                 Assert.Fail("Sort works incorrect");
@@ -82,8 +106,7 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Child.ChildTitle).Sortable(true);
             if (
-                !ValidateSorting<string, string, object>(_grid, x => x.Child.ChildTitle, x => x.Child.ChildTitle,
-                                                         "Child.ChildTitle", GridSortDirection.Ascending, null, null))
+                !ValidateSorting<string,  object>(_grid, x => x.Child.ChildTitle, "Child.ChildTitle", GridSortDirection.Ascending, null, null))
             {
                 Assert.Fail("Sort works incorrect");
             }
@@ -94,7 +117,7 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Child.ChildTitle).Sortable(true);
             if (
-                !ValidateSorting<string, string, object>(_grid, x => x.Child.ChildTitle, x => x.Child.ChildTitle,
+                !ValidateSorting<string, object>(_grid, x => x.Child.ChildTitle, 
                                                          "Child.ChildTitle", GridSortDirection.Descending, null, null))
             {
                 Assert.Fail("Sort works incorrect");
@@ -106,8 +129,21 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Child.ChildCreated).Sortable(true);
             if (
-                !ValidateSorting<DateTime, DateTime, object>(_grid, x => x.Child.ChildCreated, x => x.Child.ChildCreated,
+                !ValidateSorting<DateTime,  object>(_grid, x => x.Child.ChildCreated, 
                                                              "Child.ChildCreated", GridSortDirection.Descending, null,
+                                                             null))
+            {
+                Assert.Fail("Sort works incorrect");
+            }
+        }
+
+        [TestMethod]
+        public void TestSortingChildDateTimeDescendingWithCustomInternalColumnName()
+        {
+            _grid.Columns.Add(x => x.Child.ChildCreated, "someid").Sortable(true);
+            if (
+                !ValidateSorting<DateTime, object>(_grid, x => x.Child.ChildCreated,
+                                                             "someid", GridSortDirection.Descending, null,
                                                              null))
             {
                 Assert.Fail("Sort works incorrect");
@@ -119,7 +155,7 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Child.ChildCreated).Sortable(true);
             if (
-                !ValidateSorting<DateTime, DateTime, object>(_grid, x => x.Child.ChildCreated, x => x.Child.ChildCreated,
+                !ValidateSorting<DateTime, object>(_grid, x => x.Child.ChildCreated,
                                                              "Child.ChildCreated", GridSortDirection.Ascending, null,
                                                              null))
             {
@@ -132,7 +168,7 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Child.ChildCreated).Sortable(true).ThenSortBy(x => x.Title);
             if (
-                !ValidateSorting(_grid, x => x.Child.ChildCreated, x => x.Title, "Child.ChildCreated",
+                !ValidateSorting(_grid, x => x.Child.ChildCreated,"Child.ChildCreated",
                                  GridSortDirection.Ascending, x => x.Title, GridSortDirection.Ascending))
             {
                 Assert.Fail("Sort works incorrect");
@@ -144,15 +180,15 @@ namespace GridMvc.Tests.Sorting
         {
             _grid.Columns.Add(x => x.Child.ChildCreated).Sortable(true).ThenSortByDescending(x => x.Title);
             if (
-                !ValidateSorting(_grid, x => x.Child.ChildCreated, x => x.Title, "Child.ChildCreated",
+                !ValidateSorting(_grid, x => x.Child.ChildCreated, "Child.ChildCreated",
                                  GridSortDirection.Ascending, x => x.Title, GridSortDirection.Descending))
             {
                 Assert.Fail("Sort works incorrect");
             }
         }
 
-        private bool ValidateSorting<T, TSelect, TNext>(TestGrid grid, Func<TestModel, T> orderExpression,
-                                                        Func<TestModel, TSelect> selectExpression, string columnName,
+        private bool ValidateSorting<T, TNext>(TestGrid grid, Func<TestModel, T> orderExpression,
+                                                        string columnName,
                                                         GridSortDirection direction,
                                                         Func<TestModel, TNext> thenByExpression,
                                                         GridSortDirection? thenByDirection)
@@ -160,9 +196,10 @@ namespace GridMvc.Tests.Sorting
             var settingsMock = new Mock<IGridSettingsProvider>();
             settingsMock.Setup(s => s.SortSettings.ColumnName).Returns(columnName);
             settingsMock.Setup(s => s.SortSettings.Direction).Returns(direction);
+            settingsMock.Setup(s => s.FilterSettings).Returns(new QueryStringFilterSettings());
             grid.Settings = settingsMock.Object;
 
-            IEnumerable<TSelect> resultCollection = _grid.ItemsToDisplay.OfType<TestModel>().Select(selectExpression);
+            IEnumerable<TestModel> resultCollection = _grid.ItemsToDisplay.OfType<TestModel>();
             IOrderedEnumerable<TestModel> etalonCollection;
             switch (direction)
             {
@@ -190,7 +227,7 @@ namespace GridMvc.Tests.Sorting
                 }
             }
 
-            if (!ValidateCollectionsTheSame(resultCollection, etalonCollection.Select(selectExpression)))
+            if (!ValidateCollectionsTheSame(resultCollection, etalonCollection))
             {
                 return false;
             }

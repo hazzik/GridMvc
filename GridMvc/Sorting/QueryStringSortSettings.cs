@@ -4,7 +4,7 @@ using System.Web;
 namespace GridMvc.Sorting
 {
     /// <summary>
-    /// Grid sort settings takes from query string
+    ///     Grid sort settings takes from query string
     /// </summary>
     public class QueryStringSortSettings : IGridSortSettings
     {

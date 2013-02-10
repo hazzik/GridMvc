@@ -5,7 +5,6 @@
     return;
 }
 @{
-    Model.OnPreRender();/* Select items from collection */
     var gridClinetId = "grid-mvc-" + Model.Id;
 }
 <div id="@gridClinetId" class="grid-outer @(Model.EnablePaging ? "paged" : string.Empty)">
@@ -60,9 +59,11 @@
 </div>
 @* Init Grid.Mvc client script *@
 <script>
-    var grid = $("#@gridClinetId").gridmvc();
-    window.gridMvcControl = grid;//when using only 1 grid on the page
-    if (typeof (window.pageGrids) == 'undefined')
-        window.pageGrids = {};
-    window.pageGrids['@Model.Id'] = grid;
+    if (typeof (jQuery) != 'undefined' && typeof (jQuery.fn.gridmvc) != 'undefined') {
+        var grid = $("#@gridClinetId").gridmvc();
+        window.gridMvcControl = grid;//when using only 1 grid on the page
+        if (typeof (window.pageGrids) == 'undefined')
+            window.pageGrids = {};
+        window.pageGrids['@Model.Id'] = grid;
+    }
 </script>

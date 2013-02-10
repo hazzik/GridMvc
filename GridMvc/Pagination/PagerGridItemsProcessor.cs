@@ -3,7 +3,7 @@
 namespace GridMvc.Pagination
 {
     /// <summary>
-    /// Cut's the current page from items collection
+    ///     Cut's the current page from items collection
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class PagerGridItemsProcessor<T> : IGridItemsProcessor<T> where T : class

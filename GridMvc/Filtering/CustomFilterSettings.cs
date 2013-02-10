@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GridMvc.Filtering
+﻿namespace GridMvc.Filtering
 {
     /// <summary>
-    /// Custom filter settings for filtering column
+    ///     Custom filter settings for filtering column
     /// </summary>
     public class CustomFilterSettings : IGridFilterSettings
     {
         private string _columnName;
 
         /// <summary>
-        /// Create custom filter settings
+        ///     Create custom filter settings
         /// </summary>
         /// <param name="type">Filter type</param>
         /// <param name="value">Filter value</param>
@@ -25,7 +20,11 @@ namespace GridMvc.Filtering
 
         public string Value { get; set; }
         public GridFilterType Type { get; set; }
-        public bool IsEmpty { get { return false; } }
+
+        public bool IsEmpty
+        {
+            get { return false; }
+        }
 
         string IGridFilterSettings.ColumnName
         {

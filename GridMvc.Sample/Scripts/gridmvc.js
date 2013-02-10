@@ -131,10 +131,10 @@ GridMvc = (function () {
     */
     gridMvc.prototype.openFilterPopup = function ($context, html) {
         //retrive all column filter parameters from html attrs:
-        var columnType = $(this).attr("data-type");
-        var columnName = $(this).attr("data-name");
-        var filterType = $(this).attr("data-filtertype");
-        var filterValue = $(this).attr("data-filtervalue");
+        var columnType = $(this).attr("data-type") || "";
+        var columnName = $(this).attr("data-name") || "";
+        var filterType = $(this).attr("data-filtertype") || "";
+        var filterValue = $(this).attr("data-filtervalue") || "";
         var filterUrl = $(this).attr("data-url");
 
         //determine widget

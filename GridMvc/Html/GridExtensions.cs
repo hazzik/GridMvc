@@ -23,7 +23,8 @@ namespace GridMvc.Html
             return Grid(helper, items, GridRenderOptions.Create(string.Empty, viewName));
         }
 
-        public static IGridHtmlOptions<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items, GridRenderOptions renderOptions)
+        public static IGridHtmlOptions<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items,
+                                                  GridRenderOptions renderOptions)
             where T : class
         {
             var options = new GridHtmlOptions<T>(items.AsQueryable(), helper.ViewContext, renderOptions.ViewName);

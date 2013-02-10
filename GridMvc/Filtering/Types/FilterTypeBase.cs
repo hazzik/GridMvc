@@ -5,28 +5,28 @@ using System.Reflection;
 namespace GridMvc.Filtering.Types
 {
     /// <summary>
-    /// Base filter type for all filter types
+    ///     Base filter type for all filter types
     /// </summary>
     internal abstract class FilterTypeBase : IFilterType
     {
         #region IFilterType Members
 
         /// <summary>
-        /// Sanitize filter type for specific column data type
+        ///     Sanitize filter type for specific column data type
         /// </summary>
         /// <param name="type">Filter type (equals, contains etc)</param>
         /// <returns>Sanitized filter type</returns>
         public abstract GridFilterType GetValidType(GridFilterType type);
 
         /// <summary>
-        /// Return typed object from text representation (query string parameter value)
+        ///     Return typed object from text representation (query string parameter value)
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public abstract object GetTypedValue(string value);
 
         /// <summary>
-        /// Get target filter type
+        ///     Get target filter type
         /// </summary>
         /// <returns></returns>
         public abstract Type TargetType { get; }

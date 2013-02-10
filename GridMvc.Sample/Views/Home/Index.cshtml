@@ -33,7 +33,6 @@
                    .Sanitized(false)
                    .SetWidth(30)
                    .RenderValueAs(d => Html.ActionLink("Edit", "Index"));
-
             /* Adding "OrderID" column: */
             columns.Add(o => o.OrderID)
                    .Titled("Number")
@@ -45,7 +44,7 @@
                    .Format("{0:dd/MM/yyyy}")
                    .SetWidth(110);
             /* Adding "CompanyName" column: */
-            columns.Add(o => o.Customer.CompanyName)
+            columns.Add(o => o.Customer.CompanyName, "pop")
                    .Titled("Company Name")
                    .ThenSortByDescending(o => o.OrderID)
                    .SetFilterWidgetType("CustomCompanyNameFilterWidget");
@@ -59,7 +58,6 @@
         }).SetRowCssClasses(item => item.Customer.IsVip ? "warning" : string.Empty).WithPaging(15, 6).Sortable().Filterable()
 
 </div>
-
 
 <div id="order-info" style="float: right; width: 270px;">
 

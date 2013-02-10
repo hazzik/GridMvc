@@ -7,7 +7,7 @@ using GridMvc.Utility;
 namespace GridMvc.Columns
 {
     /// <summary>
-    /// Default grid columns builder. Creates the columns from expression
+    ///     Default grid columns builder. Creates the columns from expression
     /// </summary>
     internal class DefaultColumnBuilder<T> : IColumnBuilder<T> where T : class
     {
@@ -33,7 +33,7 @@ namespace GridMvc.Columns
         }
 
         /// <summary>
-        /// Creates column from property info using reflection
+        ///     Creates column from property info using reflection
         /// </summary>
         public IGridColumn<T> CreateColumn(PropertyInfo pi)
         {

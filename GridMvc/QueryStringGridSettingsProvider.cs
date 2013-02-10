@@ -4,7 +4,7 @@ using GridMvc.Sorting;
 namespace GridMvc
 {
     /// <summary>
-    /// Provider of grid settings, based on query string parameters
+    ///     Provider of grid settings, based on query string parameters
     /// </summary>
     public class QueryStringGridSettingsProvider : IGridSettingsProvider
     {
@@ -31,6 +31,11 @@ namespace GridMvc
         public IGridSortSettings SortSettings
         {
             get { return _sortSettings; }
+        }
+
+        public IGridFilterSettings FilterSettings
+        {
+            get { return _filterSettings; }
         }
 
         #endregion

@@ -6,7 +6,7 @@ using GridMvc.Utility;
 namespace GridMvc.Pagination
 {
     /// <summary>
-    /// Default grid pager implementation
+    ///     Default grid pager implementation
     /// </summary>
     public class GridPager : IGridPager
     {
@@ -34,13 +34,13 @@ namespace GridMvc.Pagination
             _queryBuilder = new CustomQueryStringBuilder(HttpContext.Current.Request.QueryString);
 
             MaxDisplayedPages = MaxDisplayedPages;
-            QueryParameterName = DefaultPageQueryParameter;
+            ParameterName = DefaultPageQueryParameter;
             PageSize = DefaultPageSize;
         }
 
-        public string QueryParameterName { get; set; }
-
         #region IGridPager Members
+
+        public string ParameterName { get; set; }
 
         public int ItemsCount
         {
@@ -63,7 +63,7 @@ namespace GridMvc.Pagination
         }
 
         /// <summary>
-        /// Количество элементов на странице
+        ///     Количество элементов на странице
         /// </summary>
         public int PageSize
         {
@@ -83,7 +83,7 @@ namespace GridMvc.Pagination
 
         public string GetLinkForPage(int pageIndex)
         {
-            return _queryBuilder.GetQueryStringWithParameter(QueryParameterName,
+            return _queryBuilder.GetQueryStringWithParameter(ParameterName,
                                                              pageIndex.ToString(CultureInfo.InvariantCulture));
         }
 
@@ -93,7 +93,7 @@ namespace GridMvc.Pagination
         {
             PageCount = (int) (Math.Ceiling(ItemsCount/(double) PageSize));
 
-            string currentPageString = _context.Request.QueryString[QueryParameterName] ?? "1";
+            string currentPageString = _context.Request.QueryString[ParameterName] ?? "1";
             int page;
             if (!int.TryParse(currentPageString, out page))
                 page = 1;

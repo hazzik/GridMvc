@@ -5,62 +5,62 @@ using GridMvc.Pagination;
 namespace GridMvc
 {
     /// <summary>
-    /// Grid.Mvc interface
+    ///     Grid.Mvc interface
     /// </summary>
     public interface IGrid
     {
         /// <summary>
-        /// Return Grid unigue Id
+        ///     Return Grid unigue Id
         /// </summary>
         string Id { get; }
 
         /// <summary>
-        /// Grid columns
+        ///     Grid columns
         /// </summary>
         IGridColumnCollection Columns { get; }
 
         /// <summary>
-        /// Grid items
+        ///     Grid items
         /// </summary>
         IEnumerable<object> ItemsToDisplay { get; }
 
         /// <summary>
-        /// Total grid items count
+        ///     Total grid items count
         /// </summary>
         int ItemsCount { get; set; }
 
         /// <summary>
-        /// Displaying grid items count
+        ///     Displaying grid items count
         /// </summary>
         int DisplayingItemsCount { get; }
 
         /// <summary>
-        /// Pager for the grid
+        ///     Pager for the grid
         /// </summary>
         IGridPager Pager { get; }
 
         /// <summary>
-        /// Enable paging view
+        ///     Enable paging view
         /// </summary>
         bool EnablePaging { get; }
 
         /// <summary>
-        /// Text in empty grid (no items for display)
+        ///     Text in empty grid (no items for display)
         /// </summary>
         string EmptyGridText { get; }
 
         /// <summary>
-        /// Returns the current Grid language
+        ///     Returns the current Grid language
         /// </summary>
         string Language { get; }
 
         /// <summary>
-        /// Object that sanitize grid column values from dangerous content
+        ///     Object that sanitize grid column values from dangerous content
         /// </summary>
         ISanitizer Sanitizer { get; }
 
         /// <summary>
-        /// Get all css classes mapped to the item
+        ///     Get all css classes mapped to the item
         /// </summary>
         string GetRowCssClasses(object item);
 

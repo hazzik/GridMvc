@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace GridMvc
 {
     /// <summary>
-    /// Default ISanitizer implementation
+    ///     Default ISanitizer implementation
     /// </summary>
     public class Sanitizer : ISanitizer
     {
@@ -46,9 +46,9 @@ namespace GridMvc
         #region ISanitizer Members
 
         /// <summary>
-        /// sanitize any potentially dangerous tags from the provided raw HTML input using 
-        /// a whitelist based approach, leaving the "safe" HTML tags
-        /// CODESNIPPET:4100A61A-1711-4366-B0B0-144D1179A937
+        ///     sanitize any potentially dangerous tags from the provided raw HTML input using
+        ///     a whitelist based approach, leaving the "safe" HTML tags
+        ///     CODESNIPPET:4100A61A-1711-4366-B0B0-144D1179A937
         /// </summary>
         public string Sanitize(string html)
         {

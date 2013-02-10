@@ -4,7 +4,7 @@ using System.Web;
 namespace GridMvc.Filtering
 {
     /// <summary>
-    /// Object gets filter settings from query string
+    ///     Object gets filter settings from query string
     /// </summary>
     public class QueryStringFilterSettings : IGridFilterSettings
     {
@@ -77,10 +77,7 @@ namespace GridMvc.Filtering
 
         public bool IsEmpty
         {
-            get
-            {
-                return string.IsNullOrEmpty(ColumnName) || string.IsNullOrEmpty(Value);
-            }
+            get { return string.IsNullOrEmpty(ColumnName) || string.IsNullOrEmpty(Value); }
         }
 
         #endregion

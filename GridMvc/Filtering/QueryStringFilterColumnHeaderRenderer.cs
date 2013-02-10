@@ -1,12 +1,11 @@
 ﻿using GridMvc.Columns;
-using GridMvc.Pagination;
 using GridMvc.Resources;
 using GridMvc.Utility;
 
 namespace GridMvc.Filtering
 {
     /// <summary>
-    /// Renderer for sortable column
+    ///     Renderer for sortable column
     /// </summary>
     internal class QueryStringFilterColumnHeaderRenderer : IGridColumnRenderer
     {
@@ -56,18 +55,18 @@ namespace GridMvc.Filtering
             var builder = new CustomQueryStringBuilder(_settings.Context.Request.QueryString);
             string url =
                 builder.GetQueryStringExcept(new[]
-                                                 {
-                                                     GridPager.DefaultPageQueryParameter,
-                                                     _settings.TypeQueryParameterName,
-                                                     _settings.ColumnQueryParameterName,
-                                                     _settings.ValueQueryParameterName
-                                                 });
+                    {
+                        column.ParentGrid.Pager.ParameterName,
+                        _settings.TypeQueryParameterName,
+                        _settings.ColumnQueryParameterName,
+                        _settings.ValueQueryParameterName
+                    });
 
             return string.Format(FilterContent,
                                  Strings.FilterButtonTooltipText,
                                  column.FilterWidgetTypeName,
                                  column.Name,
-                                 (int)filterType,
+                                 (int) filterType,
                                  value,
                                  url,
                                  isColumnFiltered ? FilteredButtonCssClass : string.Empty);

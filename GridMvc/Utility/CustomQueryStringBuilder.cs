@@ -7,7 +7,7 @@ using System.Web;
 namespace GridMvc.Utility
 {
     /// <summary>
-    /// Class retain the current query string parameters
+    ///     Class retain the current query string parameters
     /// </summary>
     internal class CustomQueryStringBuilder : NameValueCollection
     {
@@ -36,7 +36,7 @@ namespace GridMvc.Utility
         }
 
         /// <summary>
-        /// Returns query string without parameter values
+        ///     Returns query string without parameter values
         /// </summary>
         /// <param name="parameterNames">Parameter values</param>
         public string GetQueryStringExcept(string[] parameterNames)

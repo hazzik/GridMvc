@@ -8,6 +8,19 @@ namespace GridMvc.Tests
         public string Title { get; set; }
         public DateTime Created { get; set; }
         public TestModelChild Child { get; set; }
+
+
+        public override bool Equals(object obj)
+        {
+            var compareObject = obj as TestModel;
+            if (compareObject == null) return false;
+
+            return compareObject.Created == Created
+                   && compareObject.Id == Id
+                   && compareObject.Title == Title
+                   && compareObject.Child.ChildCreated == Child.ChildCreated
+                   && compareObject.Child.ChildTitle == Child.ChildTitle;
+        }
     }
 
     public class TestModelChild

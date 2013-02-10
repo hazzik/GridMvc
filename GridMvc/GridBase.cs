@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GridMvc.Columns;
 
 namespace GridMvc
 {
     /// <summary>
-    /// Base implementation of the Grid.Mvc
+    ///     Base implementation of the Grid.Mvc
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class GridBase<T> where T : class
@@ -15,16 +16,22 @@ namespace GridMvc
         private readonly List<IGridItemsProcessor<T>> _processors = new List<IGridItemsProcessor<T>>();
         private IEnumerable<T> _afterItems; //items after processors
         private IQueryable<T> _beforeItems; //items before processors
+        private bool _columnsProcessed;
 
         private int _itemsCount = -1; // total items count on collection
         private bool _itemsPreProcessed; //is preprocessors launched?
         private bool _itemsProcessed; //is processors launched?
+
         private Func<T, string> _rowCssClassesContraint;
 
         protected GridBase(IQueryable<T> items)
         {
             _beforeItems = items;
         }
+
+        public abstract IGridSettingsProvider Settings { get; set; }
+
+        public abstract IGridColumnCollection<T> Columns { get; }
 
         private IQueryable<T> GridItems
         {
@@ -44,24 +51,25 @@ namespace GridMvc
         }
 
         /// <summary>
-        /// Items, displaying in the grid view
+        ///     Items, displaying in the grid view
         /// </summary>
         public IEnumerable<object> ItemsToDisplay
         {
             get
             {
+                ProcessColumns();
                 ProcessItemsToDisplay();
                 return _afterItems;
             }
         }
 
         /// <summary>
-        /// Text in empty grid (no items for display)
+        ///     Text in empty grid (no items for display)
         /// </summary>
         public string EmptyGridText { get; set; }
 
         /// <summary>
-        /// Total count of items in the grid
+        ///     Total count of items in the grid
         /// </summary>
         public int ItemsCount
         {
@@ -139,6 +147,23 @@ namespace GridMvc
                     itemsToProcess = processor.Process(itemsToProcess);
                 }
                 _afterItems = itemsToProcess.ToList(); //select from db (in EF case)
+            }
+        }
+
+        protected void ProcessColumns()
+        {
+            if (_columnsProcessed) return;
+            _columnsProcessed = true;
+            if (!string.IsNullOrEmpty(Settings.SortSettings.ColumnName))
+            {
+                foreach (IGridColumn gridColumn in Columns)
+                {
+                    gridColumn.IsSorted = gridColumn.Name == Settings.SortSettings.ColumnName;
+                    if (gridColumn.Name == Settings.SortSettings.ColumnName)
+                        gridColumn.Direction = Settings.SortSettings.Direction;
+                    else
+                        gridColumn.Direction = null;
+                }
             }
         }
     }

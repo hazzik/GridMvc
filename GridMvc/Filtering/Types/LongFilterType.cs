@@ -3,7 +3,7 @@
 namespace GridMvc.Filtering.Types
 {
     /// <summary>
-    /// Object contains some logic for filtering Int64 columns
+    ///     Object contains some logic for filtering Int64 columns
     /// </summary>
     internal sealed class LongFilterType : FilterTypeBase
     {

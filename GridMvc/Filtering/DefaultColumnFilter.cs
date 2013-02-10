@@ -7,7 +7,7 @@ using GridMvc.Filtering.Types;
 namespace GridMvc.Filtering
 {
     /// <summary>
-    /// Default Grid.Mvc filter. Provides logic for filtering items collection.
+    ///     Default Grid.Mvc filter. Provides logic for filtering items collection.
     /// </summary>
     internal class DefaultColumnFilter<T, TData> : IColumnFilter<T>
     {

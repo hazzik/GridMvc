@@ -3,7 +3,7 @@
 namespace GridMvc.Sorting
 {
     /// <summary>
-    /// Custom user column orderer
+    ///     Custom user column orderer
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IColumnOrderer<T>

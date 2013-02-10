@@ -64,6 +64,8 @@ namespace GridMvc.Columns
             return this;
         }
 
+        public abstract IGrid ParentGrid { get; }
+
         public virtual IGridColumn<T> Sanitized(bool sanitize)
         {
             SanitizeEnabled = sanitize;
@@ -95,7 +97,6 @@ namespace GridMvc.Columns
         public IGridFilterSettings InitialFilterSettings { get; set; }
 
         public abstract IGridColumn<T> Filterable(bool showColumnValuesVariants);
-
 
 
         public abstract IGridColumn<T> SetFilterWidgetType(string typeName);

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using GridMvc.Columns;
 
 namespace GridMvc
@@ -17,22 +16,12 @@ namespace GridMvc
 
         protected string GetCssClassesString()
         {
-            var sb = new StringBuilder();
-            foreach (string className in _classes)
-            {
-                sb.Append(className + " ");
-            }
-            return sb.ToString();
+            return string.Join(" ", _classes);
         }
 
         protected string GetCssStylesString()
         {
-            var sb = new StringBuilder();
-            foreach (string style in _styles)
-            {
-                sb.Append(style + " ");
-            }
-            return sb.ToString();
+            return string.Join(" ", _styles);
         }
 
         public void AddCssClass(string className)

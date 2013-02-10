@@ -8,7 +8,7 @@ using System.Text;
 namespace GridMvc.Utility
 {
     /// <summary>
-    /// Helper class for reflection operations
+    ///     Helper class for reflection operations
     /// </summary>
     internal static class PropertiesHelper
     {
