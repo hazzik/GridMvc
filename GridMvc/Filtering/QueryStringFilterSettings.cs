@@ -8,14 +8,18 @@ namespace GridMvc.Filtering
     /// </summary>
     public class QueryStringFilterSettings : IGridFilterSettings
     {
-        public const string DefaultTypeQueryParameter = "grid-filter-type";
-        public const string DefaultColumnQueryParameter = "grid-filter-col";
-        public const string DefaultValueQueryParameter = "grid-filter-val";
+        private const string DefaultTypeQueryParameter = "grid-filter-type";
+        private const string DefaultColumnQueryParameter = "grid-filter-col";
+        private const string DefaultValueQueryParameter = "grid-filter-val";
+        private const string DefaultFilterInitQueryParameter = "grid-init";
+
+
         public readonly HttpContext Context;
 
         private string _columnQueryParameterName;
         private string _typeQueryParameterName;
         private string _valueQueryParameterName;
+        private string _filterInitQueryParameterName;
 
         #region Ctor's
 
@@ -35,9 +39,13 @@ namespace GridMvc.Filtering
             ColumnQueryParameterName = DefaultColumnQueryParameter;
             ValueQueryParameterName = DefaultValueQueryParameter;
             TypeQueryParameterName = DefaultTypeQueryParameter;
+
+            _filterInitQueryParameterName = DefaultFilterInitQueryParameter;
         }
 
         #endregion
+
+        public virtual string FilterInitQueryParameterName { get { return _filterInitQueryParameterName; } set { _filterInitQueryParameterName = value; } }
 
         public string ColumnQueryParameterName
         {
@@ -75,9 +83,14 @@ namespace GridMvc.Filtering
         public string Value { get; set; }
         public GridFilterType Type { get; set; }
 
-        public bool IsEmpty
+        public bool IsInitState
         {
-            get { return string.IsNullOrEmpty(ColumnName) || string.IsNullOrEmpty(Value); }
+            get
+            {
+                var isEmptyValues = string.IsNullOrEmpty(ColumnName) || string.IsNullOrEmpty(Value);
+                if (!isEmptyValues) return false;
+                return Context.Request.QueryString[FilterInitQueryParameterName] != null;
+            }
         }
 
         #endregion

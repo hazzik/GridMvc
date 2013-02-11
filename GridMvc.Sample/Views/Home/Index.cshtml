@@ -1,4 +1,5 @@
 ﻿@using GridMvc.Columns
+@using GridMvc.Filtering
 @using GridMvc.Html
 @using GridMvc.Sample.Models
 @using GridMvc.Sorting
@@ -26,7 +27,7 @@
 
 <div id="ordersGrid" style="float: left; position: relative; width: 660px;">
 
-    @Html.Grid(Model).Columns(columns =>
+    @Html.Grid(Model,GridRenderOptions.Create("myGrid")).Columns(columns =>
         {
             columns.Add()
                    .Encoded(false)
@@ -71,9 +72,9 @@
 
 </div>
 <script>
-    gridMvcControl.addFilterWidget(new CustomersFilterWidget());
+    pageGrids.myGrid.addFilterWidget(new CustomersFilterWidget());
 
-    gridMvcControl.onRowSelect(function (row) {
+    pageGrids.myGrid.onRowSelect(function (row) {
         //alert(row.OrderID);
         $.post("/Home/GetOrder?id=" + row.OrderID, function (data) {
             if (data.Status <= 0) {

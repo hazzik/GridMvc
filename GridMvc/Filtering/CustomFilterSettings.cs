@@ -21,7 +21,7 @@
         public string Value { get; set; }
         public GridFilterType Type { get; set; }
 
-        public bool IsEmpty
+        public bool IsInitState
         {
             get { return false; }
         }

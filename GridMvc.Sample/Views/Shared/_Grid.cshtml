@@ -1,11 +1,8 @@
 ﻿@using GridMvc.Columns
 @model GridMvc.IGrid
-@if (Model == null)
-{
-    return;
-}
+@if (Model == null){ return; }
 @{
-    var gridClinetId = "grid-mvc-" + Model.Id;
+    var gridClinetId = "grid-mvc-" + (string.IsNullOrEmpty(Model.Id) ? Guid.NewGuid().ToString() : Model.Id);
 }
 <div id="@gridClinetId" class="grid-outer @(Model.EnablePaging ? "paged" : string.Empty)">
     @* Draw grid top items infomation panel *@
@@ -62,8 +59,9 @@
     if (typeof (jQuery) != 'undefined' && typeof (jQuery.fn.gridmvc) != 'undefined') {
         var grid = $("#@gridClinetId").gridmvc();
         window.gridMvcControl = grid;//when using only 1 grid on the page
-        if (typeof (window.pageGrids) == 'undefined')
-            window.pageGrids = {};
-        window.pageGrids['@Model.Id'] = grid;
+        @if (!string.IsNullOrEmpty(Model.Id))
+        {
+         <text>if (typeof (window.pageGrids) == 'undefined') window.pageGrids = {}; window.pageGrids['@Model.Id'] = grid;</text>
+        }
     }
 </script>

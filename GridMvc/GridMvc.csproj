@@ -77,7 +77,7 @@
     <Compile Include="Filtering\IColumnFilter.cs" />
     <Compile Include="Filtering\IGridFilterSettings.cs" />
     <Compile Include="Filtering\QueryStringFilterSettings.cs" />
-    <Compile Include="Filtering\QueryStringFilterColumnHeaderRenderer.cs" />
+    <Compile Include="Filtering\FilterColumnHeaderRenderer.cs" />
     <Compile Include="GridHiddenHeaderRenderer.cs" />
     <Compile Include="GridBase.cs" />
     <Compile Include="Html\GridExtensions.cs" />

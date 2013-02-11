@@ -64,6 +64,8 @@ namespace GridMvc
         /// </summary>
         string GetRowCssClasses(object item);
 
-        void OnPreRender();
+        IGridSettingsProvider Settings { get; }
+
+        void OnPreRender();//TODO backward Compatibility
     }
 }

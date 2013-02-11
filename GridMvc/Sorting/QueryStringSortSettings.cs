@@ -28,13 +28,6 @@ namespace GridMvc.Sorting
             DirectionQueryParameterName = DefaultDirectionQueryParameter;
         }
 
-
-        public QueryStringSortSettings(string columnName, GridSortDirection direction)
-        {
-            ColumnName = columnName;
-            Direction = direction;
-        }
-
         public string ColumnQueryParameterName
         {
             get { return _columnQueryParameterName; }

@@ -7,8 +7,8 @@
         GridFilterType Type { get; }
 
         /// <summary>
-        ///     Is filter settings is empty
+        ///     Is filter settings int the init state
         /// </summary>
-        bool IsEmpty { get; }
+        bool IsInitState { get; }
     }
 }

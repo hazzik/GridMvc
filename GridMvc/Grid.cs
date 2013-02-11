@@ -21,7 +21,6 @@ namespace GridMvc
 
         private int _displayingItemsCount = -1; // count of displaying items (if using pagination)
         private bool _enablePaging;
-        private string _id;
         private IGridPager _pager;
 
         private IGridItemsProcessor<T> _pagerProcessor;
@@ -168,18 +167,7 @@ namespace GridMvc
 
         #endregion
 
-        public string Id
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_id))
-                {
-                    _id = Helpers.GenerateGridId();
-                }
-                return _id;
-            }
-            set { _id = string.IsNullOrEmpty(value) ? Helpers.GenerateGridId() : Helpers.SanitizeGridId(value); }
-        }
+        public string Id { get; set; }
 
         /// <summary>
         ///     Applies data annotations settings

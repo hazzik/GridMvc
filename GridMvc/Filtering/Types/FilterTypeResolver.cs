@@ -19,6 +19,7 @@ namespace GridMvc.Filtering.Types
             _filterCollection.Add(new ByteFilterType());
             _filterCollection.Add(new SingleFilterType());
             _filterCollection.Add(new LongFilterType());
+            _filterCollection.Add(new DoubleFilterType());
         }
 
         public IFilterType GetFilterType(Type type)

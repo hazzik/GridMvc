@@ -33,9 +33,6 @@ namespace GridMvc.Columns
 
         private IGridColumnRenderer _cellRenderer;
         private string _filterWidgetTypeName;
-        private bool? _isSorted;
-        private GridSortDirection? _sortDirection;
-        private bool _sortDirectionIsSet;
 
         public GridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {

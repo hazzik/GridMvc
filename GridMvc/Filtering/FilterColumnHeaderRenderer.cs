@@ -36,7 +36,7 @@ namespace GridMvc.Filtering
             if (!column.FilterEnabled)
                 return string.Empty;
 
-            IGridFilterSettings filterSettings = _settings.IsEmpty && column.InitialFilterSettings != null
+            IGridFilterSettings filterSettings = _settings.IsInitState && column.InitialFilterSettings != null
                                                      ? column.InitialFilterSettings
                                                      : _settings;
 
@@ -47,7 +47,6 @@ namespace GridMvc.Filtering
             {
                 //filter on this column:
                 filterType = filterSettings.Type;
-
                 value = filterSettings.Value;
                 isColumnFiltered = true;
             }
@@ -57,6 +56,7 @@ namespace GridMvc.Filtering
                 builder.GetQueryStringExcept(new[]
                     {
                         column.ParentGrid.Pager.ParameterName,
+                        _settings.FilterInitQueryParameterName,
                         _settings.TypeQueryParameterName,
                         _settings.ColumnQueryParameterName,
                         _settings.ValueQueryParameterName

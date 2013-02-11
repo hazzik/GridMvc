@@ -44,7 +44,7 @@ namespace GridMvc.Utility
             var result = new StringBuilder();
             foreach (string key in base.AllKeys)
             {
-                if (parameterNames.Contains(key))
+                if (string.IsNullOrEmpty(key) || parameterNames.Contains(key))
                     continue;
                 string[] values = base.GetValues(key);
                 if (values != null && values.Count() != 0)

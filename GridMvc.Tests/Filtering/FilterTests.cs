@@ -147,7 +147,7 @@ namespace GridMvc.Tests.Filtering
             mock.Setup(settings => settings.ColumnName).Returns(columnName);
             mock.Setup(settings => settings.Type).Returns(type);
             mock.Setup(settings => settings.Value).Returns(filterValue);
-            mock.Setup(settings => settings.IsEmpty).Returns(false);
+            mock.Setup(settings => settings.IsInitState).Returns(false);
             return mock.Object;
         }
 

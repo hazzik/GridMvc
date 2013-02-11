@@ -31,7 +31,7 @@ namespace GridMvc.Filtering
 
         public IQueryable<T> Process(IQueryable<T> items)
         {
-            if (_settings.IsEmpty)
+            if (_settings.IsInitState)
             {
                 //filter not set
                 foreach (IGridColumn column in _grid.Columns)
