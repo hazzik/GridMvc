@@ -14,6 +14,7 @@ namespace GridMvc.Sample.Controllers
             var repository = new OrdersRepository();
 
             ViewBag.ActiveMenuTitle = "Demo";
+            //ViewBag.Grid = new OrdersGrid(repository.GetAll());
             return View(repository.GetAll().ToList());
         }
 
@@ -33,6 +34,7 @@ namespace GridMvc.Sample.Controllers
 
             return Json(new { Status = 1, Message = "Ok", Content = RenderPartialViewToString("_OrderInfo", order) });
         }
+
         [HttpPost]
         public JsonResult GetCustomersNames()
         {

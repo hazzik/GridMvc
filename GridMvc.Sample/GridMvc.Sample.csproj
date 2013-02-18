@@ -82,6 +82,7 @@
     <Compile Include="Models\Domain\Supplier.cs" />
     <Compile Include="Models\Domain\Territory.cs" />
     <Compile Include="Models\NorthwindDbContext.cs" />
+    <Compile Include="Models\OrdersGrid.cs" />
     <Compile Include="Models\SqlRepository.cs" />
     <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\OrdersRepository.cs" />

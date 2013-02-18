@@ -25,7 +25,7 @@
 
         public static GridRenderOptions Create(string gridId, string viewName)
         {
-            return new GridRenderOptions(gridId, GridExtensions.DefaultPartialViewName);
+            return new GridRenderOptions(gridId, viewName);
         }
     }
 }

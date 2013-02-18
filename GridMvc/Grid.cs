@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using GridMvc.Columns;
 using GridMvc.DataAnnotations;
@@ -22,6 +23,8 @@ namespace GridMvc
         private int _displayingItemsCount = -1; // count of displaying items (if using pagination)
         private bool _enablePaging;
         private IGridPager _pager;
+
+        private bool _columnsProcessed;
 
         private IGridItemsProcessor<T> _pagerProcessor;
         private IGridSettingsProvider _settings;
@@ -54,7 +57,7 @@ namespace GridMvc
         /// <summary>
         ///     Grid columns collection
         /// </summary>
-        public override IGridColumnCollection<T> Columns
+        public IGridColumnCollection<T> Columns
         {
             get { return _columnsCollection; }
         }
@@ -143,8 +146,8 @@ namespace GridMvc
         public void OnPreRender()
         {
             //backward compatibility
-            //ProcessColumns();
-            //ProcessItemsToDisplay();
+            //PrepareColumns();
+            //PrepareItemsToDisplay();
         }
 
         /// <summary>
@@ -160,7 +163,7 @@ namespace GridMvc
         {
             get
             {
-                ProcessColumns();
+                PrepareColumns();
                 return _columnsCollection;
             }
         }
@@ -183,6 +186,18 @@ namespace GridMvc
                 Pager.MaxDisplayedPages = opt.PagingMaxDisplayedPages;
         }
 
+        /// <summary>
+        ///     Items, displaying in the grid view
+        /// </summary>
+        public IEnumerable<object> ItemsToDisplay
+        {
+            get
+            {
+                PrepareColumns();
+                PrepareItemsToDisplay();
+                return AfterItems;
+            }
+        }
 
         /// <summary>
         ///     Generates columns for all properties of the model
@@ -194,6 +209,23 @@ namespace GridMvc
             {
                 if (pi.CanRead)
                     Columns.Add(pi);
+            }
+        }
+
+        protected void PrepareColumns()
+        {
+            if (_columnsProcessed) return;
+            _columnsProcessed = true;
+            if (!string.IsNullOrEmpty(Settings.SortSettings.ColumnName))
+            {
+                foreach (IGridColumn gridColumn in Columns)
+                {
+                    gridColumn.IsSorted = gridColumn.Name == Settings.SortSettings.ColumnName;
+                    if (gridColumn.Name == Settings.SortSettings.ColumnName)
+                        gridColumn.Direction = Settings.SortSettings.Direction;
+                    else
+                        gridColumn.Direction = null;
+                }
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GridMvc.Columns;
 
 namespace GridMvc
 {
@@ -14,9 +13,9 @@ namespace GridMvc
         //pre-processors process items before adds to main collection (like filtering)
         private readonly List<IGridItemsProcessor<T>> _preprocessors = new List<IGridItemsProcessor<T>>();
         private readonly List<IGridItemsProcessor<T>> _processors = new List<IGridItemsProcessor<T>>();
-        private IEnumerable<T> _afterItems; //items after processors
-        private IQueryable<T> _beforeItems; //items before processors
-        private bool _columnsProcessed;
+        protected IEnumerable<T> AfterItems; //items after processors
+        protected IQueryable<T> BeforeItems; //items before processors
+
 
         private int _itemsCount = -1; // total items count on collection
         private bool _itemsPreProcessed; //is preprocessors launched?
@@ -26,12 +25,10 @@ namespace GridMvc
 
         protected GridBase(IQueryable<T> items)
         {
-            _beforeItems = items;
+            BeforeItems = items;
         }
 
         public abstract IGridSettingsProvider Settings { get; set; }
-
-        public abstract IGridColumnCollection<T> Columns { get; }
 
         private IQueryable<T> GridItems
         {
@@ -43,25 +40,14 @@ namespace GridMvc
                     _itemsPreProcessed = true;
                     foreach (var gridItemsProcessor in _preprocessors)
                     {
-                        _beforeItems = gridItemsProcessor.Process(_beforeItems);
+                        BeforeItems = gridItemsProcessor.Process(BeforeItems);
                     }
                 }
-                return _beforeItems;
+                return BeforeItems;
             }
         }
 
-        /// <summary>
-        ///     Items, displaying in the grid view
-        /// </summary>
-        public IEnumerable<object> ItemsToDisplay
-        {
-            get
-            {
-                ProcessColumns();
-                ProcessItemsToDisplay();
-                return _afterItems;
-            }
-        }
+
 
         /// <summary>
         ///     Text in empty grid (no items for display)
@@ -136,7 +122,7 @@ namespace GridMvc
 
         #endregion
 
-        protected void ProcessItemsToDisplay()
+        protected void PrepareItemsToDisplay()
         {
             if (!_itemsProcessed)
             {
@@ -146,25 +132,10 @@ namespace GridMvc
                 {
                     itemsToProcess = processor.Process(itemsToProcess);
                 }
-                _afterItems = itemsToProcess.ToList(); //select from db (in EF case)
+                AfterItems = itemsToProcess.ToList(); //select from db (in EF case)
             }
         }
 
-        protected void ProcessColumns()
-        {
-            if (_columnsProcessed) return;
-            _columnsProcessed = true;
-            if (!string.IsNullOrEmpty(Settings.SortSettings.ColumnName))
-            {
-                foreach (IGridColumn gridColumn in Columns)
-                {
-                    gridColumn.IsSorted = gridColumn.Name == Settings.SortSettings.ColumnName;
-                    if (gridColumn.Name == Settings.SortSettings.ColumnName)
-                        gridColumn.Direction = Settings.SortSettings.Direction;
-                    else
-                        gridColumn.Direction = null;
-                }
-            }
-        }
+
     }
 }
