@@ -27,6 +27,10 @@ namespace GridMvc.Tests.Columns
         {
             _grid.Columns.Add();
             _grid.Columns.Add();
+
+            _grid.Columns.Add(x=>x.List[0].ChildCreated);
+            _grid.Columns.Add(x => x.List[1].ChildCreated,"t1");
+
             _grid.Columns.Add(x => x.Id);
             Assert.AreEqual(_grid.Columns.Count(), 3);
             try

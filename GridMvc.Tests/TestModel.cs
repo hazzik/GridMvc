@@ -9,6 +9,7 @@ namespace GridMvc.Tests
         public DateTime Created { get; set; }
         public TestModelChild Child { get; set; }
 
+        public TestModelChild[] List { get; set; }
 
         public override bool Equals(object obj)
         {

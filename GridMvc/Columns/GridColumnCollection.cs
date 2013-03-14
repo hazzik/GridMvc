@@ -30,7 +30,7 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> Add(bool hidden)
         {
-            return Add((Expression<Func<T, string>>) null, hidden);
+            return Add((Expression<Func<T, string>>)null, hidden);
         }
 
         public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint)
@@ -40,14 +40,13 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint, string columnName)
         {
-            IGridColumn<T> addedColumn = Add(constraint, false);
-            addedColumn.Name = columnName;
-            return addedColumn;
+            IGridColumn<T> newColumn = CreateColumn(constraint, false, columnName);
+            return Add(newColumn);
         }
 
         public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint, bool hidden)
         {
-            IGridColumn<T> newColumn = _columnBuilder.CreateColumn(constraint, hidden);
+            IGridColumn<T> newColumn = CreateColumn(constraint, hidden, string.Empty);
             return Add(newColumn);
         }
 
@@ -92,16 +91,16 @@ namespace GridMvc.Columns
             return Insert(position, constraint, false);
         }
 
+
         public IGridColumn<T> Insert<TKey>(int position, Expression<Func<T, TKey>> constraint, string columnName)
         {
-            IGridColumn<T> addedColumn = Insert(position, constraint, false);
-            addedColumn.Name = columnName;
-            return addedColumn;
+            IGridColumn<T> newColumn = CreateColumn(constraint, false, columnName);
+            return Insert(position, newColumn);
         }
 
         public IGridColumn<T> Insert<TKey>(int position, Expression<Func<T, TKey>> constraint, bool hidden)
         {
-            IGridColumn<T> newColumn = _columnBuilder.CreateColumn(constraint, hidden);
+            IGridColumn<T> newColumn = CreateColumn(constraint, hidden, string.Empty);
             return Insert(position, newColumn);
         }
 
@@ -115,6 +114,14 @@ namespace GridMvc.Columns
         protected override string GetKeyForItem(IGridColumn item)
         {
             return item.Name;
+        }
+
+        private IGridColumn<T> CreateColumn<TKey>(Expression<Func<T, TKey>> constraint, bool hidden, string columnName)
+        {
+            IGridColumn<T> newColumn = _columnBuilder.CreateColumn(constraint, hidden);
+            if (!string.IsNullOrEmpty(columnName))
+                newColumn.Name = columnName;
+            return newColumn;
         }
     }
 }

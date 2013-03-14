@@ -57,7 +57,6 @@ namespace GridMvc.Columns
                         string.Format("Expression '{0}' must be a member expression", expression),
                         "expression");
 
-
                 _constraint = expression.Compile();
                 _orderers.Insert(0, new OrderByGridOrderer<T, TDataType>(expression));
                 _filters.Insert(0, new DefaultColumnFilter<T, TDataType>(expression));

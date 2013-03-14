@@ -42,5 +42,7 @@ namespace GridMvc.Sample.Controllers
             var allItems = repository.GetAll().Select(c => c.CompanyName);
             return Json(new { Items = allItems });
         }
+
+
     }
 }

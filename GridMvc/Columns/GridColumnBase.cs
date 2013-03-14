@@ -22,6 +22,7 @@ namespace GridMvc.Columns
         public bool SortEnabled { get; protected set; }
 
         public string Title { get; set; }
+
         public string Name { get; set; }
 
         public bool IsSorted { get; set; }

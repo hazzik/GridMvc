@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using GridMvc.Columns;
 
 namespace GridMvc.Html
@@ -36,6 +37,13 @@ namespace GridMvc.Html
         public static IGridColumn<T> RenderValueAs<T>(this IGridColumn<T> column, Func<T, IHtmlString> constraint)
         {
             Func<T, string> valueContraint = a => constraint(a).ToHtmlString();
+            return column.RenderValueAs(valueContraint);
+        }
+
+        //support WebPages inline helpers
+        public static IGridColumn<T> RenderValueAs<T>(this IGridColumn<T> column, Func<T, Func<object, HelperResult>> constraint)
+        {
+            Func<T, string> valueContraint = a => constraint(a)(null).ToHtmlString();
             return column.RenderValueAs(valueContraint);
         }
     }
