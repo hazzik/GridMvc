@@ -15,7 +15,7 @@ namespace GridMvc.Sample.Controllers
 
             ViewBag.ActiveMenuTitle = "Demo";
             //ViewBag.Grid = new OrdersGrid(repository.GetAll());
-            return View(repository.GetAll().ToList());
+            return View(repository.GetAll());
         }
 
         public ActionResult About()

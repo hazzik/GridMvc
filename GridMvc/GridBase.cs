@@ -48,7 +48,6 @@ namespace GridMvc
         }
 
 
-
         /// <summary>
         ///     Text in empty grid (no items for display)
         /// </summary>
@@ -71,7 +70,7 @@ namespace GridMvc
 
         #region Custom row css classes
 
-        protected void SetRowCssClassesContraint(Func<T, string> contraint)
+        public void SetRowCssClassesContraint(Func<T, string> contraint)
         {
             _rowCssClassesContraint = contraint;
         }
@@ -135,7 +134,5 @@ namespace GridMvc
                 AfterItems = itemsToProcess.ToList(); //select from db (in EF case)
             }
         }
-
-
     }
 }

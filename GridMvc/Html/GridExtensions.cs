@@ -12,25 +12,42 @@ namespace GridMvc.Html
     {
         internal const string DefaultPartialViewName = "_Grid";
 
-        public static IGridHtmlOptions<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items)
+        public static HtmlGrid<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items)
             where T : class
         {
             return Grid(helper, items, DefaultPartialViewName);
         }
 
-        public static IGridHtmlOptions<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items, string viewName)
+        public static HtmlGrid<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items, string viewName)
             where T : class
         {
             return Grid(helper, items, GridRenderOptions.Create(string.Empty, viewName));
         }
 
-        public static IGridHtmlOptions<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items,
-                                                  GridRenderOptions renderOptions)
+        public static HtmlGrid<T> Grid<T>(this HtmlHelper helper, IEnumerable<T> items,
+                                          GridRenderOptions renderOptions)
             where T : class
         {
-            var options = new GridHtmlOptions<T>(items.AsQueryable(), helper.ViewContext, renderOptions.ViewName);
-            options.Id = renderOptions.GridId;
-            return options;
+            var newGrid = new Grid<T>(items.AsQueryable());
+            newGrid.Id = renderOptions.GridId;
+            var htmlGrid = new HtmlGrid<T>(newGrid, helper.ViewContext, renderOptions.ViewName);
+            return htmlGrid;
+        }
+
+        public static HtmlGrid<T> Grid<T>(this HtmlHelper helper, Grid<T> sourceGrid)
+            where T : class
+        {
+            //wrap source grid:
+            var htmlGrid = new HtmlGrid<T>(sourceGrid, helper.ViewContext, DefaultPartialViewName);
+            return htmlGrid;
+        }
+
+        public static HtmlGrid<T> Grid<T>(this HtmlHelper helper, Grid<T> sourceGrid, string viewName)
+            where T : class
+        {
+            //wrap source grid:
+            var htmlGrid = new HtmlGrid<T>(sourceGrid, helper.ViewContext, viewName);
+            return htmlGrid;
         }
 
         //support IHtmlString in RenderValueAs method
@@ -41,7 +58,8 @@ namespace GridMvc.Html
         }
 
         //support WebPages inline helpers
-        public static IGridColumn<T> RenderValueAs<T>(this IGridColumn<T> column, Func<T, Func<object, HelperResult>> constraint)
+        public static IGridColumn<T> RenderValueAs<T>(this IGridColumn<T> column,
+                                                      Func<T, Func<object, HelperResult>> constraint)
         {
             Func<T, string> valueContraint = a => constraint(a)(null).ToHtmlString();
             return column.RenderValueAs(valueContraint);

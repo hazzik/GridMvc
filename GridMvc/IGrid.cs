@@ -59,13 +59,13 @@ namespace GridMvc
         /// </summary>
         ISanitizer Sanitizer { get; }
 
+        IGridSettingsProvider Settings { get; }
+
         /// <summary>
         ///     Get all css classes mapped to the item
         /// </summary>
         string GetRowCssClasses(object item);
 
-        IGridSettingsProvider Settings { get; }
-
-        void OnPreRender();//TODO backward Compatibility
+        void OnPreRender(); //TODO backward Compatibility
     }
 }

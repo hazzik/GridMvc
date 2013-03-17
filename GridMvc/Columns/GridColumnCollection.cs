@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using System.Reflection;
+using GridMvc.Sorting;
 
 namespace GridMvc.Columns
 {
@@ -12,10 +13,12 @@ namespace GridMvc.Columns
     public class GridColumnCollection<T> : KeyedCollection<string, IGridColumn>, IGridColumnCollection<T>
     {
         private readonly IColumnBuilder<T> _columnBuilder;
+        private readonly IGridSortSettings _sortSettings;
 
-        public GridColumnCollection(IColumnBuilder<T> columnBuilder)
+        public GridColumnCollection(IColumnBuilder<T> columnBuilder, IGridSortSettings sortSettings)
         {
             _columnBuilder = columnBuilder;
+            _sortSettings = sortSettings;
         }
 
         public bool DefaultSortEnabled { get; set; }
@@ -30,7 +33,7 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> Add(bool hidden)
         {
-            return Add((Expression<Func<T, string>>)null, hidden);
+            return Add((Expression<Func<T, string>>) null, hidden);
         }
 
         public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint)
@@ -73,7 +76,7 @@ namespace GridMvc.Columns
             {
                 throw new ArgumentException(string.Format("Column '{0}' already exist in the grid", column.Name));
             }
-            //ProcessColumn();
+            UpdateColumnsSorting();
             return column;
         }
 
@@ -82,7 +85,7 @@ namespace GridMvc.Columns
             column.Sortable(DefaultSortEnabled);
             column.Filterable(DefaultFilteringEnabled);
             base.Insert(position, column);
-            //ProcessColumn();
+            UpdateColumnsSorting();
             return column;
         }
 
@@ -122,6 +125,21 @@ namespace GridMvc.Columns
             if (!string.IsNullOrEmpty(columnName))
                 newColumn.Name = columnName;
             return newColumn;
+        }
+
+        internal void UpdateColumnsSorting()
+        {
+            if (!string.IsNullOrEmpty(_sortSettings.ColumnName))
+            {
+                foreach (IGridColumn gridColumn in this)
+                {
+                    gridColumn.IsSorted = gridColumn.Name == _sortSettings.ColumnName;
+                    if (gridColumn.Name == _sortSettings.ColumnName)
+                        gridColumn.Direction = _sortSettings.Direction;
+                    else
+                        gridColumn.Direction = null;
+                }
+            }
         }
     }
 }

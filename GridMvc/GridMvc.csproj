@@ -84,6 +84,7 @@
     <Compile Include="Html\GridExtensions.cs" />
     <Compile Include="Html\GridHtmlOptions.cs" />
     <Compile Include="Html\GridRenderOptions.cs" />
+    <Compile Include="Html\HtmlGrid.cs" />
     <Compile Include="Html\IGridHtmlOptions.cs" />
     <Compile Include="ISanitizer.cs" />
     <Compile Include="Resources\Strings.it.Designer.cs">

@@ -199,7 +199,7 @@ namespace GridMvc.Tests.Sorting
             settingsMock.Setup(s => s.FilterSettings).Returns(new QueryStringFilterSettings());
             grid.Settings = settingsMock.Object;
 
-            IEnumerable<TestModel> resultCollection = _grid.ItemsToDisplay.OfType<TestModel>();
+            IEnumerable<TestModel> resultCollection = _grid.GetItemsToDisplay();
             IOrderedEnumerable<TestModel> etalonCollection;
             switch (direction)
             {

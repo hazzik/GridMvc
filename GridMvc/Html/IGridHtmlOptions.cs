@@ -7,7 +7,7 @@ namespace GridMvc.Html
     /// <summary>
     ///     Grid options for html helper
     /// </summary>
-    public interface IGridHtmlOptions<T> : IGrid, IHtmlString
+    public interface IGridHtmlOptions<T> : IHtmlString
     {
         IGridHtmlOptions<T> Columns(Action<IGridColumnCollection<T>> columnBuilder);
 

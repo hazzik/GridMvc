@@ -17,9 +17,9 @@ namespace GridMvc.Filtering
         public readonly HttpContext Context;
 
         private string _columnQueryParameterName;
+        private string _filterInitQueryParameterName;
         private string _typeQueryParameterName;
         private string _valueQueryParameterName;
-        private string _filterInitQueryParameterName;
 
         #region Ctor's
 
@@ -45,7 +45,11 @@ namespace GridMvc.Filtering
 
         #endregion
 
-        public virtual string FilterInitQueryParameterName { get { return _filterInitQueryParameterName; } set { _filterInitQueryParameterName = value; } }
+        public virtual string FilterInitQueryParameterName
+        {
+            get { return _filterInitQueryParameterName; }
+            set { _filterInitQueryParameterName = value; }
+        }
 
         public string ColumnQueryParameterName
         {
@@ -87,7 +91,7 @@ namespace GridMvc.Filtering
         {
             get
             {
-                var isEmptyValues = string.IsNullOrEmpty(ColumnName) || string.IsNullOrEmpty(Value);
+                bool isEmptyValues = string.IsNullOrEmpty(ColumnName) || string.IsNullOrEmpty(Value);
                 if (!isEmptyValues) return false;
                 return Context.Request.QueryString[FilterInitQueryParameterName] != null;
             }

@@ -21,7 +21,7 @@ namespace GridMvc.Utility
             Expression expr = memberExpr;
             while (true)
             {
-                var piece = GetExpressionMemberName(expr, ref expr);
+                string piece = GetExpressionMemberName(expr, ref expr);
                 if (string.IsNullOrEmpty(piece)) break;
                 if (sb.Length > 0)
                     sb.Insert(0, PropertiesQueryStringDelimeter);
@@ -34,14 +34,14 @@ namespace GridMvc.Utility
         {
             if (expr is MemberExpression)
             {
-                var memberExpr = (MemberExpression)expr;
+                var memberExpr = (MemberExpression) expr;
                 nextExpr = memberExpr.Expression;
                 return memberExpr.Member.Name;
             }
             if (expr is BinaryExpression && expr.NodeType == ExpressionType.ArrayIndex)
             {
-                var binaryExpr = (BinaryExpression)expr;
-                var memberName = GetExpressionMemberName(binaryExpr.Left, ref nextExpr);
+                var binaryExpr = (BinaryExpression) expr;
+                string memberName = GetExpressionMemberName(binaryExpr.Left, ref nextExpr);
                 if (string.IsNullOrEmpty(memberName))
                     throw new InvalidDataException("Cannot parse your column expression");
                 return string.Format("{0}[{1}]", memberName, binaryExpr.Right);
@@ -53,7 +53,7 @@ namespace GridMvc.Utility
         public static PropertyInfo GetPropertyFromColumnName(string columnName, Type type,
                                                              out IEnumerable<PropertyInfo> propertyInfoSequence)
         {
-            string[] properies = columnName.Split(new[] { PropertiesQueryStringDelimeter },
+            string[] properies = columnName.Split(new[] {PropertiesQueryStringDelimeter},
                                                   StringSplitOptions.RemoveEmptyEntries);
             if (!properies.Any())
             {
@@ -80,7 +80,7 @@ namespace GridMvc.Utility
         public static Type GetUnderlyingType(Type type)
         {
             Type targetType;
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof (Nullable<>))
             {
                 targetType = Nullable.GetUnderlyingType(type);
             }
@@ -93,12 +93,12 @@ namespace GridMvc.Utility
 
         public static T GetAttribute<T>(this PropertyInfo pi)
         {
-            return (T)pi.GetCustomAttributes(typeof(T), true).FirstOrDefault();
+            return (T) pi.GetCustomAttributes(typeof (T), true).FirstOrDefault();
         }
 
         public static T GetAttribute<T>(this Type type)
         {
-            return (T)type.GetCustomAttributes(typeof(T), true).FirstOrDefault();
+            return (T) type.GetCustomAttributes(typeof (T), true).FirstOrDefault();
         }
     }
 }

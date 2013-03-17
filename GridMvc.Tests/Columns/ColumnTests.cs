@@ -32,7 +32,7 @@ namespace GridMvc.Tests.Columns
             _grid.Columns.Add(x => x.List[1].ChildCreated,"t1");
 
             _grid.Columns.Add(x => x.Id);
-            Assert.AreEqual(_grid.Columns.Count(), 3);
+            Assert.AreEqual(_grid.Columns.Count(), 5);
             try
             {
                 _grid.Columns.Add(x => x.Id);
@@ -46,12 +46,12 @@ namespace GridMvc.Tests.Columns
                 Assert.Fail();
             }
             _grid.Columns.Insert(0, x => x.Title);
-            Assert.AreEqual(_grid.Columns.Count(), 4);
+            Assert.AreEqual(_grid.Columns.Count(), 6);
             Assert.AreEqual(_grid.Columns.ElementAt(0).Name, "Title");
             //test hidden columns
 
             _grid.Columns.Add(x => x.Created, true);
-            Assert.AreEqual(_grid.Columns.Count(), 5);
+            Assert.AreEqual(_grid.Columns.Count(), 7);
         }
 
         [TestMethod]

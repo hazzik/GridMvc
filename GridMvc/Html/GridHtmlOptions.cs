@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Web.Mvc;
 using GridMvc.Columns;
 using GridMvc.Pagination;
@@ -10,13 +9,14 @@ namespace GridMvc.Html
     /// <summary>
     ///     Grid adapter for html helper
     /// </summary>
-    public class GridHtmlOptions<T> : Grid<T>, IGridHtmlOptions<T> where T : class
+    public class GridHtmlOptions<T> : IGridHtmlOptions<T> where T : class
     {
+        private readonly Grid<T> _source;
         private readonly ViewContext _viewContext;
 
-        public GridHtmlOptions(IQueryable<T> items, ViewContext viewContext, string viewName)
-            : base(items)
+        public GridHtmlOptions(Grid<T> source, ViewContext viewContext, string viewName)
         {
+            _source = source;
             _viewContext = viewContext;
             GridViewName = viewName;
         }
@@ -31,33 +31,33 @@ namespace GridMvc.Html
         }
 
 
-        public new IGridHtmlOptions<T> Columns(Action<IGridColumnCollection<T>> columnBuilder)
+        public IGridHtmlOptions<T> Columns(Action<IGridColumnCollection<T>> columnBuilder)
         {
-            columnBuilder(base.Columns);
+            columnBuilder(_source.Columns);
             return this;
         }
 
         public IGridHtmlOptions<T> WithPaging(int pageSize)
         {
-            EnablePaging = true;
-            Pager.PageSize = pageSize;
+            _source.EnablePaging = true;
+            _source.Pager.PageSize = pageSize;
             return this;
         }
 
         public IGridHtmlOptions<T> WithPaging(int pageSize, int maxDisplayedItems)
         {
-            EnablePaging = true;
-            Pager.PageSize = pageSize;
-            Pager.MaxDisplayedPages = maxDisplayedItems;
+            _source.EnablePaging = true;
+            _source.Pager.PageSize = pageSize;
+            _source.Pager.MaxDisplayedPages = maxDisplayedItems;
             return this;
         }
 
         public IGridHtmlOptions<T> WithPaging(int pageSize, int maxDisplayedItems, string queryStringParameterName)
         {
-            EnablePaging = true;
-            Pager.PageSize = pageSize;
-            Pager.MaxDisplayedPages = maxDisplayedItems;
-            ((GridPager) Pager).ParameterName = queryStringParameterName;
+            _source.EnablePaging = true;
+            _source.Pager.PageSize = pageSize;
+            _source.Pager.MaxDisplayedPages = maxDisplayedItems;
+            ((GridPager) _source.Pager).ParameterName = queryStringParameterName;
             return this;
         }
 
@@ -68,8 +68,8 @@ namespace GridMvc.Html
 
         public IGridHtmlOptions<T> Sortable(bool enable)
         {
-            DefaultSortEnabled = enable;
-            foreach (IGridColumn column in base.Columns)
+            _source.DefaultSortEnabled = enable;
+            foreach (IGridColumn column in _source.Columns)
             {
                 var typedColumn = column as IGridColumn<T>;
                 if (typedColumn == null) continue;
@@ -85,8 +85,8 @@ namespace GridMvc.Html
 
         public IGridHtmlOptions<T> Filterable(bool enable)
         {
-            DefaultFilteringEnabled = enable;
-            foreach (IGridColumn column in base.Columns)
+            _source.DefaultFilteringEnabled = enable;
+            foreach (IGridColumn column in _source.Columns)
             {
                 var typedColumn = column as IGridColumn<T>;
                 if (typedColumn == null) continue;
@@ -97,19 +97,19 @@ namespace GridMvc.Html
 
         public IGridHtmlOptions<T> EmptyText(string text)
         {
-            EmptyGridText = text;
+            _source.EmptyGridText = text;
             return this;
         }
 
         public IGridHtmlOptions<T> SetLanguage(string lang)
         {
-            Language = lang;
+            _source.Language = lang;
             return this;
         }
 
         public IGridHtmlOptions<T> SetRowCssClasses(Func<T, string> contraint)
         {
-            SetRowCssClassesContraint(contraint);
+            _source.SetRowCssClassesContraint(contraint);
             return this;
         }
 
@@ -117,9 +117,9 @@ namespace GridMvc.Html
         ///     Generates columns for all properties of the model.
         ///     Use data annotations to customize columns
         /// </summary>
-        public new IGridHtmlOptions<T> AutoGenerateColumns()
+        public IGridHtmlOptions<T> AutoGenerateColumns()
         {
-            base.AutoGenerateColumns();
+            _source.AutoGenerateColumns();
             return this;
         }
 
@@ -134,6 +134,9 @@ namespace GridMvc.Html
             using (var sw = new StringWriter())
             {
                 ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(context, viewName);
+                if (viewResult.View == null)
+                    throw new InvalidDataException(
+                        string.Format("Specified view name for Grid.Mvc not found. ViewName: {0}", viewName));
                 var newViewContext = new ViewContext(context, viewResult.View, viewContext.ViewData,
                                                      viewContext.TempData, sw)
                     {

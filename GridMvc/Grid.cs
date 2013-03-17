@@ -24,8 +24,6 @@ namespace GridMvc
         private bool _enablePaging;
         private IGridPager _pager;
 
-        private bool _columnsProcessed;
-
         private IGridItemsProcessor<T> _pagerProcessor;
         private IGridSettingsProvider _settings;
 
@@ -49,7 +47,7 @@ namespace GridMvc
 
             //Set up column collection:
             var columnBuilder = new DefaultColumnBuilder<T>(this);
-            _columnsCollection = new GridColumnCollection<T>(columnBuilder);
+            _columnsCollection = new GridColumnCollection<T>(columnBuilder, _settings.SortSettings);
 
             ApplyGridSettings();
         }
@@ -97,18 +95,28 @@ namespace GridMvc
             }
         }
 
+        public string Id { get; set; }
+
+        /// <summary>
+        ///     Items, displaying in the grid view
+        /// </summary>
+        IEnumerable<object> IGrid.ItemsToDisplay
+        {
+            get { return GetItemsToDisplay(); }
+        }
+
         #region IGrid Members
 
         /// <summary>
         ///     Count of current displaying items
         /// </summary>
-        public int DisplayingItemsCount
+        public virtual int DisplayingItemsCount
         {
             get
             {
                 if (_displayingItemsCount >= 0)
                     return _displayingItemsCount;
-                _displayingItemsCount = ItemsToDisplay.Count();
+                _displayingItemsCount = GetItemsToDisplay().Count();
                 return _displayingItemsCount;
             }
         }
@@ -146,7 +154,7 @@ namespace GridMvc
         public void OnPreRender()
         {
             //backward compatibility
-            //PrepareColumns();
+            //UpdateColumnsSorting();
             //PrepareItemsToDisplay();
         }
 
@@ -161,16 +169,10 @@ namespace GridMvc
 
         IGridColumnCollection IGrid.Columns
         {
-            get
-            {
-                PrepareColumns();
-                return _columnsCollection;
-            }
+            get { return Columns; }
         }
 
         #endregion
-
-        public string Id { get; set; }
 
         /// <summary>
         ///     Applies data annotations settings
@@ -187,16 +189,12 @@ namespace GridMvc
         }
 
         /// <summary>
-        ///     Items, displaying in the grid view
+        ///     Methods returns items that will need to be displayed
         /// </summary>
-        public IEnumerable<object> ItemsToDisplay
+        protected internal virtual IEnumerable<T> GetItemsToDisplay()
         {
-            get
-            {
-                PrepareColumns();
-                PrepareItemsToDisplay();
-                return AfterItems;
-            }
+            PrepareItemsToDisplay();
+            return AfterItems;
         }
 
         /// <summary>
@@ -209,23 +207,6 @@ namespace GridMvc
             {
                 if (pi.CanRead)
                     Columns.Add(pi);
-            }
-        }
-
-        protected void PrepareColumns()
-        {
-            if (_columnsProcessed) return;
-            _columnsProcessed = true;
-            if (!string.IsNullOrEmpty(Settings.SortSettings.ColumnName))
-            {
-                foreach (IGridColumn gridColumn in Columns)
-                {
-                    gridColumn.IsSorted = gridColumn.Name == Settings.SortSettings.ColumnName;
-                    if (gridColumn.Name == Settings.SortSettings.ColumnName)
-                        gridColumn.Direction = Settings.SortSettings.Direction;
-                    else
-                        gridColumn.Direction = null;
-                }
             }
         }
     }

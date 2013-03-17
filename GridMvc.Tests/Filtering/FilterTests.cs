@@ -129,7 +129,7 @@ namespace GridMvc.Tests.Filtering
             settingsMock.Setup(s => s.SortSettings).Returns(new QueryStringSortSettings());
             grid.Settings = settingsMock.Object;
 
-            IEnumerable<TestModel> resultCollection = _grid.ItemsToDisplay.OfType<TestModel>();
+            IEnumerable<TestModel> resultCollection = _grid.GetItemsToDisplay();
             if (!resultCollection.Any()) Assert.Fail("No items to compare");
 
             IEnumerable<TestModel> etalonCollection = _repo.GetAll().Where(filterExpression);
