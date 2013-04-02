@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GridMvc.Columns;
 
@@ -31,30 +32,21 @@ namespace GridMvc.Filtering
 
         public IQueryable<T> Process(IQueryable<T> items)
         {
-            if (_settings.IsInitState)
+            foreach (IGridColumn column in _grid.Columns)
             {
-                //filter not set
-                foreach (IGridColumn column in _grid.Columns)
+                var gridColumn = column as IGridColumn<T>;
+                if (gridColumn == null) continue;
+                if (gridColumn.Filter == null) continue;
+
+                var options = _settings.IsInitState
+                                  ? new List<ColumnFilterValue> { column.InitialFilterSettings }
+                                  : _settings.FilteredColumns.GetByColumn(column);
+                foreach (var filterOptions in options)
                 {
-                    var gridColumn = column as IGridColumn<T>;
-                    if (gridColumn == null) continue;
-                    if (gridColumn.InitialFilterSettings != null)
-                        foreach (var columnFilter in gridColumn.Filters)
-                        {
-                            items = columnFilter.ApplyFilter(items, gridColumn.InitialFilterSettings);
-                        }
+                    if (filterOptions == ColumnFilterValue.Null)
+                        continue;
+                    items = gridColumn.Filter.ApplyFilter(items, filterOptions);
                 }
-                return items;
-            }
-
-            //determine gridColumn sortable:
-            var filterByColumn = _grid.Columns.FirstOrDefault(c => c.Name == _settings.ColumnName) as IGridColumn<T>;
-            if (filterByColumn == null || !filterByColumn.FilterEnabled)
-                return items;
-
-            foreach (var columnFilter in filterByColumn.Filters)
-            {
-                items = columnFilter.ApplyFilter(items, _settings);
             }
             return items;
         }

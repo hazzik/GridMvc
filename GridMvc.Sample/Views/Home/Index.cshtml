@@ -5,6 +5,7 @@
 @{
     ViewBag.Title = "Home Page";
 }
+
 @helper CustomRenderingOfColumn(Order order)
 {
     if (order.Customer.IsVip)
@@ -25,9 +26,8 @@
 
 <div id="ordersGrid" style="float: left; position: relative; width: 660px;">
 
-    @Html.Grid(Model,GridRenderOptions.Create("myGrid")).Columns(columns =>
+    @Html.Grid(Model, new GridRenderOptions { AllowMultipleFilters = true, GridId = "myGrid" }).Columns(columns =>
     {
-
         /* Adding not mapped column, that renders body, using inline Razor html helper */
         columns.Add()
                 .Encoded(false)
@@ -37,17 +37,19 @@
                     @<b>
                         @Html.ActionLink("Edit", "Index")
                     </b>);
-
+        
         /* Adding "OrderID" column: */
         columns.Add(o => o.OrderID)
                 .Titled("Number")
                 .SetWidth(100);
+                
         /* Adding "OrderDate" column: */
         columns.Add(o => o.OrderDate, "OrderCustomDate")
                 .Titled("Date")
                 .SortInitialDirection(GridSortDirection.Descending)
                 .Format("{0:dd/MM/yyyy}")
                 .SetWidth(110);
+                
         /* Adding "CompanyName" column: */
         columns.Add(o => o.Customer.CompanyName)
                 .Titled("Company Name")
@@ -59,46 +61,7 @@
                 .SetWidth(150)
                 .RenderValueAs(o => CustomRenderingOfColumn(o));
 
-    }).SetRowCssClasses(item => item.Customer.IsVip ? "warning" : string.Empty).WithPaging(15, 6).Sortable().Filterable()
-
-
-
-    @* @Html.Grid(Model, GridRenderOptions.Create("myGrid")).Columns(columns =>
-    {
-
-        /* Adding not mapped column, that renders body, using inline Razor html helper */
-        columns.Add()
-                .Encoded(false)
-                .Sanitized(false)
-                .SetWidth(30)
-                .RenderValueAs(d =>
-                    @<b>
-                        @Html.ActionLink("Edit", "Index")
-                    </b>);
-
-        /* Adding "OrderID" column: */
-        columns.Add(o => o.OrderID)
-                .Titled("Number")
-                .SetWidth(100);
-        /* Adding "OrderDate" column: */
-        columns.Add(o => o.OrderDate, "OrderCustomDate")
-                .Titled("Date")
-                .SortInitialDirection(GridSortDirection.Descending)
-                .Format("{0:dd/MM/yyyy}")
-                .SetWidth(110);
-        /* Adding "CompanyName" column: */
-        columns.Add(o => o.Customer.CompanyName)
-                .Titled("Company Name")
-                .ThenSortByDescending(o => o.OrderID)
-                .SetFilterWidgetType("CustomCompanyNameFilterWidget");
-        /* Adding "Vip customer" column: */
-        columns.Add(o => o.Customer.IsVip)
-                .Titled("Vip customer")
-                .SetWidth(150)
-                .RenderValueAs(o => CustomRenderingOfColumn(o));
-
-    }).SetRowCssClasses(item => item.Customer.IsVip ? "warning" : string.Empty).WithPaging(15, 6).Sortable().Filterable()*@
-
+    }).SetRowCssClasses(item => item.Customer.IsVip ? "warning" : string.Empty).WithPaging(15, 6).Selectable(true).Sortable().Filterable()
 
 </div>
 

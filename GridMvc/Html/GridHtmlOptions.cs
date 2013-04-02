@@ -95,6 +95,12 @@ namespace GridMvc.Html
             return this;
         }
 
+        public IGridHtmlOptions<T> Selectable(bool set)
+        {
+            _source.RenderOptions.Selectable = set;
+            return this;
+        }
+
         public IGridHtmlOptions<T> EmptyText(string text)
         {
             _source.EmptyGridText = text;

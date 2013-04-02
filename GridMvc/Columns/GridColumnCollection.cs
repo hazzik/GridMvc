@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using GridMvc.Sorting;
@@ -110,6 +111,11 @@ namespace GridMvc.Columns
         public new IEnumerator<IGridColumn> GetEnumerator()
         {
             return base.GetEnumerator();
+        }
+
+        public IGridColumn GetByName(string name)
+        {
+            return this.FirstOrDefault(c => c.Name.ToUpper() == name.ToUpper());
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using System;
+using GridMvc.Filtering;
 
 namespace GridMvc.Utility
 {
@@ -23,5 +24,7 @@ namespace GridMvc.Utility
         {
             return id.Replace(" ", string.Empty); //TODO add other sanitize rules
         }
+
+
     }
 }

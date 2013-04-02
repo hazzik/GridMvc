@@ -51,7 +51,10 @@ namespace GridMvc.Utility
                 {
                     if (result.Length == 0)
                         result.Append("?");
-                    result.Append(key + "=" + HttpUtility.UrlEncode(values[0]) + "&");
+                    foreach (var value in values)
+                    {
+                        result.Append(key + "=" + HttpUtility.UrlEncode(value) + "&");
+                    }
                 }
             }
             string resultString = result.ToString();

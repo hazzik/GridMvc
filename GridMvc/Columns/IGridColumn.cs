@@ -84,7 +84,7 @@ namespace GridMvc.Columns
 
         bool SanitizeEnabled { get; }
 
-        IGridColumnRenderer HeaderRenderer { get; }
+        IGridColumnRenderer HeaderRenderer { get; set; }
         IGridColumnRenderer CellRenderer { get; set; }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace GridMvc.Columns
         /// <summary>
         ///     Collection of current column filter
         /// </summary>
-        IEnumerable<IColumnFilter<T>> Filters { get; }
+        IColumnFilter<T> Filter { get; }
 
         /// <summary>
         ///     Allows filtering for this column
@@ -183,7 +183,7 @@ namespace GridMvc.Columns
         /// <summary>
         ///     Initial filter settings for the column
         /// </summary>
-        IGridFilterSettings InitialFilterSettings { get; set; }
+        ColumnFilterValue InitialFilterSettings { get; set; }
 
         string FilterWidgetTypeName { get; }
     }

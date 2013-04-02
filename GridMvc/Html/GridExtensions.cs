@@ -29,7 +29,7 @@ namespace GridMvc.Html
             where T : class
         {
             var newGrid = new Grid<T>(items.AsQueryable());
-            newGrid.Id = renderOptions.GridId;
+            newGrid.RenderOptions = renderOptions;
             var htmlGrid = new HtmlGrid<T>(newGrid, helper.ViewContext, renderOptions.ViewName);
             return htmlGrid;
         }

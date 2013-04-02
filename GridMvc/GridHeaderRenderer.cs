@@ -28,7 +28,7 @@ namespace GridMvc
                                  content, RenderAdditionalContent(column, content));
         }
 
-        protected string RenderAdditionalContent(IGridColumn column, string content)
+        protected virtual string RenderAdditionalContent(IGridColumn column, string content)
         {
             if (_additionalRenders.Count == 0) return string.Empty;
             var sb = new StringBuilder();

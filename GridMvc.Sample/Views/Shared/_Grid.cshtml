@@ -1,8 +1,8 @@
 ﻿@using GridMvc.Columns
 @model GridMvc.IGrid
-@if (Model == null){ return; }
+@if (Model == null) { return; }
 @{
-    var gridClinetId = "grid-mvc-" + (string.IsNullOrEmpty(Model.Id) ? Guid.NewGuid().ToString() : Model.Id);
+    var gridClinetId = "grid-mvc-" + (string.IsNullOrEmpty(Model.RenderOptions.GridId) ? Guid.NewGuid().ToString() : Model.RenderOptions.GridId);
 }
 <div id="@gridClinetId" class="grid-outer @(Model.EnablePaging ? "paged" : string.Empty)">
     @* Draw grid top items infomation panel *@
@@ -40,7 +40,9 @@
                 }
             </tbody>
         </table>
-        @if (Model.EnablePaging && Model.Pager != null && Model.Pager.PageCount > 1)
+
+        @* Draw pager *@
+        @if (Model.EnablePaging && Model.Pager != null && Model.ItemsToDisplay.Any() && Model.Pager.PageCount > 1)
         {
             <div class="grid-footer">
                 <div class="grid-footer-info">
@@ -51,17 +53,20 @@
                 @Html.Partial("_GridPager", Model.Pager)
             </div>
         }
-@* Draw pager *@
     </div>
 </div>
 @* Init Grid.Mvc client script *@
 <script>
     if (typeof (jQuery) != 'undefined' && typeof (jQuery.fn.gridmvc) != 'undefined') {
-        var grid = $("#@gridClinetId").gridmvc();
+        var grid = $("#@gridClinetId").gridmvc({
+            selectable: @Model.RenderOptions.Selectable.ToString().ToLower(),
+            multiplefilters: @Model.RenderOptions.AllowMultipleFilters.ToString().ToLower()
+        });
+
         window.gridMvcControl = grid;//when using only 1 grid on the page
-        @if (!string.IsNullOrEmpty(Model.Id))
+        @if (!string.IsNullOrEmpty(Model.RenderOptions.GridId))
         {
-         <text>if (typeof (window.pageGrids) == 'undefined') window.pageGrids = {}; window.pageGrids['@Model.Id'] = grid;</text>
+         <text>window.pageGrids['@Model.RenderOptions.GridId'] = grid;</text>
         }
     }
 </script>

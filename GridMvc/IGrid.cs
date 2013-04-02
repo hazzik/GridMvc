@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GridMvc.Columns;
+using GridMvc.Html;
 using GridMvc.Pagination;
 
 namespace GridMvc
@@ -10,9 +11,9 @@ namespace GridMvc
     public interface IGrid
     {
         /// <summary>
-        ///     Return Grid unigue Id
+        /// Grid render options
         /// </summary>
-        string Id { get; }
+        GridRenderOptions RenderOptions { get; }
 
         /// <summary>
         ///     Grid columns

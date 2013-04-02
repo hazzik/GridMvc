@@ -22,7 +22,7 @@ namespace GridMvc.Columns
         /// <summary>
         ///     Filters and orderers collection for this columns
         /// </summary>
-        private readonly List<IColumnFilter<T>> _filters = new List<IColumnFilter<T>>();
+        private readonly IColumnFilter<T> _filter;
 
         /// <summary>
         ///     Parent grid of this column
@@ -32,7 +32,10 @@ namespace GridMvc.Columns
         private readonly List<IColumnOrderer<T>> _orderers = new List<IColumnOrderer<T>>();
 
         private IGridColumnRenderer _cellRenderer;
+        private IGridColumnRenderer _headerRenderer;
+
         private string _filterWidgetTypeName;
+        
 
         public GridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {
@@ -42,7 +45,7 @@ namespace GridMvc.Columns
             SortEnabled = false;
             SanitizeEnabled = true;
 
-            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName;
+            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName;
             _grid = grid;
 
             _cellRenderer = new GridCellRenderer();
@@ -59,7 +62,7 @@ namespace GridMvc.Columns
 
                 _constraint = expression.Compile();
                 _orderers.Insert(0, new OrderByGridOrderer<T, TDataType>(expression));
-                _filters.Insert(0, new DefaultColumnFilter<T, TDataType>(expression));
+                _filter = new DefaultColumnFilter<T, TDataType>(expression);
                 //Generate unique column name:
                 Name = PropertiesHelper.BuildColumnNameFromMemberExpression(expr);
                 Title = Name; //Using the same name by default
@@ -72,7 +75,13 @@ namespace GridMvc.Columns
 
         public override IGridColumnRenderer HeaderRenderer
         {
-            get { return _grid.Settings.HeaderRenderer; }
+            get
+            {
+                if (_headerRenderer == null)
+                    return _grid.Settings.HeaderRenderer;
+                return _headerRenderer;
+            }
+            set { _headerRenderer = value; }
         }
 
         public override IGridColumnRenderer CellRenderer
@@ -89,9 +98,9 @@ namespace GridMvc.Columns
         public override bool FilterEnabled { get; set; }
 
 
-        public override IEnumerable<IColumnFilter<T>> Filters
+        public override IColumnFilter<T> Filter
         {
-            get { return _filters; }
+            get { return _filter; }
         }
 
         public override string FilterWidgetTypeName
@@ -178,7 +187,7 @@ namespace GridMvc.Columns
 
         public override IGridCell GetCell(object instance)
         {
-            return GetValue((T) instance);
+            return GetValue((T)instance);
         }
 
         public override IGridCell GetValue(T instance)
@@ -206,7 +215,7 @@ namespace GridMvc.Columns
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
-            return new GridCell(textValue) {Encode = EncodeEnabled};
+            return new GridCell(textValue) { Encode = EncodeEnabled };
         }
 
         public override IGridColumn<T> Filterable(bool enable)

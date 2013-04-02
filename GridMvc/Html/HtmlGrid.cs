@@ -42,9 +42,9 @@ namespace GridMvc.Html
             _source = source;
         }
 
-        public string Id
+        public GridRenderOptions RenderOptions
         {
-            get { return _source.Id; }
+            get { return _source.RenderOptions; }
         }
 
         IGridColumnCollection IGrid.Columns

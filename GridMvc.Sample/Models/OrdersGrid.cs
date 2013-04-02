@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using GridMvc.Sorting;
+﻿using System.Linq;
 
 namespace GridMvc.Sample.Models
 {
@@ -11,7 +7,7 @@ namespace GridMvc.Sample.Models
         public OrdersGrid(IQueryable<Order> items)
             : base(items)
         {
-            Id = "myGrid";
+            RenderOptions.GridId = "myGrid";
         }
 
     }

@@ -6,12 +6,29 @@
         {
             ViewName = viewName;
             GridId = gridId;
+            Selectable = true;
+            AllowMultipleFilters = false;
+        }
+
+        public GridRenderOptions()
+            : this(string.Empty, GridExtensions.DefaultPartialViewName)
+        {
         }
 
         /// <summary>
         ///     Specify partial view name for render grid
         /// </summary>
         public string ViewName { get; set; }
+
+        /// <summary>
+        /// Is multiple filters allowed
+        /// </summary>
+        public bool AllowMultipleFilters { get; set; }
+
+        /// <summary>
+        /// Gets or set grid items selectable
+        /// </summary>
+        public bool Selectable { get; set; }
 
         /// <summary>
         ///     Specify grid Id on the client side

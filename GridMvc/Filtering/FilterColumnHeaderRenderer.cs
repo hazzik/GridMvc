@@ -1,4 +1,6 @@
-﻿using GridMvc.Columns;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GridMvc.Columns;
 using GridMvc.Resources;
 using GridMvc.Utility;
 
@@ -10,16 +12,14 @@ namespace GridMvc.Filtering
     internal class QueryStringFilterColumnHeaderRenderer : IGridColumnRenderer
     {
         private const string FilteredButtonCssClass = "filtered";
-
         private const string FilterContent =
             @" <span 
-                                            data-type=""{1}"" 
-                                            data-name=""{2}""
-                                            data-filtertype=""{3}""
-                                            data-filtervalue=""{4}""
-                                            data-url=""{5}""
-                                            class=""grid-filter"">
-                                        <span class=""grid-filter-btn {6}"" title=""{0}""></span>
+                                            data-type='{1}'
+                                            data-name='{2}'
+                                            data-filterdata='{3}'
+                                            data-url='{4}'
+                                            class='grid-filter'>
+                                        <span class='grid-filter-btn {5}' title='{0}'></span>
                                     </span>";
 
         private readonly QueryStringFilterSettings _settings;
@@ -36,38 +36,29 @@ namespace GridMvc.Filtering
             if (!column.FilterEnabled)
                 return string.Empty;
 
-            IGridFilterSettings filterSettings = _settings.IsInitState && column.InitialFilterSettings != null
-                                                     ? column.InitialFilterSettings
-                                                     : _settings;
+            var filterSettings = _settings.IsInitState
+                                                     ? new List<ColumnFilterValue> { column.InitialFilterSettings }
+                                                     : _settings.FilteredColumns.GetByColumn(column).ToList();
 
-            var filterType = GridFilterType.Equals;
-            string value = string.Empty;
-            bool isColumnFiltered = false;
-            if (column.Name == filterSettings.ColumnName)
-            {
-                //filter on this column:
-                filterType = filterSettings.Type;
-                value = filterSettings.Value;
-                isColumnFiltered = true;
-            }
+            bool isColumnFiltered = filterSettings.Any();
+
             //determine current url:
             var builder = new CustomQueryStringBuilder(_settings.Context.Request.QueryString);
             string url =
                 builder.GetQueryStringExcept(new[]
                     {
                         column.ParentGrid.Pager.ParameterName,
-                        _settings.FilterInitQueryParameterName,
-                        _settings.TypeQueryParameterName,
-                        _settings.ColumnQueryParameterName,
-                        _settings.ValueQueryParameterName
+                        QueryStringFilterSettings.DefaultTypeQueryParameter,
+                        //_settings.TypeQueryParameterName,
+                        //_settings.ColumnQueryParameterName,
+                        //_settings.ValueQueryParameterName
                     });
 
             return string.Format(FilterContent,
                                  Strings.FilterButtonTooltipText,
                                  column.FilterWidgetTypeName,
                                  column.Name,
-                                 (int) filterType,
-                                 value,
+                                 JsonHelper.JsonSerializer(filterSettings),
                                  url,
                                  isColumnFiltered ? FilteredButtonCssClass : string.Empty);
         }

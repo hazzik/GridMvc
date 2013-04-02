@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using GridMvc.DataAnnotations;
@@ -52,6 +51,7 @@ namespace GridMvc.Columns
         public override IGridColumnRenderer HeaderRenderer
         {
             get { return new GridHiddenHeaderRenderer(); }
+            set { throw new InvalidOperationException("You can't set header renderer of hidden column"); }
         }
 
         public override IGridColumnRenderer CellRenderer
@@ -66,14 +66,14 @@ namespace GridMvc.Columns
             set { }
         }
 
-        public override IEnumerable<IColumnFilter<T>> Filters
+        public override IColumnFilter<T> Filter
         {
-            get { return Enumerable.Empty<IColumnFilter<T>>(); }
+            get { return null; }
         }
 
         public override string FilterWidgetTypeName
         {
-            get { return PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName; }
+            get { return PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName; }
         }
 
         //public override bool IsSorted { get; set; }
@@ -134,7 +134,7 @@ namespace GridMvc.Columns
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
-            return new GridCell(textValue) {Encode = EncodeEnabled};
+            return new GridCell(textValue) { Encode = EncodeEnabled };
         }
 
         public override IGridColumn<T> Filterable(bool showColumnValuesVariants)
@@ -144,7 +144,7 @@ namespace GridMvc.Columns
 
         public override IGridCell GetCell(object instance)
         {
-            return GetValue((T) instance);
+            return GetValue((T)instance);
         }
 
         private void ApplyColumnSettings(PropertyInfo pi)

@@ -75,8 +75,12 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> SetInitialFilter(GridFilterType type, string value)
         {
-            var filter = new CustomFilterSettings(type, value);
-            filter.SetColumnName(Name);
+            var filter = new ColumnFilterValue
+                {
+                    FilterType = type,
+                    FilterValue = value,
+                    ColumnName=Name
+                }; 
             InitialFilterSettings = filter;
             return this;
         }
@@ -89,13 +93,13 @@ namespace GridMvc.Columns
         public abstract IEnumerable<IColumnOrderer<T>> Orderers { get; }
         public abstract IGridColumn<T> Sortable(bool sort);
 
-        public abstract IGridColumnRenderer HeaderRenderer { get; }
+        public abstract IGridColumnRenderer HeaderRenderer { get; set; }
         public abstract IGridColumnRenderer CellRenderer { get; set; }
         public abstract IGridCell GetCell(object instance);
 
         public abstract bool FilterEnabled { get; set; }
 
-        public IGridFilterSettings InitialFilterSettings { get; set; }
+        public ColumnFilterValue InitialFilterSettings { get; set; }
 
         public abstract IGridColumn<T> Filterable(bool showColumnValuesVariants);
 
@@ -103,7 +107,7 @@ namespace GridMvc.Columns
         public abstract IGridColumn<T> SetFilterWidgetType(string typeName);
 
 
-        public abstract IEnumerable<IColumnFilter<T>> Filters { get; }
+        public abstract IColumnFilter<T> Filter { get; }
         public abstract string FilterWidgetTypeName { get; }
 
         #endregion

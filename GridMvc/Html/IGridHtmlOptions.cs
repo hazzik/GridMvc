@@ -53,6 +53,11 @@ namespace GridMvc.Html
         IGridHtmlOptions<T> Filterable(bool enable);
 
         /// <summary>
+        ///     Enable or disable client grid items selectable feature
+        /// </summary>
+        IGridHtmlOptions<T> Selectable(bool set);
+
+        /// <summary>
         ///     Setup the text, which will displayed with empty items collection in the grid
         /// </summary>
         /// <param name="text">Grid empty text</param>

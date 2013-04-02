@@ -32,13 +32,15 @@ namespace GridMvc.Tests.Filtering
         [TestMethod]
         public void TestFilter()
         {
-            var mock = new Mock<IGridFilterSettings>();
-            mock.Setup(settings => settings.ColumnName).Returns("Created");
-            mock.Setup(settings => settings.Type).Returns(GridFilterType.LessThan);
-            mock.Setup(settings => settings.Value).Returns("10.05.2005");
+            var filterOptions = new ColumnFilterValue
+                {
+                    ColumnName = "Created",
+                    FilterType = GridFilterType.LessThan,
+                    FilterValue = "10.05.2005"
+                };
             var filter = new DefaultColumnFilter<TestModel, DateTime>(m => m.Created);
 
-            var filtered = filter.ApplyFilter(_repo.GetAll().AsQueryable(), mock.Object);
+            var filtered = filter.ApplyFilter(_repo.GetAll().AsQueryable(), filterOptions);
 
             var original = _repo.GetAll().AsQueryable().Where(t => t.Created < new DateTime(2005, 5, 10));
 
@@ -51,6 +53,7 @@ namespace GridMvc.Tests.Filtering
             //var processed processor.Process()
         }
 
+       
         [TestMethod]
         public void TestFilteringDateTimeLessThan()
         {
@@ -111,7 +114,7 @@ namespace GridMvc.Tests.Filtering
             TestFiltering(settings, x => x.Child.ChildCreated, x => x.Child.ChildCreated == firstItem.Child.ChildCreated);
         }
 
-        private void TestFiltering<T>(IGridFilterSettings settings, Expression<Func<TestModel, T>> column,
+        private void TestFiltering<T>(ColumnFilterValue settings, Expression<Func<TestModel, T>> column,
                                    Func<TestModel, bool> filterContraint)
         {
             _grid.Columns.Add(column, settings.ColumnName).Filterable(true);
@@ -121,11 +124,17 @@ namespace GridMvc.Tests.Filtering
             }
         }
 
-        private bool ValidateFiltering(TestGrid grid, IGridFilterSettings filterSettings,
+        private bool ValidateFiltering(TestGrid grid, ColumnFilterValue value,
                                                         Func<TestModel, bool> filterExpression)
         {
             var settingsMock = new Mock<IGridSettingsProvider>();
-            settingsMock.Setup(s => s.FilterSettings).Returns(filterSettings);
+            var filterSetting = new Mock<IGridFilterSettings>();
+            var filterCollection = new DefaultFilterColumnCollection { value };
+
+            filterSetting.Setup(t => t.FilteredColumns).Returns(filterCollection);
+            filterSetting.Setup(t => t.IsInitState).Returns(false);
+
+            settingsMock.Setup(s => s.FilterSettings).Returns(filterSetting.Object);
             settingsMock.Setup(s => s.SortSettings).Returns(new QueryStringSortSettings());
             grid.Settings = settingsMock.Object;
 
@@ -141,14 +150,14 @@ namespace GridMvc.Tests.Filtering
             return true;
         }
 
-        private IGridFilterSettings MockFilterSetting(string columnName, string filterValue, GridFilterType type)
+        private ColumnFilterValue MockFilterSetting(string columnName, string filterValue, GridFilterType type)
         {
-            var mock = new Mock<IGridFilterSettings>();
-            mock.Setup(settings => settings.ColumnName).Returns(columnName);
-            mock.Setup(settings => settings.Type).Returns(type);
-            mock.Setup(settings => settings.Value).Returns(filterValue);
-            mock.Setup(settings => settings.IsInitState).Returns(false);
-            return mock.Object;
+            return new ColumnFilterValue
+                {
+                    ColumnName = columnName,
+                    FilterValue = filterValue,
+                    FilterType = type
+                };
         }
 
         private bool ValidateCollectionsTheSame<T>(IEnumerable<T> collection1, IEnumerable<T> collection2)

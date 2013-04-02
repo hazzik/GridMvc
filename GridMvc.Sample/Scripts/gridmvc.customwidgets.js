@@ -20,7 +20,7 @@ function CustomersFilterWidget() {
     /***
     * This method must return type of registered widget type in 'SetFilterWidgetType' method
     */
-    this.getAssociatedTypes = function() {
+    this.getAssociatedTypes = function () {
         return ["CustomCompanyNameFilterWidget"];
     };
     /***
@@ -38,17 +38,17 @@ function CustomersFilterWidget() {
     * container - html element, which must contain widget layout;
     * lang - current language settings;
     * typeName - current column type (if widget assign to multipile types, see: getAssociatedTypes);
-    * filterType - current filter type (like equals, starts with etc);
-    * filterValue - current filter value;
+    * values - current filter values. Array of objects [{filterValue: '', filterType:'1'}];
     * cb - callback function that must invoked when user want to filter this column. Widget must pass filter type and filter value.
     */
-    this.onRender = function (container, lang, typeName, filterType, filterValue, cb) {
+    this.onRender = function (container, lang, typeName, values, cb) {
         //store parameters:
         this.cb = cb;
         this.container = container;
         this.lang = lang;
-        this.filterValue = filterValue;
-        this.filterType = filterType;
+
+        //this filterwidget demo supports only 1 filter value for column column
+        this.value = values.length > 0 ? values[0] : { filterType: 1, filterValue: "" };
 
         this.renderWidget(); //onRender filter widget
         this.loadCustomers(); //load customer's list from the server
@@ -76,7 +76,7 @@ function CustomersFilterWidget() {
     this.fillCustomers = function (items) {
         var customerList = this.container.find(".customerslist");
         for (var i = 0; i < items.length; i++) {
-            customerList.append('<option ' + (items[i] == this.filterValue ? 'selected="selected"' : '') + ' value="' + items[i] + '">' + items[i] + '</option>');
+            customerList.append('<option ' + (items[i] == this.value.filterValue ? 'selected="selected"' : '') + ' value="' + items[i] + '">' + items[i] + '</option>');
         }
     };
     /***
@@ -90,7 +90,8 @@ function CustomersFilterWidget() {
         //register onclick event handler
         customerList.change(function () {
             //invoke callback with selected filter values:
-            $context.cb("1"/* Equals */, $(this).val());
+            var values = [{ filterValue: $(this).val(), filterType: '1'/* Equals */ }];
+            $context.cb(values);
         });
     };
 

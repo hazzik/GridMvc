@@ -4,6 +4,7 @@ using System.Reflection;
 using GridMvc.Columns;
 using GridMvc.DataAnnotations;
 using GridMvc.Filtering;
+using GridMvc.Html;
 using GridMvc.Pagination;
 using GridMvc.Resources;
 using GridMvc.Sorting;
@@ -48,9 +49,12 @@ namespace GridMvc
             //Set up column collection:
             var columnBuilder = new DefaultColumnBuilder<T>(this);
             _columnsCollection = new GridColumnCollection<T>(columnBuilder, _settings.SortSettings);
+            RenderOptions = new GridRenderOptions();
 
             ApplyGridSettings();
         }
+
+        public GridRenderOptions RenderOptions { get; set; }
 
         /// <summary>
         ///     Grid columns collection
@@ -94,8 +98,6 @@ namespace GridMvc
                 //InsertItemsProcessor(0, _currentSortItemsProcessor);
             }
         }
-
-        public string Id { get; set; }
 
         /// <summary>
         ///     Items, displaying in the grid view
@@ -179,7 +181,7 @@ namespace GridMvc
         /// </summary>
         private void ApplyGridSettings()
         {
-            var opt = typeof (T).GetAttribute<GridTableAttribute>();
+            var opt = typeof(T).GetAttribute<GridTableAttribute>();
             if (opt == null) return;
             EnablePaging = opt.PagingEnabled;
             if (opt.PageSize > 0)
@@ -202,7 +204,7 @@ namespace GridMvc
         /// </summary>
         public virtual void AutoGenerateColumns()
         {
-            PropertyInfo[] properties = typeof (T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (PropertyInfo pi in properties)
             {
                 if (pi.CanRead)

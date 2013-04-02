@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 
 namespace GridMvc.Filtering
@@ -8,24 +9,18 @@ namespace GridMvc.Filtering
     /// </summary>
     public class QueryStringFilterSettings : IGridFilterSettings
     {
-        private const string DefaultTypeQueryParameter = "grid-filter-type";
-        private const string DefaultColumnQueryParameter = "grid-filter-col";
-        private const string DefaultValueQueryParameter = "grid-filter-val";
+        public const string DefaultTypeQueryParameter = "grid-filter";
+        private const string FilterDataDelimeter = "__";
         private const string DefaultFilterInitQueryParameter = "grid-init";
-
-
         public readonly HttpContext Context;
-
-        private string _columnQueryParameterName;
-        private string _filterInitQueryParameterName;
-        private string _typeQueryParameterName;
-        private string _valueQueryParameterName;
+        private readonly DefaultFilterColumnCollection _columns = new DefaultFilterColumnCollection();
 
         #region Ctor's
 
         public QueryStringFilterSettings()
             : this(HttpContext.Current)
         {
+            
         }
 
         public QueryStringFilterSettings(HttpContext context)
@@ -34,95 +29,54 @@ namespace GridMvc.Filtering
                 throw new ArgumentException("No http context here!");
             Context = context;
 
-            Type = GridFilterType.Equals;
+            var filters = Context.Request.QueryString.GetValues(DefaultTypeQueryParameter);
+            if (filters != null)
+            {
+                foreach (var filter in filters)
+                {
+                    var column = CreateColumnData(filter);
+                    if (column != ColumnFilterValue.Null)
+                        _columns.Add(column);
+                }
 
-            ColumnQueryParameterName = DefaultColumnQueryParameter;
-            ValueQueryParameterName = DefaultValueQueryParameter;
-            TypeQueryParameterName = DefaultTypeQueryParameter;
-
-            _filterInitQueryParameterName = DefaultFilterInitQueryParameter;
+            }
         }
 
         #endregion
 
-        public virtual string FilterInitQueryParameterName
+        private ColumnFilterValue CreateColumnData(string queryParameterValue)
         {
-            get { return _filterInitQueryParameterName; }
-            set { _filterInitQueryParameterName = value; }
+            if (string.IsNullOrEmpty(queryParameterValue))
+                return ColumnFilterValue.Null;
+
+            var data = queryParameterValue.Split(new[] { FilterDataDelimeter }, StringSplitOptions.RemoveEmptyEntries);
+            if (data.Length != 3)
+                return ColumnFilterValue.Null;
+            GridFilterType type;
+            if (!Enum.TryParse(data[1], true, out type))
+                type = GridFilterType.Equals;
+
+            return new ColumnFilterValue { ColumnName = data[0], FilterType = type, FilterValue = data[2] };
         }
 
-        public string ColumnQueryParameterName
-        {
-            get { return _columnQueryParameterName; }
-            set
-            {
-                _columnQueryParameterName = value;
-                RefreshColumn();
-            }
-        }
-
-        public string ValueQueryParameterName
-        {
-            get { return _valueQueryParameterName; }
-            set
-            {
-                _valueQueryParameterName = value;
-                RefreshValue();
-            }
-        }
-
-        public string TypeQueryParameterName
-        {
-            get { return _typeQueryParameterName; }
-            set
-            {
-                _typeQueryParameterName = value;
-                RefreshType();
-            }
-        }
 
         #region IGridFilterSettings Members
 
-        public string ColumnName { get; set; }
-        public string Value { get; set; }
-        public GridFilterType Type { get; set; }
+        public IFilterColumnCollection FilteredColumns
+        {
+            get { return _columns; }
+        }
 
         public bool IsInitState
         {
             get
             {
-                bool isEmptyValues = string.IsNullOrEmpty(ColumnName) || string.IsNullOrEmpty(Value);
-                if (!isEmptyValues) return false;
-                return Context.Request.QueryString[FilterInitQueryParameterName] != null;
+                if (FilteredColumns.Any()) return false;
+                return Context.Request.QueryString[DefaultFilterInitQueryParameter] != null;
             }
         }
 
         #endregion
 
-        private void RefreshColumn()
-        {
-            string currentFilterColumn = Context.Request.QueryString[ColumnQueryParameterName] ?? string.Empty;
-            ColumnName = currentFilterColumn;
-        }
-
-        private void RefreshValue()
-        {
-            //string currentFilterValue = HttpUtility.ParseQueryString(Context.Request.Url.Query, Encoding.GetEncoding("iso-8859-1"))[ValueQueryParameterName];
-            string currentFilterValue = Context.Request.QueryString[ValueQueryParameterName] ?? string.Empty;
-            Value = currentFilterValue;
-        }
-
-        private void RefreshType()
-        {
-            string currentFilterType = Context.Request.QueryString[TypeQueryParameterName] ?? string.Empty;
-            if (string.IsNullOrEmpty(currentFilterType))
-            {
-                Type = GridFilterType.Equals;
-                return;
-            }
-            GridFilterType type;
-            Enum.TryParse(currentFilterType, true, out type);
-            Type = type;
-        }
     }
 }
