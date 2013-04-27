@@ -75,6 +75,11 @@ namespace GridMvc.Html
         IGridHtmlOptions<T> SetRowCssClasses(Func<T, string> contraint);
 
         /// <summary>
+        /// Specify Grid client name
+        /// </summary>
+        IGridHtmlOptions<T> Named(string gridName);
+
+        /// <summary>
         ///     Generates columns for all properties of the model.
         ///     Use data annotations to customize columns
         /// </summary>

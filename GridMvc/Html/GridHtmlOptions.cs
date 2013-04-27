@@ -119,6 +119,12 @@ namespace GridMvc.Html
             return this;
         }
 
+        public IGridHtmlOptions<T> Named(string gridName)
+        {
+            _source.RenderOptions.GridName = gridName;
+            return this;
+        }
+
         /// <summary>
         ///     Generates columns for all properties of the model.
         ///     Use data annotations to customize columns

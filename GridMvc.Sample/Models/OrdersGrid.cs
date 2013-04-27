@@ -7,7 +7,7 @@ namespace GridMvc.Sample.Models
         public OrdersGrid(IQueryable<Order> items)
             : base(items)
         {
-            RenderOptions.GridId = "myGrid";
+            RenderOptions.GridName = "myGrid";
         }
 
     }

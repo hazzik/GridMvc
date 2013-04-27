@@ -5,7 +5,7 @@
         public GridRenderOptions(string gridId, string viewName)
         {
             ViewName = viewName;
-            GridId = gridId;
+            GridName = gridId;
             Selectable = true;
             AllowMultipleFilters = false;
         }
@@ -33,7 +33,7 @@
         /// <summary>
         ///     Specify grid Id on the client side
         /// </summary>
-        public string GridId { get; set; }
+        public string GridName { get; set; }
 
         public static GridRenderOptions Create(string gridId)
         {

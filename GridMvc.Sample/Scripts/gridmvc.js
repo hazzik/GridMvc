@@ -122,28 +122,28 @@ GridMvc = (function () {
     */
     gridMvc.prototype.initFilters = function () {
         var filterHtml = this.filterMenuHtml();
-        var $context = this;
+        var self = this;
         this.jqContainer.find(".grid-filter").each(function () {
             $(this).click(function () {
-                return $context.openFilterPopup.call(this, $context, filterHtml);
+                return self.openFilterPopup.call(this, self, filterHtml);
             });
         });
     };
     /***
     * Shows filter popup window and render filter widget
     */
-    gridMvc.prototype.openFilterPopup = function ($context, html) {
+    gridMvc.prototype.openFilterPopup = function (self, html) {
         //retrive all column filter parameters from html attrs:
         var columnType = $(this).attr("data-type") || "";
         //determine widget
-        var widget = $context.getFilterWidgetForType(columnType);
+        var widget = self.getFilterWidgetForType(columnType);
         //if widget for specified column type not found - do nothing
         if (widget == null)
             return false;
 
         //if widget allready rendered - just open popup menu:
         if (this.hasAttribute("data-rendered")) {
-            var or = $context.openMenuOnClick.call(this, $context);
+            var or = self.openMenuOnClick.call(this, self);
             if (!or && typeof (widget.onShow) != 'undefined')
                 widget.onShow();
             return or;
@@ -151,7 +151,7 @@ GridMvc = (function () {
 
         var columnName = $(this).attr("data-name") || "";
         var filterData = $(this).attr("data-filterdata") || "";
-        var filterDataObj = $context.parseFilterValues(filterData);
+        var filterDataObj = self.parseFilterValues(filterData);
         var filterUrl = $(this).attr("data-url");
 
         //mark filter as rendered
@@ -162,19 +162,19 @@ GridMvc = (function () {
         var widgetContainer = $(this).find(".menu-popup-widget");
         //onRender target widget
         if (typeof (widget.onRender) != 'undefined')
-            widget.onRender(widgetContainer, $context.lang, columnType, filterDataObj, function (values) {
-                $context.closeOpenedPopups();
-                $context.applyFilterValues(filterUrl, columnName, values, false);
+            widget.onRender(widgetContainer, self.lang, columnType, filterDataObj, function (values) {
+                self.closeOpenedPopups();
+                self.applyFilterValues(filterUrl, columnName, values, false);
             });
         //adding 'clear filter' button if needed:
         if ($(this).find(".grid-filter-btn").hasClass("filtered") && widget.showClearFilterButton()) {
             var inner = $(this).find(".menu-popup-additional");
-            inner.append($context.getClearFilterButton(filterUrl));
+            inner.append(self.getClearFilterButton(filterUrl));
             inner.find(".grid-filter-clear").click(function () {
-                $context.applyFilterValues(filterUrl, columnName, "", true);
+                self.applyFilterValues(filterUrl, columnName, "", true);
             });
         }
-        var openResult = $context.openMenuOnClick.call(this, $context);
+        var openResult = self.openMenuOnClick.call(this, self);
         if (typeof (widget.onShow) != 'undefined')
             widget.onShow();
         return openResult;
@@ -183,13 +183,11 @@ GridMvc = (function () {
     * Returns layout of filter popup menu
     */
     gridMvc.prototype.filterMenuHtml = function () {
-        return '<div class="menu-popup" style="display: none;">\
-                    <div class="menu-popup-wrap">\
-                        <div class="menu-popup-arrow"></div>\
-                        <div class="menu-popup-inner">\
+        return '<div class="dropdown-menu grid-dropdown" style="display: none;">\
+                    <div class="grid-dropdown-arrow"></div>\
+                    <div class="grid-dropdown-inner">\
                             <div class="menu-popup-widget"></div>\
                             <div class="menu-popup-additional"></div>\
-                        </div>\
                     </div>\
                 </div>';
     };
@@ -286,17 +284,17 @@ GridMvc = (function () {
     * ============= POPUP MENU =============
     * Methods that provides base functionality for popup menus
     */
-    gridMvc.prototype.openMenuOnClick = function ($context) {
+    gridMvc.prototype.openMenuOnClick = function (self) {
         if ($(this).hasClass("clicked")) return true;
-        $context.closeOpenedPopups();
+        self.closeOpenedPopups();
         $(this).addClass("clicked");
-        var popup = $(this).find(".menu-popup");
+        var popup = $(this).find(".dropdown-menu");
         if (popup.length == 0) return true;
         popup.show();
         popup.addClass("opened");
-        $context.openedMenuBtn = $(this);
+        self.openedMenuBtn = $(this);
         $(document).bind("click.gridmvc", function (e) {
-            $context.documentCallback(e, $context);
+            self.documentCallback(e, self);
         });
         return false;
     };
@@ -304,7 +302,7 @@ GridMvc = (function () {
     gridMvc.prototype.documentCallback = function (e, $context) {
         e = e || event;
         var target = e.target || e.srcElement;
-        var box = $(".menu-popup.opened").get(0);
+        var box = $(".dropdown-menu.opened").get(0);
         if (typeof box != "undefined") {
             do {
                 if (box == target) {
@@ -322,7 +320,7 @@ GridMvc = (function () {
     };
 
     gridMvc.prototype.closeOpenedPopups = function () {
-        var openedPopup = $(".menu-popup.opened");
+        var openedPopup = $(".dropdown-menu.opened");
         openedPopup.hide();
         openedPopup.removeClass("opened");
         if (this.openedMenuBtn != null)

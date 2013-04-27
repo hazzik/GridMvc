@@ -5,29 +5,6 @@ using GridMvc.Pagination;
 
 namespace GridMvc.Html
 {
-    ///// <summary>
-    /////     Grid adapter for html helper
-    ///// </summary>
-    //public class HtmlGrid1<T> : Grid<T>, IHtmlString where T : class
-    //{
-    //    private readonly ViewContext _viewContext;
-
-    //    public HtmlGrid(IQueryable<T> items, ViewContext viewContext, string viewName)
-    //        : base(items)
-    //    {
-    //        _viewContext = viewContext;
-    //        GridViewName = viewName;
-    //    }
-
-    //    public string GridViewName { get; set; }
-
-    //    public string ToHtmlString()
-    //    {
-    //        return GridExtensions.RenderPartialViewToString(GridViewName, this, _viewContext);
-    //    }
-
-    //}
-
     /// <summary>
     ///     Grid adapter for html helper
     /// </summary>
@@ -107,5 +84,7 @@ namespace GridMvc.Html
         {
             _source.OnPreRender();
         }
+
+
     }
 }

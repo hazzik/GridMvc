@@ -23,10 +23,10 @@
     This page demonstrates the possibilities of Grid.Mvc. For more documentation, please
     see: <a href="http://gridmvc.codeplex.com/">http://gridmvc.codeplex.com/</a>
 </p>
+<div class="row-fluid">
+    <div id="ordersGrid" class="span9">
 
-<div id="ordersGrid" style="float: left; position: relative; width: 660px;">
-
-    @Html.Grid(Model, new GridRenderOptions { AllowMultipleFilters = true, GridId = "myGrid" }).Columns(columns =>
+        @Html.Grid(Model).Named("myGrid").Columns(columns =>
     {
         /* Adding not mapped column, that renders body, using inline Razor html helper */
         columns.Add()
@@ -37,19 +37,19 @@
                     @<b>
                         @Html.ActionLink("Edit", "Index")
                     </b>);
-        
+
         /* Adding "OrderID" column: */
         columns.Add(o => o.OrderID)
                 .Titled("Number")
                 .SetWidth(100);
-                
+
         /* Adding "OrderDate" column: */
         columns.Add(o => o.OrderDate, "OrderCustomDate")
                 .Titled("Date")
                 .SortInitialDirection(GridSortDirection.Descending)
                 .Format("{0:dd/MM/yyyy}")
                 .SetWidth(110);
-                
+
         /* Adding "CompanyName" column: */
         columns.Add(o => o.Customer.CompanyName)
                 .Titled("Company Name")
@@ -63,18 +63,19 @@
 
     }).SetRowCssClasses(item => item.Customer.IsVip ? "warning" : string.Empty).WithPaging(15, 6).Selectable(true).Sortable().Filterable()
 
-</div>
-
-<div id="order-info" style="float: right; width: 270px;">
-
-    <h4>Order details
-    </h4>
-    <div id="order-content" style="min-height: 500px; padding: 0 5px;">
-        <p style="color: #777;">
-            Select order to display detailed infomation
-        </p>
     </div>
 
+    <div class="span3">
+
+        <h4>Order details
+        </h4>
+        <div id="order-content">
+            <p class="muted">
+                Select order to display detailed infomation
+            </p>
+        </div>
+
+    </div>
 </div>
 <script>
     pageGrids.myGrid.addFilterWidget(new CustomersFilterWidget());
