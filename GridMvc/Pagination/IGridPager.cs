@@ -1,13 +1,14 @@
-﻿namespace GridMvc.Pagination
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace GridMvc.Pagination
 {
     public interface IGridPager
     {
-        int PageSize { get; set; }
-
         /// <summary>
-        ///     Total pages count
+        ///     Max grid items, displaying on the page
         /// </summary>
-        int PageCount { get; }
+        int PageSize { get; set; }
 
         /// <summary>
         ///     Current page index
@@ -15,26 +16,41 @@
         int CurrentPage { get; }
 
         /// <summary>
-        ///     Starting displaying page
+        ///     Partial view name to render the pager
         /// </summary>
-        int StartDisplayedPage { get; }
+        string TemplateName { get; }
 
         /// <summary>
-        ///     Last displaying page
+        ///     Method invokes before pager render
         /// </summary>
-        int EndDisplayedPage { get; }
+        void Initialize<T>(IQueryable<T> items);
 
-        int MaxDisplayedPages { get; set; }
+        ///// <summary>
+        /////     Total pages count
+        ///// </summary>
+        //int PageCount { get; }
 
-        string ParameterName { get; }
+        ///// <summary>
+        /////     Starting displaying page
+        ///// </summary>
+        //int StartDisplayedPage { get; }
 
-        int ItemsCount { get; set; }
+        ///// <summary>
+        /////     Last displaying page
+        ///// </summary>
+        //int EndDisplayedPage { get; }
 
-        /// <summary>
-        ///     Получить адрес для конкретной страницы
-        /// </summary>
-        /// <param name="pageIndex">Номер страницы</param>
-        /// <returns>Адрес страницы</returns>
-        string GetLinkForPage(int pageIndex);
+        //int MaxDisplayedPages { get; set; }
+
+        //string ParameterName { get; }
+
+        //int ItemsCount { get; set; }
+
+        ///// <summary>
+        /////     Получить адрес для конкретной страницы
+        ///// </summary>
+        ///// <param name="pageIndex">Номер страницы</param>
+        ///// <returns>Адрес страницы</returns>
+        //string GetLinkForPage(int pageIndex);
     }
 }

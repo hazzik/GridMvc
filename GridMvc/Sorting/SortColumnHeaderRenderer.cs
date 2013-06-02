@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Web;
 using GridMvc.Columns;
 using GridMvc.Pagination;
 using GridMvc.Utility;
@@ -20,7 +21,7 @@ namespace GridMvc.Sorting
             _settings = settings;
         }
 
-        public override string Render(IGridColumn column, string content)
+        public override IHtmlString Render(IGridColumn column, string content)
         {
             return base.Render(column, GetSortHeaderContent(column, content));
         }

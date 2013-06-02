@@ -1,7 +1,7 @@
 ﻿/***
 * Grid.Mvc
 * Examples and documentation at: http://gridmvc.codeplex.com
-* Version: 2.4.0
+* Version: 3.0.0
 * Requires: jQuery v1.3+
 * LGPL license: http://gridmvc.codeplex.com/license
 */
@@ -56,7 +56,7 @@ GridMvc = (function () {
     */
     gridMvc.prototype.initGridRowsEvents = function () {
         var $this = this;
-        this.jqContainer.find(".grid-row").click(function () {
+        this.jqContainer.on("click", ".grid-row", function () {
             $this.rowClicked.call(this, $this);
         });
     };
@@ -216,7 +216,7 @@ GridMvc = (function () {
         return opt;
     };
 
-    gridMvc.prototype.urldecode = function(str) {
+    gridMvc.prototype.urldecode = function (str) {
         return decodeURIComponent((str + '').replace(/\+/g, '%20'));
     };
 

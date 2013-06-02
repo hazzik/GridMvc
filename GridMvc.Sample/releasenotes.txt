@@ -1,0 +1,12 @@
+﻿- Grid.Mvc 3.0.0
+	Added multiple columns filtering
+	Added support of multiple filters per one column
+	Extended GridRenderOptions: selectable option and allow multiple filters option
+	Updated to 2.3.2 bootstrap version of sample app
+	Support of overriding header renderers
+	Minifing own grid css styles by using default bootstrap styles
+
+	New IGridPager model. Support for custom grid pager rendering templates.
+
+	Added new method 'Named' for specifing grid client name
+	Modify sample app layout for responsive design

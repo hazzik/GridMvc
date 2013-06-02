@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>SyntaxHighlighter</id>
+    <version>3.0.83</version>
+    <title>Javascript Syntax Highlighter</title>
+    <authors>Alex Gorbatchev</authors>
+    <owners>Alex Gorbatchev</owners>
+    <licenseUrl>https://raw.github.com/alexgorbatchev/SyntaxHighlighter/master/MIT-LICENSE</licenseUrl>
+    <projectUrl>http://alexgorbatchev.com/SyntaxHighlighter/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SyntaxHighlighter is a fully functional self-contained code syntax highlighter developed in JavaScript</description>
+    <releaseNotes>http://alexgorbatchev.com/SyntaxHighlighter/whatsnew.html
+
+SyntaxHighlighter 3.0 has quite a few new tricks up its sleeve. There are a number of new features that are worth mentioning here.
+
+Dynamic Brush Loading
+No Flash Copy To Clipboard
+Code Selection
+Block Title
+CommonJS
+Improved CSS support</releaseNotes>
+    <copyright>Copyright 2004-2011 Alex Gorbatchev</copyright>
+    <tags>javascript syntax highlighter</tags>
+  </metadata>
+</package>

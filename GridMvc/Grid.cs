@@ -28,6 +28,11 @@ namespace GridMvc
         private IGridItemsProcessor<T> _pagerProcessor;
         private IGridSettingsProvider _settings;
 
+        public Grid(IEnumerable<T> items)
+            : this(items.AsQueryable())
+        {
+        }
+
         public Grid(IQueryable<T> items)
             : base(items)
         {
@@ -93,9 +98,6 @@ namespace GridMvc
                 _settings = value;
                 _currentSortItemsProcessor.UpdateSettings(_settings.SortSettings);
                 _currentFilterItemsProcessor.UpdateSettings(_settings.FilterSettings);
-                //RemoveItemsProcessor(_currentSortItemsProcessor);
-                //_currentSortItemsProcessor = new SortGridItemsProcessor<T>(this, _settings.SortSettings);
-                //InsertItemsProcessor(0, _currentSortItemsProcessor);
             }
         }
 
@@ -136,7 +138,7 @@ namespace GridMvc
                 if (_enablePaging)
                 {
                     if (_pagerProcessor == null)
-                        _pagerProcessor = new PagerGridItemsProcessor<T>(this, Pager);
+                        _pagerProcessor = new PagerGridItemsProcessor<T>(Pager);
                     AddItemsProcessor(_pagerProcessor);
                 }
                 else
@@ -152,13 +154,6 @@ namespace GridMvc
         ///     Gets or set Grid column values sanitizer
         /// </summary>
         public ISanitizer Sanitizer { get; set; }
-
-        public void OnPreRender()
-        {
-            //backward compatibility
-            //UpdateColumnsSorting();
-            //PrepareItemsToDisplay();
-        }
 
         /// <summary>
         ///     Manage pager properties
@@ -186,8 +181,11 @@ namespace GridMvc
             EnablePaging = opt.PagingEnabled;
             if (opt.PageSize > 0)
                 Pager.PageSize = opt.PageSize;
-            if (opt.PagingMaxDisplayedPages > 0)
-                Pager.MaxDisplayedPages = opt.PagingMaxDisplayedPages;
+
+            if (opt.PagingMaxDisplayedPages > 0 && Pager is GridPager)
+            {
+                (Pager as GridPager).MaxDisplayedPages = opt.PagingMaxDisplayedPages;
+            }
         }
 
         /// <summary>

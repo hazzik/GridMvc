@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Web;
+using System.Web.Mvc;
 using GridMvc.Columns;
 
 namespace GridMvc
@@ -16,16 +18,16 @@ namespace GridMvc
             AddCssClass(ThClass);
         }
 
-        public override string Render(IGridColumn column, string content)
+        public override IHtmlString Render(IGridColumn column, string content)
         {
             string widthStyle = string.Empty;
             if (!string.IsNullOrEmpty(column.Width))
                 widthStyle = string.Format("width:{0};", column.Width);
 
-            return string.Format("<th style=\"{0}{1}\" class=\"{2}\">{3}{4}</th>", widthStyle,
+            return MvcHtmlString.Create(string.Format("<th style=\"{0}{1}\" class=\"{2}\">{3}{4}</th>", widthStyle,
                                  GetCssStylesString(),
                                  GetCssClassesString(),
-                                 content, RenderAdditionalContent(column, content));
+                                 content, RenderAdditionalContent(column, content)));
         }
 
         protected virtual string RenderAdditionalContent(IGridColumn column, string content)

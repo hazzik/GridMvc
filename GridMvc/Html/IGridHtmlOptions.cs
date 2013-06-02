@@ -83,7 +83,11 @@ namespace GridMvc.Html
         ///     Generates columns for all properties of the model.
         ///     Use data annotations to customize columns
         /// </summary>
-        /// <returns></returns>
         IGridHtmlOptions<T> AutoGenerateColumns();
+
+        /// <summary>
+        ///     Allow grid to use multiple filters
+        /// </summary>
+        IGridHtmlOptions<T> WithMultipleFilters();
     }
 }

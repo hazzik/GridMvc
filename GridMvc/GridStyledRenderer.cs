@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 using GridMvc.Columns;
 
 namespace GridMvc
@@ -10,7 +11,7 @@ namespace GridMvc
 
         #region IGridColumnRenderer Members
 
-        public abstract string Render(IGridColumn column, string content);
+        public abstract IHtmlString Render(IGridColumn column, string content);
 
         #endregion
 

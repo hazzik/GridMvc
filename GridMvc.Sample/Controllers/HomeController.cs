@@ -1,21 +1,17 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using GridMvc.Sample.Models;
+using GridMvc.Sample.Models.Grids;
 
 namespace GridMvc.Sample.Controllers
 {
-
-
     public class HomeController : ApplicationController
     {
         public ActionResult Index()
         {
-
             var repository = new OrdersRepository();
-
             ViewBag.ActiveMenuTitle = "Demo";
-            //ViewBag.Grid = new OrdersGrid(repository.GetAll());
-            return View(repository.GetAll());
+            return View(new OrdersGrid(repository.GetAll()));
         }
 
         public ActionResult About()
@@ -43,6 +39,25 @@ namespace GridMvc.Sample.Controllers
             return Json(new { Items = allItems });
         }
 
+        [HttpGet]
+        public ActionResult AjaxPaging()
+        {
+            var repository = new OrdersRepository();
+            ViewBag.ActiveMenuTitle = "AjaxPaging";
 
+            return View("Index", new OrdersAjaxPagingGrid(repository.GetAll(), 1, false));
+        }
+
+        public JsonResult GetOrdersGridRows(int page)
+        {
+            var repository = new OrdersRepository();
+            var grid = new OrdersAjaxPagingGrid(repository.GetAll(), page, true);
+
+            return Json(new
+            {
+                Html = RenderPartialViewToString("_OrdersGrid", grid),
+                HasItems = grid.DisplayingItemsCount > 0
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

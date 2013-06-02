@@ -4,69 +4,86 @@
 @{
     var gridClinetId = "grid-mvc-" + (string.IsNullOrEmpty(Model.RenderOptions.GridName) ? Guid.NewGuid().ToString() : Model.RenderOptions.GridName);
 }
-<div id="@gridClinetId" class="grid-outer @(Model.EnablePaging ? "paged" : string.Empty)">
-    @* Draw grid top items infomation panel *@
-    <div class="grid-wrap">
-        <table class="table table-striped grid-table" data-lang="@Model.Language">
-            @* Draw grid header *@
-            <thead>
-                <tr>
-                    @foreach (IGridColumn column in Model.Columns)
-                    {
-                        @Html.Raw(column.HeaderRenderer.Render(column, column.Title))
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.ItemsCount == 0)
-                {
-                    <tr class="grid-empty-text">
-                        <td colspan="@Model.Columns.Count()">
-                            @Model.EmptyGridText
-                        </td>
-                    </tr>
-                }
-                else
-                {
-                    foreach (object item in Model.ItemsToDisplay)
-                    {
-                    <tr class="grid-row @Model.GetRowCssClasses(item)">
-                        @foreach (IGridColumn column in Model.Columns)
-                        {
-                            @Html.Raw(column.CellRenderer.Render(column, column.GetCell(item).ToString()))
-                        }
-                    </tr>
-                    }
-                }
-            </tbody>
-        </table>
-
-        @* Draw pager *@
-        @if (Model.EnablePaging && Model.Pager != null && Model.ItemsToDisplay.Any() && Model.Pager.PageCount > 1)
-        {
-            <div class="grid-footer">
-                <div class="grid-footer-info">
-                    Displaying items @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + 1)
-                    - @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + Model.DisplayingItemsCount)
-                    (@Model.ItemsCount)
-                </div>
-                @Html.Partial("_GridPager", Model.Pager)
-            </div>
-        }
+@if (Model.RenderOptions.RenderRowsOnly)
+{
+    @RenderGridBody();
+}
+else
+{
+    <div id="@gridClinetId" class="grid-outer @(Model.EnablePaging ? "paged" : string.Empty)">
+        <div class="grid-wrap">
+            <table class="table table-striped grid-table" data-lang="@Model.Language">
+                @* Draw grid header *@
+                <thead>
+                    @RenderGridHeader()
+                </thead>
+                <tbody>
+                    @RenderGridBody()
+                </tbody>
+            </table>
+            @RenderGridPager()
+        </div>
     </div>
-</div>
+}
 @* Init Grid.Mvc client script *@
 <script>
     if (typeof (jQuery) != 'undefined' && typeof (jQuery.fn.gridmvc) != 'undefined') {
         var grid = $("#@gridClinetId").gridmvc({
             selectable: @Model.RenderOptions.Selectable.ToString().ToLower(),
             multiplefilters: @Model.RenderOptions.AllowMultipleFilters.ToString().ToLower()
-        });
+            });
 
         window.gridMvcControl = grid;//when using only 1 grid on the page
         @if (!string.IsNullOrEmpty(Model.RenderOptions.GridName))
         {
-         <text>window.pageGrids['@Model.RenderOptions.GridName'] = grid;</text>
+            <text>window.pageGrids['@Model.RenderOptions.GridName'] = grid;</text>
         }
     }
 </script>
+
+@helper RenderGridBody()
+{
+    if (!Model.ItemsToDisplay.Any())
+    {
+    <tr class="grid-empty-text">
+        <td colspan="@Model.Columns.Count()">
+            @Model.EmptyGridText
+        </td>
+    </tr>
+    }
+    else
+    {
+        foreach (object item in Model.ItemsToDisplay)
+        {
+    <tr class="grid-row @Model.GetRowCssClasses(item)">
+        @foreach (IGridColumn column in Model.Columns)
+        {
+            @column.CellRenderer.Render(column, column.GetCell(item).ToString())
+        }
+    </tr>
+        }
+    }
+}
+@helper RenderGridHeader()
+{
+    <tr>
+        @foreach (IGridColumn column in Model.Columns)
+        {
+            @column.HeaderRenderer.Render(column, column.Title)
+        }
+    </tr>
+}
+@helper RenderGridPager()
+{
+    if (Model.EnablePaging && Model.Pager != null)
+    {
+    <div class="grid-footer">
+        @*        <div class="grid-footer-info">
+            Displaying items @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + 1)
+            - @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + Model.DisplayingItemsCount)
+            (@Model.ItemsCount)
+        </div>*@
+        @Html.Partial(Model.Pager.TemplateName, Model.Pager)
+    </div>
+    }
+}

@@ -1,4 +1,5 @@
-﻿using GridMvc.Columns;
+﻿using System.Web;
+using GridMvc.Columns;
 
 namespace GridMvc
 {
@@ -7,6 +8,6 @@ namespace GridMvc
     /// </summary>
     public interface IGridColumnRenderer
     {
-        string Render(IGridColumn column, string content);
+        IHtmlString Render(IGridColumn column, string content);
     }
 }

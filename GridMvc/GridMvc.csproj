@@ -90,6 +90,7 @@
     <Compile Include="Html\HtmlGrid.cs" />
     <Compile Include="Html\IGridHtmlOptions.cs" />
     <Compile Include="ISanitizer.cs" />
+    <Compile Include="Pagination\GridPager.cs" />
     <Compile Include="Resources\Strings.it.Designer.cs">
       <DependentUpon>Strings.it.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -140,7 +141,6 @@
     <Compile Include="Columns\IGridColumn.cs" />
     <Compile Include="IGridColumnRenderer.cs" />
     <Compile Include="IGridItemsProcessor.cs" />
-    <Compile Include="Pagination\GridPager.cs" />
     <Compile Include="Pagination\IGridPager.cs" />
     <Compile Include="Pagination\PagerGridItemsProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -25,10 +25,10 @@ namespace GridMvc
         /// </summary>
         IEnumerable<object> ItemsToDisplay { get; }
 
-        /// <summary>
-        ///     Total grid items count
-        /// </summary>
-        int ItemsCount { get; set; }
+        ///// <summary>
+        /////     Total grid items count
+        ///// </summary>
+        //int ItemsCount { get; set; }
 
         /// <summary>
         ///     Displaying grid items count
@@ -67,6 +67,6 @@ namespace GridMvc
         /// </summary>
         string GetRowCssClasses(object item);
 
-        void OnPreRender(); //TODO backward Compatibility
+        //void OnPreRender(); //TODO backward Compatibility
     }
 }

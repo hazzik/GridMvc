@@ -7,7 +7,6 @@ namespace GridMvc
     /// <summary>
     ///     Base implementation of the Grid.Mvc
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public abstract class GridBase<T> where T : class
     {
         //pre-processors process items before adds to main collection (like filtering)
@@ -17,7 +16,7 @@ namespace GridMvc
         protected IQueryable<T> BeforeItems; //items before processors
 
 
-        private int _itemsCount = -1; // total items count on collection
+        //private int _itemsCount = -1; // total items count on collection
         private bool _itemsPreProcessed; //is preprocessors launched?
         private bool _itemsProcessed; //is processors launched?
 
@@ -56,17 +55,17 @@ namespace GridMvc
         /// <summary>
         ///     Total count of items in the grid
         /// </summary>
-        public int ItemsCount
-        {
-            get
-            {
-                if (_itemsCount < 0)
-                    _itemsCount = GridItems.Count();
-                return _itemsCount;
-            }
-            set { _itemsCount = value; //value can be set by pager (for minimizing db calls)
-            }
-        }
+        //public int ItemsCount
+        //{
+        //    get
+        //    {
+        //        if (_itemsCount < 0)
+        //            _itemsCount = GridItems.Count();
+        //        return _itemsCount;
+        //    }
+        //    set { _itemsCount = value; //value can be set by pager (for minimizing db calls)
+        //    }
+        //}
 
         #region Custom row css classes
 

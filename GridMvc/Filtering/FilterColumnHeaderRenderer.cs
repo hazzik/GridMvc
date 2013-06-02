@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 using GridMvc.Columns;
+using GridMvc.Pagination;
 using GridMvc.Resources;
 using GridMvc.Utility;
 
@@ -31,10 +34,10 @@ namespace GridMvc.Filtering
 
         #region IGridColumnRenderer Members
 
-        public string Render(IGridColumn column, string content)
+        public IHtmlString Render(IGridColumn column, string content)
         {
             if (!column.FilterEnabled)
-                return string.Empty;
+                return MvcHtmlString.Empty;
 
             var filterSettings = _settings.IsInitState
                                                      ? new List<ColumnFilterValue> { column.InitialFilterSettings }
@@ -44,25 +47,34 @@ namespace GridMvc.Filtering
 
             //determine current url:
             var builder = new CustomQueryStringBuilder(_settings.Context.Request.QueryString);
-            string url =
-                builder.GetQueryStringExcept(new[]
-                    {
-                        column.ParentGrid.Pager.ParameterName,
-                        QueryStringFilterSettings.DefaultTypeQueryParameter,
-                        //_settings.TypeQueryParameterName,
-                        //_settings.ColumnQueryParameterName,
-                        //_settings.ValueQueryParameterName
-                    });
 
-            return string.Format(FilterContent,
+            var exceptQueryParameters = new List<string> {QueryStringFilterSettings.DefaultTypeQueryParameter};
+            var pagerParameterName = GetPagerQueryParameterName(column.ParentGrid.Pager);
+            if(!string.IsNullOrEmpty(pagerParameterName))
+                exceptQueryParameters.Add(pagerParameterName);
+            
+            string url = builder.GetQueryStringExcept(exceptQueryParameters);
+
+            return MvcHtmlString.Create(string.Format(FilterContent,
                                  Strings.FilterButtonTooltipText,
                                  column.FilterWidgetTypeName,
                                  column.Name,
                                  JsonHelper.JsonSerializer(filterSettings),
                                  url,
-                                 isColumnFiltered ? FilteredButtonCssClass : string.Empty);
+                                 isColumnFiltered ? FilteredButtonCssClass : string.Empty));
         }
 
         #endregion
+
+        /// <summary>
+        ///     Extract query string parameter name from default grid pager (if using)
+        /// </summary>
+        private string GetPagerQueryParameterName(IGridPager pager)
+        {
+            var defaultPager = pager as GridPager;
+            if (defaultPager == null)
+                return string.Empty;
+            return defaultPager.ParameterName;
+        }
     }
 }

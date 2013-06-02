@@ -55,8 +55,8 @@ function CustomersFilterWidget() {
         this.registerEvents(); //handle events
     };
     this.renderWidget = function () {
-        var html = '<div class="grid-filter-type-label"><i>This is custom filter widget demo.</i></div>\
-                    <div class="grid-filter-type-label">Select customer to filter:</div>\
+        var html = '<p><i>This is custom filter widget demo.</i></p>\
+                    <p>Select customer to filter:</p>\
                     <select style="width:250px;" class="grid-filter-type customerslist">\
                     </select>';
         this.container.append(html);
@@ -66,7 +66,7 @@ function CustomersFilterWidget() {
     */
     this.loadCustomers = function () {
         var $this = this;
-        $.post("Home/GetCustomersNames", function (data) {
+        $.post("/Home/GetCustomersNames", function (data) {
             $this.fillCustomers(data.Items);
         });
     };

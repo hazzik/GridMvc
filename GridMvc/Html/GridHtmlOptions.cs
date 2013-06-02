@@ -39,25 +39,27 @@ namespace GridMvc.Html
 
         public IGridHtmlOptions<T> WithPaging(int pageSize)
         {
-            _source.EnablePaging = true;
-            _source.Pager.PageSize = pageSize;
-            return this;
+            return WithPaging(pageSize, 0);
         }
 
         public IGridHtmlOptions<T> WithPaging(int pageSize, int maxDisplayedItems)
         {
-            _source.EnablePaging = true;
-            _source.Pager.PageSize = pageSize;
-            _source.Pager.MaxDisplayedPages = maxDisplayedItems;
-            return this;
+            return WithPaging(pageSize, maxDisplayedItems, string.Empty);
         }
 
         public IGridHtmlOptions<T> WithPaging(int pageSize, int maxDisplayedItems, string queryStringParameterName)
         {
             _source.EnablePaging = true;
             _source.Pager.PageSize = pageSize;
-            _source.Pager.MaxDisplayedPages = maxDisplayedItems;
-            ((GridPager) _source.Pager).ParameterName = queryStringParameterName;
+
+            var pager = _source.Pager as GridPager;//This setting can be applied only to default grid pager
+            if (pager == null) return this;
+
+            if (maxDisplayedItems > 0)
+                pager.MaxDisplayedPages = maxDisplayedItems;
+            if (!string.IsNullOrEmpty(queryStringParameterName))
+                pager.ParameterName = queryStringParameterName;
+            _source.Pager = pager;
             return this;
         }
 
@@ -132,6 +134,12 @@ namespace GridMvc.Html
         public IGridHtmlOptions<T> AutoGenerateColumns()
         {
             _source.AutoGenerateColumns();
+            return this;
+        }
+
+        public IGridHtmlOptions<T> WithMultipleFilters()
+        {
+            _source.RenderOptions.AllowMultipleFilters = true;
             return this;
         }
 

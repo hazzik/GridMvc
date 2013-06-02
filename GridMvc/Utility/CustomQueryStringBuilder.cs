@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,7 @@ namespace GridMvc.Utility
         ///     Returns query string without parameter values
         /// </summary>
         /// <param name="parameterNames">Parameter values</param>
-        public string GetQueryStringExcept(string[] parameterNames)
+        public string GetQueryStringExcept(IList<string> parameterNames)
         {
             var result = new StringBuilder();
             foreach (string key in base.AllKeys)

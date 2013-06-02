@@ -1,4 +1,6 @@
-﻿using GridMvc.Columns;
+﻿using System.Web;
+using System.Web.Mvc;
+using GridMvc.Columns;
 
 namespace GridMvc
 {
@@ -11,10 +13,10 @@ namespace GridMvc
             AddCssClass(TdClass);
         }
 
-        public override string Render(IGridColumn column, string content)
+        public override IHtmlString Render(IGridColumn column, string content)
         {
-            return string.Format("<td data-name=\"{0}\" style=\"{1}\" class=\"{2}\">{3}</td>", column.Name,
-                                 GetCssStylesString(), GetCssClassesString(), content);
+            return MvcHtmlString.Create(string.Format("<td data-name=\"{0}\" style=\"{1}\" class=\"{2}\">{3}</td>", column.Name,
+                                 GetCssStylesString(), GetCssClassesString(), content));
         }
     }
 }

@@ -2,12 +2,13 @@
 {
     public class GridRenderOptions
     {
-        public GridRenderOptions(string gridId, string viewName)
+        public GridRenderOptions(string gridName, string viewName)
         {
             ViewName = viewName;
-            GridName = gridId;
+            GridName = gridName;
             Selectable = true;
             AllowMultipleFilters = false;
+
         }
 
         public GridRenderOptions()
@@ -35,14 +36,21 @@
         /// </summary>
         public string GridName { get; set; }
 
-        public static GridRenderOptions Create(string gridId)
+
+        /// <summary>
+        ///     Specify to render grid body only
+        /// </summary>
+        public bool RenderRowsOnly { get; set; }
+
+
+        public static GridRenderOptions Create(string gridName)
         {
-            return new GridRenderOptions(gridId, GridExtensions.DefaultPartialViewName);
+            return new GridRenderOptions(gridName, GridExtensions.DefaultPartialViewName);
         }
 
-        public static GridRenderOptions Create(string gridId, string viewName)
+        public static GridRenderOptions Create(string gridName, string viewName)
         {
-            return new GridRenderOptions(gridId, viewName);
+            return new GridRenderOptions(gridName, viewName);
         }
     }
 }
