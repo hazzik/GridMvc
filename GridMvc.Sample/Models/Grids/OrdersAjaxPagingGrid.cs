@@ -5,19 +5,11 @@ namespace GridMvc.Sample.Models.Grids
 {
     public class OrdersAjaxPagingGrid : OrdersGrid
     {
-        private readonly AjaxGridPager _pager;
-
         public OrdersAjaxPagingGrid(IQueryable<Order> items, int page, bool renderOnlyRows)
             : base(items)
         {
-            _pager = new AjaxGridPager(this) { CurrentPage = page };
-            Pager = _pager; //override  default pager
+            Pager = new AjaxGridPager(this) { CurrentPage = page }; ; //override  default pager
             RenderOptions.RenderRowsOnly = renderOnlyRows;
-        }
-
-        public AjaxGridPager CustomPager
-        {
-            get { return _pager; }
         }
     }
 
@@ -31,6 +23,7 @@ namespace GridMvc.Sample.Models.Grids
         }
 
         public int PageSize { get; set; }
+
         public int CurrentPage { get; set; }
 
         public string TemplateName

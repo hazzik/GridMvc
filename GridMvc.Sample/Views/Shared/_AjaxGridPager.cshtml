@@ -24,9 +24,9 @@
 
             $.get("/Home/GetOrdersGridRows" + self.pad(location.search) + self.currentPage)
                 .done(function (response) {
-                    if (response.HasItems)
-                        gridTableBody.append(response.Html);
-                    else
+
+                    gridTableBody.append(response.Html);
+                    if (!response.HasItems)
                         pageLink.hide();
                 })
                 .fail(function () {

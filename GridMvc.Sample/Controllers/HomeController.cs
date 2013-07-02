@@ -56,7 +56,7 @@ namespace GridMvc.Sample.Controllers
             return Json(new
             {
                 Html = RenderPartialViewToString("_OrdersGrid", grid),
-                HasItems = grid.DisplayingItemsCount > 0
+                HasItems = grid.DisplayingItemsCount >= grid.Pager.PageSize
             }, JsonRequestBehavior.AllowGet);
         }
     }

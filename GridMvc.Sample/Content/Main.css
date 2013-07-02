@@ -1,7 +1,15 @@
-﻿body { background: #E3E8EC; }
+﻿body { background: #E3E8EC; 
+              background: -webkit-radial-gradient(#FFF,#C5D0DA); 
+       background: radial-gradient(#FFF, #C5D0DA);
+       background: -moz-radial-gradient(#FFF, #C5D0DA); /* FF3.6+ */
+       background: -o-radial-gradient(#FFF, #C5D0DA); /* Opera 12 */
+       background: -ms-radial-gradient(#FFF, #C5D0DA); /* IE10 */
+       background-repeat:no-repeat;
+       background-attachment: fixed;
+}
 
-#main { padding: 10px 20px; margin: 0 auto 30px; border: 1px solid #A4BACA; background: #FDFDFD; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; border-radius: 4px; -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.1); -ms-box-shadow: 0 1px 5px rgba(0,0,0,0.1); -o-box-shadow: 0 1px 5px rgba(0,0,0,0.1); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); -webkit-background-clip: padding-box; -moz-background-clip: padding-box; -khtml-background-clip: padding-box; -o-background-clip: padding-box; background-clip: padding-box; }
-#header .navbar-inner { border: 1px solid #A4BACA; }
+#main { padding: 10px 20px; margin: 0 auto 15px; border: 1px solid #969FA7; background: #FDFDFD; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; border-radius: 4px; -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.1); -ms-box-shadow: 0 1px 5px rgba(0,0,0,0.1); -o-box-shadow: 0 1px 5px rgba(0,0,0,0.1); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); -webkit-background-clip: padding-box; -moz-background-clip: padding-box; -khtml-background-clip: padding-box; -o-background-clip: padding-box; background-clip: padding-box; }
+.navbar-inner { border: 1px solid #969FA7; }
 .navbar .brand { color: #08C; }
 
 body .syntaxhighlighter { overflow-y: hidden !important; overflow-x: auto !important; }
@@ -13,3 +21,5 @@ body .syntaxhighlighter { overflow-y: hidden !important; overflow-x: auto !impor
 /* AJAX PAGER */
 .grid-ajax-pager a { display: block; padding: 8px 10px; text-decoration: none; text-align: center; border-top: 1px solid #DBDBDB; border-bottom: 1px solid #DBDBDB; }
     .grid-ajax-pager a:hover { background: #f9f9f9; }
+
+

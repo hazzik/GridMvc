@@ -75,8 +75,8 @@ GridMvc = (function () {
             if (columnName.length > 0)
                 gridRow[columnName] = $(this).text();
         });
-        $context.markRowSelected(row);
         $context.notifyOnRowSelect(gridRow);
+        $context.markRowSelected(row);
     };
     /***
     * Mark Grid row as selected
