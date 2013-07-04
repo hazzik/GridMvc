@@ -1,7 +1,4 @@
-﻿@using GridMvc.Html
-@using GridMvc.Sample.Models
-@using GridMvc.Sorting
-@model GridMvc.Sample.Models.Grids.OrdersGrid
+﻿@model GridMvc.Sample.Models.Grids.OrdersGrid
 @{
     ViewBag.Title = "Home Page";
 }
@@ -32,9 +29,8 @@
     if (window.pageGrids && pageGrids.ordersGrid) {
         pageGrids.ordersGrid.addFilterWidget(new CustomersFilterWidget());
 
-        pageGrids.ordersGrid.onRowSelect(function (row) {
-            //alert(row.OrderID);
-            $.post("/Home/GetOrder?id=" + row.OrderID, function (data) {
+        pageGrids.ordersGrid.onRowSelect(function (e) {
+            $.post("/Home/GetOrder?id=" + e.row.OrderID, function (data) {
                 if (data.Status <= 0) {
                     alert(data.Message);
                     return;

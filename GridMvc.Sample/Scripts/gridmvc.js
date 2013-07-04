@@ -21,7 +21,7 @@ $.fn.extend({
     }
 });
 
-GridMvc = (function () {
+GridMvc = (function ($) {
 
     function gridMvc(container, options) {
         this.jqContainer = $(container);
@@ -75,8 +75,10 @@ GridMvc = (function () {
             if (columnName.length > 0)
                 gridRow[columnName] = $(this).text();
         });
-        $context.notifyOnRowSelect(gridRow);
-        $context.markRowSelected(row);
+        var evt = $.Event("RowClicked");
+        $context.notifyOnRowSelect(gridRow, evt);
+        if (!evt.isDefaultPrevented())
+            $context.markRowSelected(row);
     };
     /***
     * Mark Grid row as selected
@@ -103,8 +105,9 @@ GridMvc = (function () {
         this.events.push({ name: "onRowSelect", callback: func });
     };
 
-    gridMvc.prototype.notifyOnRowSelect = function (row) {
-        this.notifyEvent("onRowSelect", row);
+    gridMvc.prototype.notifyOnRowSelect = function (row, e) {
+        e.row = row;
+        this.notifyEvent("onRowSelect", e);
     };
 
     gridMvc.prototype.notifyEvent = function (eventName, e) {
@@ -334,7 +337,7 @@ GridMvc = (function () {
     };
 
     return gridMvc;
-})();
+})(jQuery);
 
 /***
 * ============= LOCALIZATION =============
@@ -374,7 +377,7 @@ GridMvc.lang.en = {
 * TextFilterWidget - Provides filter interface for text columns (of type "System.String")
 * This widget onRenders filter interface with conditions, which specific for text types: contains, starts with etc.
 */
-TextFilterWidget = (function () {
+TextFilterWidget = (function ($) {
     function textFilterWidget() { }
     /***
     * This method must return type of columns that must be associated with current widget
@@ -454,14 +457,14 @@ TextFilterWidget = (function () {
     };
 
     return textFilterWidget;
-})();
+})(jQuery);
 
 /***
 * NumberFilterWidget - Provides filter interface for number columns
 * This widget onRenders filter interface with conditions, which specific for number types: great than, less that etc.
 * Also validates user's input for digits
 */
-NumberFilterWidget = (function () {
+NumberFilterWidget = (function ($) {
 
     function numberFilterWidget() { }
 
@@ -542,14 +545,14 @@ NumberFilterWidget = (function () {
     };
 
     return numberFilterWidget;
-})();
+})(jQuery);
 
 /***
 * DateTimeFilterWidget - Provides filter interface for date columns (of type "System.DateTime").
 * If jQueryUi datepicker script included, this widget onRender calendar for pick filter values
 * In other case he onRender textbox field for specifing date value (more info at http://jqueryui.com/)
 */
-DateTimeFilterWidget = (function () {
+DateTimeFilterWidget = (function ($) {
 
     function dateTimeFilterWidget() { }
 
@@ -620,13 +623,13 @@ DateTimeFilterWidget = (function () {
     };
 
     return dateTimeFilterWidget;
-})();
+})(jQuery);
 
 /***
 * BooleanFilterWidget - Provides filter interface for boolean columns (of type "System.Boolean").
 * Renders two button for filter - true and false
 */
-BooleanFilterWidget = (function () {
+BooleanFilterWidget = (function ($) {
 
     function booleanFilterWidget() { }
 
@@ -662,4 +665,4 @@ BooleanFilterWidget = (function () {
     };
 
     return booleanFilterWidget;
-})();
+})(jQuery);

@@ -18,7 +18,7 @@ namespace GridMvc.Sample.Models
     {
         public Product()
         {
-            this.Order_Details = new HashSet<OrderDetails>();
+            this.Order_Details = new HashSet<OrderDetail>();
         }
         [Key]
         public int ProductID { get; set; }
@@ -33,7 +33,7 @@ namespace GridMvc.Sample.Models
         public bool Discontinued { get; set; }
     
         public virtual Category Category { get; set; }
-        public virtual ICollection<OrderDetails> Order_Details { get; set; }
+        public virtual ICollection<OrderDetail> Order_Details { get; set; }
         public virtual Supplier Supplier { get; set; }
     }
 }

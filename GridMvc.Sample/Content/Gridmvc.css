@@ -12,7 +12,7 @@ table.grid-table { margin: 0; }
 .grid-header.sorted-desc .grid-sort-arrow:after { content: " \2191"; }
 
 /* Grid body */
-table.grid-table tr.grid-row-selected td { background: #0086C7 !important; color: white; }
+table.grid-table tr.grid-row-selected td { background: #4888C2 !important; color: white; }
 table.grid-table tr.grid-row-selected a { color: white; }
 
 /* Grid filtering */

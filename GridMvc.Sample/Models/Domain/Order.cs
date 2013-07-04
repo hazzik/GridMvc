@@ -20,7 +20,7 @@ namespace GridMvc.Sample.Models
     {
         public Order()
         {
-            this.OrderDetails = new HashSet<OrderDetails>();
+            this.OrderDetails = new HashSet<OrderDetail>();
         }
         [Key]
         [GridHiddenColumn]
@@ -57,7 +57,7 @@ namespace GridMvc.Sample.Models
         [NotMappedColumn]
         public virtual Employee Employee { get; set; }
         [NotMappedColumn]
-        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
         //public virtual Shipper Shipper { get; set; }
     }
