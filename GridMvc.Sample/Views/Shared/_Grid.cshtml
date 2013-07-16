@@ -1,18 +1,15 @@
 ﻿@using GridMvc.Columns
 @model GridMvc.IGrid
 @if (Model == null) { return; }
-@{
-    var gridClinetId = "grid-mvc-" + (string.IsNullOrEmpty(Model.RenderOptions.GridName) ? Guid.NewGuid().ToString() : Model.RenderOptions.GridName);
-}
 @if (Model.RenderOptions.RenderRowsOnly)
 {
     @RenderGridBody();
 }
 else
 {
-    <div id="@gridClinetId" class="grid-outer @(Model.EnablePaging ? "paged" : string.Empty)">
+    <div class="grid-mvc" data-gridname="@Model.RenderOptions.GridName" data-selectable="@Model.RenderOptions.Selectable.ToString().ToLower()" data-multiplefilters ="@Model.RenderOptions.AllowMultipleFilters.ToString().ToLower()">
         <div class="grid-wrap">
-            <table class="table table-striped grid-table" data-lang="@Model.Language">
+            <table class="table table-striped grid-table">
                 @* Draw grid header *@
                 <thead>
                     @RenderGridHeader()
@@ -25,22 +22,6 @@ else
         </div>
     </div>
 }
-@* Init Grid.Mvc client script *@
-<script>
-    if (typeof (jQuery) != 'undefined' && typeof (jQuery.fn.gridmvc) != 'undefined') {
-        var grid = $("#@gridClinetId").gridmvc({
-            selectable: @Model.RenderOptions.Selectable.ToString().ToLower(),
-            multiplefilters: @Model.RenderOptions.AllowMultipleFilters.ToString().ToLower()
-            });
-
-        window.gridMvcControl = grid;//when using only 1 grid on the page
-        @if (!string.IsNullOrEmpty(Model.RenderOptions.GridName))
-        {
-            <text>window.pageGrids['@Model.RenderOptions.GridName'] = grid;</text>
-        }
-    }
-</script>
-
 @helper RenderGridBody()
 {
     if (!Model.ItemsToDisplay.Any())
@@ -78,11 +59,6 @@ else
     if (Model.EnablePaging && Model.Pager != null)
     {
     <div class="grid-footer">
-        @*        <div class="grid-footer-info">
-            Displaying items @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + 1)
-            - @(((Model.Pager.CurrentPage - 1) * Model.Pager.PageSize) + Model.DisplayingItemsCount)
-            (@Model.ItemsCount)
-        </div>*@
         @Html.Partial(Model.Pager.TemplateName, Model.Pager)
     </div>
     }

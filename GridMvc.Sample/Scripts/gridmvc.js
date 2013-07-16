@@ -2,17 +2,25 @@
 * Grid.Mvc
 * Examples and documentation at: http://gridmvc.codeplex.com
 * Version: 3.0.0
-* Requires: jQuery v1.3+
+* Requires: window.jQuery v1.3+
 * LGPL license: http://gridmvc.codeplex.com/license
 */
-if (!window.pageGrids) window.pageGrids = {};
+window.pageGrids = window.pageGrids || {};
 $.fn.extend({
-    gridmvc: function (options) {
+    gridmvc: function () {
         var aObj = [];
         $(this).each(function () {
-            if (!$(this).hasClass("grid-done")) {
-                aObj.push(new GridMvc(this, options));
-                $(this).addClass("grid-done");
+            if (!$(this).data("gridmvc")) {
+                var options = { lang: $(this).attr("data-lang"), selectable: $(this).attr("data-selectable") == "true", multiplefilters: $(this).attr("data-multiplefilters") == "true" };
+                var grid = new GridMvc(this, options);
+                var name = $(this).attr("data-gridname");
+                if (name.length > 0)
+                    window.pageGrids[$(this).attr("data-gridname")] = grid;
+                
+                aObj.push(grid);
+                $(this).data("gridmvc", grid);
+            } else {
+                aObj.push($(this).data("gridmvc"));
             }
         });
         if (aObj.length == 1)
@@ -22,13 +30,9 @@ $.fn.extend({
 });
 
 GridMvc = (function ($) {
-
     function gridMvc(container, options) {
         this.jqContainer = $(container);
-        if (typeof (options) == 'undefined') options = {};
-        if (typeof (options.lang) == 'undefined') {
-            options.lang = this.jqContainer.find("table.grid-table").attr("data-lang");
-        }
+        options = options || {};
         this.options = $.extend({}, this.defaults(), options);
         this.init();
     }
@@ -337,7 +341,7 @@ GridMvc = (function ($) {
     };
 
     return gridMvc;
-})(jQuery);
+})(window.jQuery);
 
 /***
 * ============= LOCALIZATION =============
@@ -417,14 +421,14 @@ TextFilterWidget = (function ($) {
     * Internal method that build widget layout and append it to the widget container
     */
     textFilterWidget.prototype.renderWidget = function () {
-        var html = '<div class="grid-filter-type-label">' + this.lang.filterTypeLabel + '</div>\
+        var html = '<label>' + this.lang.filterTypeLabel + '</label>\
                     <select class="grid-filter-type">\
                         <option value="1" ' + (this.value.filterType == "1" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Equals + '</option>\
                         <option value="2" ' + (this.value.filterType == "2" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Contains + '</option>\
                         <option value="3" ' + (this.value.filterType == "3" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.StartsWith + '</option>\
                         <option value="4" ' + (this.value.filterType == "4" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.EndsWith + '</option>\
                     </select>\
-                    <div class="grid-filter-type-label">' + this.lang.filterValueLabel + '</div>\
+                    <label>' + this.lang.filterValueLabel + '</label>\
                     <input type="text" class="grid-filter-input" value="' + this.value.filterValue + '" />\
                     <div class="grid-filter-buttons">\
                         <input type="button" class="btn btn-apply" value="' + this.lang.applyFilterButtonText + '" />\
@@ -457,7 +461,7 @@ TextFilterWidget = (function ($) {
     };
 
     return textFilterWidget;
-})(jQuery);
+})(window.jQuery);
 
 /***
 * NumberFilterWidget - Provides filter interface for number columns
@@ -491,13 +495,13 @@ NumberFilterWidget = (function ($) {
     };
 
     numberFilterWidget.prototype.renderWidget = function () {
-        var html = '<div class="grid-filter-type-label">' + this.lang.filterTypeLabel + '</div>\
+        var html = '<label>' + this.lang.filterTypeLabel + '</label>\
                     <select class="grid-filter-type">\
                         <option value="1" ' + (this.value.filterType == "1" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Equals + '</option>\
                         <option value="5" ' + (this.value.filterType == "5" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.GreaterThan + '</option>\
                         <option value="6" ' + (this.value.filterType == "6" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.LessThan + '</option>\
                     </select>\
-                    <div class="grid-filter-type-label">' + this.lang.filterValueLabel + '</div>\
+                    <label>' + this.lang.filterValueLabel + '</label>\
                     <input type="text" class="grid-filter-input" value="' + this.value.filterValue + '" />\
                     <div class="grid-filter-buttons">\
                         <input type="button" class="btn btn-apply" value="' + this.lang.applyFilterButtonText + '" />\
@@ -545,12 +549,12 @@ NumberFilterWidget = (function ($) {
     };
 
     return numberFilterWidget;
-})(jQuery);
+})(window.jQuery);
 
 /***
 * DateTimeFilterWidget - Provides filter interface for date columns (of type "System.DateTime").
-* If jQueryUi datepicker script included, this widget onRender calendar for pick filter values
-* In other case he onRender textbox field for specifing date value (more info at http://jqueryui.com/)
+* If window.jQueryUi datepicker script included, this widget onRender calendar for pick filter values
+* In other case he onRender textbox field for specifing date value (more info at http://window.jQueryui.com/)
 */
 DateTimeFilterWidget = (function ($) {
 
@@ -571,7 +575,7 @@ DateTimeFilterWidget = (function ($) {
     };
 
     dateTimeFilterWidget.prototype.renderWidget = function () {
-        var html = '<div class="grid-filter-type-label">' + this.lang.filterTypeLabel + '</div>\
+        var html = '<label>' + this.lang.filterTypeLabel + '</label>\
                     <select class="grid-filter-type">\
                         <option value="1" ' + (this.value.filterType == "1" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Equals + '</option>\
                         <option value="5" ' + (this.value.filterType == "5" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.GreaterThan + '</option>\
@@ -580,13 +584,13 @@ DateTimeFilterWidget = (function ($) {
                         (this.jqUiIncluded ?
                             '<div class="grid-filter-datepicker"></div>'
                             :
-                            '<div class="grid-filter-type-label">' + this.lang.filterValueLabel + '</div>\
+                            '<label>' + this.lang.filterValueLabel + '</label>\
                              <input type="text" class="grid-filter-input" value="' + this.value.filterValue + '" />\
                              <div class="grid-filter-buttons">\
                                 <input type="button" class="btn btn-apply" value="' + this.lang.applyFilterButtonText + '" />\
                              </div>');
         this.container.append(html);
-        //if jQueryUi included:
+        //if window.jQueryUi included:
         if (this.jqUiIncluded) {
             var $context = this;
             var dateContainer = this.container.find(".grid-filter-datepicker");
@@ -623,7 +627,7 @@ DateTimeFilterWidget = (function ($) {
     };
 
     return dateTimeFilterWidget;
-})(jQuery);
+})(window.jQuery);
 
 /***
 * BooleanFilterWidget - Provides filter interface for boolean columns (of type "System.Boolean").
@@ -647,7 +651,7 @@ BooleanFilterWidget = (function ($) {
     };
 
     booleanFilterWidget.prototype.renderWidget = function () {
-        var html = '<div class="grid-filter-type-label">' + this.lang.filterValueLabel + '</div>\
+        var html = '<label>' + this.lang.filterValueLabel + '</label>\
                     <ul class="menu-list">\
                         <li><a class="grid-filter-choose ' + (this.value.filterValue == "true" ? "choose-selected" : "") + '" data-value="true" href="javascript:void(0);">' + this.lang.boolTrueLabel + '</a></li>\
                         <li><a class="grid-filter-choose ' + (this.value.filterValue == "false" ? "choose-selected" : "") + '" data-value="false" href="javascript:void(0);">' + this.lang.boolFalseLabel + '</a></li>\
@@ -665,4 +669,14 @@ BooleanFilterWidget = (function ($) {
     };
 
     return booleanFilterWidget;
-})(jQuery);
+})(window.jQuery);
+
+//startup init:
+(function ($) {
+    if (!$) return;//jquery not referenced
+    $(function () {
+        $(".grid-mvc").each(function () {
+            $(".grid-mvc").gridmvc();
+        });
+    });
+})(window.jQuery);

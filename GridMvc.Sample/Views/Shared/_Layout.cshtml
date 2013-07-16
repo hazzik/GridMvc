@@ -29,32 +29,32 @@
 
 
 </head>
-<body>
-    <div class="container">
-        <div class="navbar">
-            <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="brand" href="/">Grid.Mvc</a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li class="@(ViewBag.ActiveMenuTitle == "Demo" ? "active" : string.Empty)">@Html.ActionLink("Demo", "Index", "Home")</li>
-                            <li class="@(ViewBag.ActiveMenuTitle == "AjaxPaging" ? "active" : string.Empty)">@Html.ActionLink("Ajax paging", "AjaxPaging", "Home")</li>
-                            <li class="@(ViewBag.ActiveMenuTitle == "About" ? "active" : string.Empty)">@Html.ActionLink("About", "About", "Home")</li>
-                        </ul>
+    <body>
+        <div class="container">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="brand" href="/">Grid.Mvc</a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav">
+                                <li class="@(ViewBag.ActiveMenuTitle == "Demo" ? "active" : string.Empty)">@Html.ActionLink("Demo", "Index", "Home")</li>
+                                <li class="@(ViewBag.ActiveMenuTitle == "AjaxPaging" ? "active" : string.Empty)">@Html.ActionLink("Ajax paging", "AjaxPaging", "Home")</li>
+                                <li class="@(ViewBag.ActiveMenuTitle == "About" ? "active" : string.Empty)">@Html.ActionLink("About", "About", "Home")</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
-        <div id="main">
-            @RenderBody()
+            <div id="main">
+                @RenderBody()
+            </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

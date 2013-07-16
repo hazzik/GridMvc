@@ -11,6 +11,7 @@ namespace GridMvc.Sample.Controllers
         {
             var repository = new OrdersRepository();
             ViewBag.ActiveMenuTitle = "Demo";
+            ViewBag.ColumnTitle = "qweqwe";
             return View(new OrdersGrid(repository.GetAll()));
         }
 

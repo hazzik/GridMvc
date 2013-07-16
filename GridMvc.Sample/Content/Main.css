@@ -8,8 +8,8 @@
        background-attachment: fixed;
 }
 
-#main { padding: 10px 20px; margin: 0 auto 15px; border: 1px solid #7A7A7A; background: #FDFDFD; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; border-radius: 4px; -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.1); -ms-box-shadow: 0 1px 5px rgba(0,0,0,0.1); -o-box-shadow: 0 1px 5px rgba(0,0,0,0.1); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); -webkit-background-clip: padding-box; -moz-background-clip: padding-box; -khtml-background-clip: padding-box; -o-background-clip: padding-box; background-clip: padding-box; }
-.navbar-inner { border:1px solid #7A7A7A; }
+#main { padding: 10px 20px; margin: 0 auto 15px; border: 1px solid #ADADAD; background: #FDFDFD; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; border-radius: 4px; -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.1); -ms-box-shadow: 0 1px 5px rgba(0,0,0,0.1); -o-box-shadow: 0 1px 5px rgba(0,0,0,0.1); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); -webkit-background-clip: padding-box; -moz-background-clip: padding-box; -khtml-background-clip: padding-box; -o-background-clip: padding-box; background-clip: padding-box; }
+.navbar-inner { border:1px solid #ADADAD; }
 .navbar .brand { color: #08C; }
 
 body .syntaxhighlighter { overflow-y: hidden !important; overflow-x: auto !important; }

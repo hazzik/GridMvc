@@ -30,6 +30,10 @@ namespace GridMvc.Html
             return RenderPartialViewToString(GridViewName, this, _viewContext);
         }
 
+        public override string ToString()
+        {
+            return ToHtmlString();
+        }
 
         public IGridHtmlOptions<T> Columns(Action<IGridColumnCollection<T>> columnBuilder)
         {
