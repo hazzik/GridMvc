@@ -9,10 +9,11 @@ Note: Grid.Mvc installer has already made the following changes to your project:
 Follow these steps to start use Grid.mvc:
 
 1. Define a model for display in the grid, like:
+
 	public class Foo
 	{
-		public string Title {get; set;}
-		public string Description {get;set;}
+		public string Title { get; set; }
+		public string Description { get;set; }
 	}
 
 
@@ -35,7 +36,7 @@ Follow these steps to start use Grid.mvc:
 
 		@Html.Grid(Model).Columns(columns =>
 						{
-							columns.Add(foo => foo.Title).Titled("Custom column title").Width(110);
+							columns.Add(foo => foo.Title).Titled("Custom column title").SetWidth(110);
 							columns.Add(foo => foo.Description).Sortable(true);
 						}).WithPaging(20)
 
@@ -51,7 +52,7 @@ Notes:
 Default layout of Grid.Mvc uses Twitter Bootstrap (css framework). You also need to include stylesheets on your page. You can download it from - http://twitter.github.com/bootstrap/
 like:
 
-	<link href="@Url.Content("~/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/Css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
 
 
 Also you need to ensure that jQuery has registred on the page before gridmvc.min.js script.

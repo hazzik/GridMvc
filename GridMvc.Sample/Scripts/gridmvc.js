@@ -166,7 +166,7 @@ GridMvc = (function ($) {
         //append base popup layout:
         $(this).append(html);
         //determine widget container:
-        var widgetContainer = $(this).find(".menu-popup-widget");
+        var widgetContainer = $(this).find(".grid-popup-widget");
         //onRender target widget
         if (typeof (widget.onRender) != 'undefined')
             widget.onRender(widgetContainer, self.lang, columnType, filterDataObj, function (values) {
@@ -175,7 +175,7 @@ GridMvc = (function ($) {
             });
         //adding 'clear filter' button if needed:
         if ($(this).find(".grid-filter-btn").hasClass("filtered") && widget.showClearFilterButton()) {
-            var inner = $(this).find(".menu-popup-additional");
+            var inner = $(this).find(".grid-popup-additional");
             inner.append(self.getClearFilterButton(filterUrl));
             inner.find(".grid-filter-clear").click(function () {
                 self.applyFilterValues(filterUrl, columnName, "", true);
@@ -193,8 +193,8 @@ GridMvc = (function ($) {
         return '<div class="dropdown-menu grid-dropdown" style="display: none;">\
                     <div class="grid-dropdown-arrow"></div>\
                     <div class="grid-dropdown-inner">\
-                            <div class="menu-popup-widget"></div>\
-                            <div class="menu-popup-additional"></div>\
+                            <div class="grid-popup-widget"></div>\
+                            <div class="grid-popup-additional"></div>\
                     </div>\
                 </div>';
     };

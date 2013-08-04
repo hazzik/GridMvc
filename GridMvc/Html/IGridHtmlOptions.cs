@@ -89,5 +89,11 @@ namespace GridMvc.Html
         ///     Allow grid to use multiple filters
         /// </summary>
         IGridHtmlOptions<T> WithMultipleFilters();
+
+        /// <summary>
+        /// Obviously render Grid markup
+        /// </summary>
+        /// <returns>Grid html layout</returns>
+        string Render();
     }
 }

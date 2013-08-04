@@ -30,7 +30,7 @@ namespace GridMvc.Html
             return RenderPartialViewToString(GridViewName, this, _viewContext);
         }
 
-        public override string ToString()
+        public string Render()
         {
             return ToHtmlString();
         }

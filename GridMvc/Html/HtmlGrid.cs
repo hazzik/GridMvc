@@ -7,7 +7,7 @@ namespace GridMvc.Html
 {
     /// <summary>
     ///     Grid adapter for html helper
-    /// </summary>
+    /// </summary> 
     public class HtmlGrid<T> : GridHtmlOptions<T>, IGrid where T : class
     {
         private readonly Grid<T> _source;
