@@ -7,7 +7,7 @@ namespace GridMvc.DataAnnotations
     ///     Marks property as Grid.Mvc column, with specified parameters
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class GridColumnAttribute : Attribute
+    public class GridColumnAttribute : GridHiddenColumnAttribute
     {
         private GridSortDirection? _initialDirection;
 
@@ -24,16 +24,6 @@ namespace GridMvc.DataAnnotations
         public string Title { get; set; }
 
         /// <summary>
-        ///     Specify that content of this column need to be encoded
-        /// </summary>
-        public bool EncodeEnabled { get; set; }
-
-        /// <summary>
-        ///     Specify that content of this column need to be sanitized
-        /// </summary>
-        public bool SanitizeEnabled { get; set; }
-
-        /// <summary>
         ///     Enable or disable column sorting
         /// </summary>
         public bool SortEnabled { get; set; }
@@ -42,11 +32,6 @@ namespace GridMvc.DataAnnotations
         ///     Enable or disable column filtering
         /// </summary>
         public bool FilterEnabled { get; set; }
-
-        /// <summary>
-        ///     Specify the format of column data
-        /// </summary>
-        public string Format { get; set; }
 
         /// <summary>
         ///     Sets or get column width,

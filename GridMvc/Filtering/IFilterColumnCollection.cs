@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using GridMvc.Columns;
 
 namespace GridMvc.Filtering
 {
     /// <summary>
-    /// Collection of current filter options for the grid
+    ///     Collection of current filter options for the grid
     /// </summary>
     public interface IFilterColumnCollection : IEnumerable<ColumnFilterValue>
     {
         /// <summary>
-        /// Get column filter options by given grid column
+        ///     Get column filter options by given grid column
         /// </summary>
         /// <param name="column"></param>
         /// <returns></returns>

@@ -11,7 +11,7 @@ namespace GridMvc
     public interface IGrid
     {
         /// <summary>
-        /// Grid render options
+        ///     Grid render options
         /// </summary>
         GridRenderOptions RenderOptions { get; }
 

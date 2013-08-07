@@ -8,7 +8,6 @@
             GridName = gridName;
             Selectable = true;
             AllowMultipleFilters = false;
-
         }
 
         public GridRenderOptions()
@@ -22,12 +21,12 @@
         public string ViewName { get; set; }
 
         /// <summary>
-        /// Is multiple filters allowed
+        ///     Is multiple filters allowed
         /// </summary>
         public bool AllowMultipleFilters { get; set; }
 
         /// <summary>
-        /// Gets or set grid items selectable
+        ///     Gets or set grid items selectable
         /// </summary>
         public bool Selectable { get; set; }
 

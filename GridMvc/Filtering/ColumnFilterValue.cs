@@ -4,17 +4,16 @@ using System.Web;
 namespace GridMvc.Filtering
 {
     /// <summary>
-    /// Structure that specifies filter settings for each column
+    ///     Structure that specifies filter settings for each column
     /// </summary>
     [DataContract]
     public struct ColumnFilterValue
     {
         //[DataMember(Name = "columnName")]
         public string ColumnName;
-        
+
+        [DataMember(Name = "filterType")] public GridFilterType FilterType;
         public string FilterValue;
-        [DataMember(Name = "filterType")]
-        public GridFilterType FilterType;
 
         [DataMember(Name = "filterValue")]
         internal string FilterValueEncoded

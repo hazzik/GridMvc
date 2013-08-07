@@ -16,6 +16,13 @@ namespace GridMvc.Sample.Models
     using System;
     using System.Collections.Generic;
 
+    public class OrderMetaData
+    {
+        [Display(Name = "Ship name", AutoGenerateFilter = true)]
+        public string ShipName { get; set; }
+    }
+
+    [MetadataType(typeof(OrderMetaData))]
     public partial class Order
     {
         public Order()
@@ -38,9 +45,9 @@ namespace GridMvc.Sample.Models
         public DateTime? ShippedDate { get; set; }
         [NotMappedColumn]
         public int? ShipVia { get; set; }
-        [NotMappedColumn]
+        [GridColumn(Title = "Freight", Width = "120px", SortEnabled = true, FilterEnabled = true)]
         public decimal? Freight { get; set; }
-        [NotMappedColumn]
+
         public string ShipName { get; set; }
         [NotMappedColumn]
         public string ShipAddress { get; set; }

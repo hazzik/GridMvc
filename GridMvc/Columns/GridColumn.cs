@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Reflection;
-using GridMvc.DataAnnotations;
 using GridMvc.Filtering;
 using GridMvc.Sorting;
 using GridMvc.Utility;
@@ -32,10 +30,10 @@ namespace GridMvc.Columns
         private readonly List<IColumnOrderer<T>> _orderers = new List<IColumnOrderer<T>>();
 
         private IGridColumnRenderer _cellRenderer;
-        private IGridColumnRenderer _headerRenderer;
 
         private string _filterWidgetTypeName;
-        
+        private IGridColumnRenderer _headerRenderer;
+
 
         public GridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {
@@ -45,7 +43,7 @@ namespace GridMvc.Columns
             SortEnabled = false;
             SanitizeEnabled = true;
 
-            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName;
+            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName;
             _grid = grid;
 
             _cellRenderer = new GridCellRenderer();
@@ -66,10 +64,6 @@ namespace GridMvc.Columns
                 //Generate unique column name:
                 Name = PropertiesHelper.BuildColumnNameFromMemberExpression(expr);
                 Title = Name; //Using the same name by default
-                //Apply data annotation options
-                var pi = expr.Member as PropertyInfo;
-                if (pi != null)
-                    ApplyColumnSettings(pi);
             }
         }
 
@@ -107,43 +101,6 @@ namespace GridMvc.Columns
         {
             get { return _filterWidgetTypeName; }
         }
-
-        //public override bool IsSorted
-        //{
-        //    get
-        //    {
-        //        if (!_isSorted.HasValue)
-        //        {
-        //            if (string.IsNullOrEmpty(Name)) return false;
-        //            _isSorted = _grid.Settings.SortSettings.ColumnName.ToUpper() == Name.ToUpper();
-        //        }
-        //        return _isSorted.Value;
-        //    }
-        //    set { _isSorted = value; }
-        //}
-
-        //public override GridSortDirection? Direction
-        //{
-        //    get
-        //    {
-        //        if (!_sortDirectionIsSet)
-        //        {
-        //            _sortDirectionIsSet = true;
-        //            if (string.IsNullOrEmpty(Name))
-        //                return null;
-        //            if (Name.ToUpper() == _grid.Settings.SortSettings.ColumnName.ToUpper())
-        //                _sortDirection = _grid.Settings.SortSettings.Direction;
-        //            else
-        //                _sortDirection = null;
-        //        }
-        //        return _sortDirection;
-        //    }
-        //    set
-        //    {
-        //        _sortDirectionIsSet = true;
-        //        _sortDirection = value;
-        //    }
-        //}
 
         public override IGrid ParentGrid
         {
@@ -187,7 +144,7 @@ namespace GridMvc.Columns
 
         public override IGridCell GetCell(object instance)
         {
-            return GetValue((T)instance);
+            return GetValue((T) instance);
         }
 
         public override IGridCell GetValue(T instance)
@@ -215,7 +172,7 @@ namespace GridMvc.Columns
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
-            return new GridCell(textValue) { Encode = EncodeEnabled };
+            return new GridCell(textValue) {Encode = EncodeEnabled};
         }
 
         public override IGridColumn<T> Filterable(bool enable)
@@ -226,31 +183,6 @@ namespace GridMvc.Columns
             }
             FilterEnabled = enable;
             return this;
-        }
-
-        private void ApplyColumnSettings(PropertyInfo pi)
-        {
-            var options = pi.GetAttribute<GridColumnAttribute>();
-            if (options == null) return;
-
-            Encoded(options.EncodeEnabled)
-                .Sanitized(options.SanitizeEnabled)
-                .Filterable(options.FilterEnabled)
-                .Sortable(options.SortEnabled);
-
-            GridSortDirection? initialDirection = options.GetInitialSortDirection();
-            if (initialDirection.HasValue)
-                SortInitialDirection(initialDirection.Value);
-
-            if (!string.IsNullOrEmpty(options.FilterWidgetType))
-                SetFilterWidgetType(options.FilterWidgetType);
-
-            if (!string.IsNullOrEmpty(options.Format))
-                Format(options.Format);
-            if (!string.IsNullOrEmpty(options.Title))
-                Titled(options.Title);
-            if (!string.IsNullOrEmpty(options.Width))
-                Width = options.Width;
         }
     }
 }

@@ -19,11 +19,11 @@ namespace GridMvc.Pagination
 
         private readonly HttpContext _context;
         private readonly CustomQueryStringBuilder _queryBuilder;
+        private int _currentPage;
 
         private int _itemsCount;
         private int _maxDisplayedPages;
         private int _pageSize;
-        private int _currentPage;
 
         #region ctor's
 
@@ -73,7 +73,7 @@ namespace GridMvc.Pagination
                     _currentPage = PageCount;
                 return _currentPage;
             }
-            internal protected set
+            protected internal set
             {
                 _currentPage = value;
                 if (_currentPage > PageCount)
@@ -129,15 +129,15 @@ namespace GridMvc.Pagination
                 PageCount = 0;
                 return;
             }
-            PageCount = (int)(Math.Ceiling(ItemsCount / (double)PageSize));
+            PageCount = (int) (Math.Ceiling(ItemsCount/(double) PageSize));
 
             //if (CurrentPage > PageCount)
             //    CurrentPage = PageCount;
 
-            StartDisplayedPage = (CurrentPage - MaxDisplayedPages / 2) < 1 ? 1 : CurrentPage - MaxDisplayedPages / 2;
-            EndDisplayedPage = (CurrentPage + MaxDisplayedPages / 2) > PageCount
+            StartDisplayedPage = (CurrentPage - MaxDisplayedPages/2) < 1 ? 1 : CurrentPage - MaxDisplayedPages/2;
+            EndDisplayedPage = (CurrentPage + MaxDisplayedPages/2) > PageCount
                                    ? PageCount
-                                   : CurrentPage + MaxDisplayedPages / 2;
+                                   : CurrentPage + MaxDisplayedPages/2;
         }
 
         #region View
@@ -153,6 +153,5 @@ namespace GridMvc.Pagination
         }
 
         #endregion
-
     }
 }

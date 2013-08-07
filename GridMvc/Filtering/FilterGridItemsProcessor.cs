@@ -38,10 +38,13 @@ namespace GridMvc.Filtering
                 if (gridColumn == null) continue;
                 if (gridColumn.Filter == null) continue;
 
-                var options = _settings.IsInitState
-                                  ? new List<ColumnFilterValue> { column.InitialFilterSettings }
-                                  : _settings.FilteredColumns.GetByColumn(column);
-                foreach (var filterOptions in options)
+                IEnumerable<ColumnFilterValue> options = _settings.IsInitState
+                                                             ? new List<ColumnFilterValue>
+                                                                 {
+                                                                     column.InitialFilterSettings
+                                                                 }
+                                                             : _settings.FilteredColumns.GetByColumn(column);
+                foreach (ColumnFilterValue filterOptions in options)
                 {
                     if (filterOptions == ColumnFilterValue.Null)
                         continue;

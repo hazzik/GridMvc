@@ -75,7 +75,7 @@ namespace GridMvc.Html
         IGridHtmlOptions<T> SetRowCssClasses(Func<T, string> contraint);
 
         /// <summary>
-        /// Specify Grid client name
+        ///     Specify Grid client name
         /// </summary>
         IGridHtmlOptions<T> Named(string gridName);
 
@@ -91,7 +91,7 @@ namespace GridMvc.Html
         IGridHtmlOptions<T> WithMultipleFilters();
 
         /// <summary>
-        /// Obviously render Grid markup
+        ///     Obviously render Grid markup
         /// </summary>
         /// <returns>Grid html layout</returns>
         string Render();

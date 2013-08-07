@@ -94,7 +94,7 @@ namespace GridMvc.Columns
     public interface IGridColumnCollection : IEnumerable<IGridColumn>
     {
         /// <summary>
-        /// Get column by internal name
+        ///     Get column by internal name
         /// </summary>
         IGridColumn GetByName(string name);
     }

@@ -26,7 +26,7 @@ namespace GridMvc.Filtering
             if (value == ColumnFilterValue.Null)
                 throw new ArgumentNullException("value");
 
-            var pi = (PropertyInfo)((MemberExpression)_expression.Body).Member;
+            var pi = (PropertyInfo) ((MemberExpression) _expression.Body).Member;
             Expression<Func<T, bool>> expr = GetFilterExpression(pi, value);
             if (expr == null)
                 return items;
@@ -39,7 +39,7 @@ namespace GridMvc.Filtering
         {
             //detect nullable
             bool isNullable = pi.PropertyType.IsGenericType &&
-                              pi.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
+                              pi.PropertyType.GetGenericTypeDefinition() == typeof (Nullable<>);
             //get target type:
             Type targetType = isNullable ? Nullable.GetUnderlyingType(pi.PropertyType) : pi.PropertyType;
 
@@ -55,7 +55,7 @@ namespace GridMvc.Filtering
             Expression binaryExpression = filterType.GetFilterExpression(firstExpr, value.FilterValue, value.FilterType);
             if (binaryExpression == null) return null;
 
-            if (targetType == typeof(string))
+            if (targetType == typeof (string))
             {
                 //check for strings, they may be NULL
                 //It's ok for ORM, but throw exception in linq to objects. Additional check string on null
@@ -73,6 +73,5 @@ namespace GridMvc.Filtering
             //return filter expression
             return Expression.Lambda<Func<T, bool>>(binaryExpression, entityParam);
         }
-
     }
 }

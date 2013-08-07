@@ -52,7 +52,7 @@ namespace GridMvc.Utility
                 {
                     if (result.Length == 0)
                         result.Append("?");
-                    foreach (var value in values)
+                    foreach (string value in values)
                     {
                         result.Append(key + "=" + HttpUtility.UrlEncode(value) + "&");
                     }

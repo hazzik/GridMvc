@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
@@ -57,6 +58,7 @@
     <Compile Include="Columns\HiddenGridColumn.cs" />
     <Compile Include="Columns\IColumnBuilder.cs" />
     <Compile Include="Columns\IGridColumnCollection.cs" />
+    <Compile Include="DataAnnotations\GridAnnotaionsProvider.cs" />
     <Compile Include="DataAnnotations\GridTableAttribute.cs" />
     <Compile Include="DataAnnotations\GridColumnAttribute.cs" />
     <Compile Include="DataAnnotations\GridHiddenColumnAttribute.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="Html\GridRenderOptions.cs" />
     <Compile Include="Html\HtmlGrid.cs" />
     <Compile Include="Html\IGridHtmlOptions.cs" />
+    <Compile Include="DataAnnotations\IGridAnnotaionsProvider.cs" />
     <Compile Include="ISanitizer.cs" />
     <Compile Include="Pagination\GridPager.cs" />
     <Compile Include="Resources\Strings.it.Designer.cs">
@@ -125,7 +128,6 @@
     <Compile Include="Sorting\OrderByGridOrderer.cs" />
     <Compile Include="Sorting\IColumnOrderer.cs" />
     <Compile Include="Sorting\ThenByColumnOrderer.cs" />
-    <Compile Include="Utility\Helpers.cs" />
     <Compile Include="Utility\JsonHelper.cs" />
     <Compile Include="Utility\PropertiesHelper.cs" />
     <Compile Include="Columns\GridColumn.cs" />

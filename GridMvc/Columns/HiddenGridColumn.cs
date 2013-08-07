@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Reflection;
-using GridMvc.DataAnnotations;
 using GridMvc.Filtering;
 using GridMvc.Sorting;
 using GridMvc.Utility;
@@ -35,11 +33,6 @@ namespace GridMvc.Columns
                 _constraint = expression.Compile();
 
                 Name = PropertiesHelper.BuildColumnNameFromMemberExpression(expr);
-
-                //Apply data annotation options
-                var pi = expr.Member as PropertyInfo;
-                if (pi != null)
-                    ApplyColumnSettings(pi);
             }
         }
 
@@ -73,7 +66,7 @@ namespace GridMvc.Columns
 
         public override string FilterWidgetTypeName
         {
-            get { return PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName; }
+            get { return PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName; }
         }
 
         //public override bool IsSorted { get; set; }
@@ -134,7 +127,7 @@ namespace GridMvc.Columns
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
-            return new GridCell(textValue) { Encode = EncodeEnabled };
+            return new GridCell(textValue) {Encode = EncodeEnabled};
         }
 
         public override IGridColumn<T> Filterable(bool showColumnValuesVariants)
@@ -144,17 +137,7 @@ namespace GridMvc.Columns
 
         public override IGridCell GetCell(object instance)
         {
-            return GetValue((T)instance);
-        }
-
-        private void ApplyColumnSettings(PropertyInfo pi)
-        {
-            var options = pi.GetAttribute<GridHiddenColumnAttribute>();
-            if (options == null) return;
-            Encoded(options.Encoded)
-                .Sanitized(options.Sanitized);
-            if (!string.IsNullOrEmpty(options.Format))
-                Format(options.Format);
+            return GetValue((T) instance);
         }
     }
 }

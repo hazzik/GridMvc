@@ -22,9 +22,6 @@ namespace GridMvc.Columns
             _sortSettings = sortSettings;
         }
 
-        public bool DefaultSortEnabled { get; set; }
-        public bool DefaultFilteringEnabled { get; set; }
-
         #region IGridColumnCollection<T> Members
 
         public IGridColumn<T> Add()
@@ -66,9 +63,6 @@ namespace GridMvc.Columns
             if (column == null)
                 throw new ArgumentNullException("column");
 
-            column.Sortable(DefaultSortEnabled);
-            column.Filterable(DefaultFilteringEnabled);
-
             try
             {
                 base.Add(column);
@@ -83,8 +77,6 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> Insert(int position, IGridColumn<T> column)
         {
-            column.Sortable(DefaultSortEnabled);
-            column.Filterable(DefaultFilteringEnabled);
             base.Insert(position, column);
             UpdateColumnsSorting();
             return column;

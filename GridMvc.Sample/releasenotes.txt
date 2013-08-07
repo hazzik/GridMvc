@@ -10,3 +10,5 @@
 
 	Added new method 'Named' for specifing grid client name
 	Modify sample app layout for responsive design
+	Client side: added preventing of grid row selection
+	Support for System.ComponentModel.DataAnnotations: DisplayAttribute, DisplayFormatAttribute, MetadataTypeAttribute

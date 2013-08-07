@@ -56,7 +56,7 @@ namespace GridMvc.Html
             _source.EnablePaging = true;
             _source.Pager.PageSize = pageSize;
 
-            var pager = _source.Pager as GridPager;//This setting can be applied only to default grid pager
+            var pager = _source.Pager as GridPager; //This setting can be applied only to default grid pager
             if (pager == null) return this;
 
             if (maxDisplayedItems > 0)

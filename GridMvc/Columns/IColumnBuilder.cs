@@ -10,6 +10,9 @@ namespace GridMvc.Columns
     /// <typeparam name="T"></typeparam>
     public interface IColumnBuilder<T>
     {
+        bool DefaultSortEnabled { get; set; }
+        bool DefaultFilteringEnabled { get; set; }
+
         /// <summary>
         ///     Creates column based on column expression
         /// </summary>

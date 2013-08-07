@@ -8,7 +8,6 @@ using GridMvc.Html;
 using GridMvc.Pagination;
 using GridMvc.Resources;
 using GridMvc.Sorting;
-using GridMvc.Utility;
 
 namespace GridMvc
 {
@@ -17,6 +16,8 @@ namespace GridMvc
     /// </summary>
     public class Grid<T> : GridBase<T>, IGrid where T : class
     {
+        private readonly IGridAnnotaionsProvider _annotaions;
+        private readonly IColumnBuilder<T> _columnBuilder;
         private readonly GridColumnCollection<T> _columnsCollection;
         private readonly FilterGridItemsProcessor<T> _currentFilterItemsProcessor;
         private readonly SortGridItemsProcessor<T> _currentSortItemsProcessor;
@@ -49,17 +50,17 @@ namespace GridMvc
             AddItemsPreProcessor(_currentFilterItemsProcessor);
             InsertItemsProcessor(0, _currentSortItemsProcessor);
 
+            _annotaions = new GridAnnotaionsProvider();
+
             #endregion
 
             //Set up column collection:
-            var columnBuilder = new DefaultColumnBuilder<T>(this);
-            _columnsCollection = new GridColumnCollection<T>(columnBuilder, _settings.SortSettings);
+            _columnBuilder = new DefaultColumnBuilder<T>(this, _annotaions);
+            _columnsCollection = new GridColumnCollection<T>(_columnBuilder, _settings.SortSettings);
             RenderOptions = new GridRenderOptions();
 
             ApplyGridSettings();
         }
-
-        public GridRenderOptions RenderOptions { get; set; }
 
         /// <summary>
         ///     Grid columns collection
@@ -74,8 +75,8 @@ namespace GridMvc
         /// </summary>
         public bool DefaultSortEnabled
         {
-            get { return _columnsCollection.DefaultSortEnabled; }
-            set { _columnsCollection.DefaultSortEnabled = value; }
+            get { return _columnBuilder.DefaultSortEnabled; }
+            set { _columnBuilder.DefaultSortEnabled = value; }
         }
 
         /// <summary>
@@ -83,9 +84,11 @@ namespace GridMvc
         /// </summary>
         public bool DefaultFilteringEnabled
         {
-            get { return _columnsCollection.DefaultFilteringEnabled; }
-            set { _columnsCollection.DefaultFilteringEnabled = value; }
+            get { return _columnBuilder.DefaultFilteringEnabled; }
+            set { _columnBuilder.DefaultFilteringEnabled = value; }
         }
+
+        public GridRenderOptions RenderOptions { get; set; }
 
         /// <summary>
         ///     Provides settings, using by the grid
@@ -176,7 +179,7 @@ namespace GridMvc
         /// </summary>
         private void ApplyGridSettings()
         {
-            var opt = typeof(T).GetAttribute<GridTableAttribute>();
+            GridTableAttribute opt = _annotaions.GetAnnotationForTable<T>();
             if (opt == null) return;
             EnablePaging = opt.PagingEnabled;
             if (opt.PageSize > 0)
@@ -202,7 +205,8 @@ namespace GridMvc
         /// </summary>
         public virtual void AutoGenerateColumns()
         {
-            PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            //TODO add support order property
+            PropertyInfo[] properties = typeof (T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (PropertyInfo pi in properties)
             {
                 if (pi.CanRead)

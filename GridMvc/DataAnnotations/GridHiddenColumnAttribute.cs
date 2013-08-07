@@ -9,19 +9,19 @@ namespace GridMvc.DataAnnotations
     {
         public GridHiddenColumnAttribute()
         {
-            Encoded = true;
-            Sanitized = true;
+            EncodeEnabled = true;
+            SanitizeEnabled = true;
         }
 
         /// <summary>
         ///     Specify that content of this column need to be encoded
         /// </summary>
-        public bool Encoded { get; set; }
+        public bool EncodeEnabled { get; set; }
 
         /// <summary>
         ///     Specify that content of this column need to be sanitized
         /// </summary>
-        public bool Sanitized { get; set; }
+        public bool SanitizeEnabled { get; set; }
 
         /// <summary>
         ///     Specify the format of column data

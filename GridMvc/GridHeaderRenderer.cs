@@ -25,9 +25,9 @@ namespace GridMvc
                 widthStyle = string.Format("width:{0};", column.Width);
 
             return MvcHtmlString.Create(string.Format("<th style=\"{0}{1}\" class=\"{2}\">{3}{4}</th>", widthStyle,
-                                 GetCssStylesString(),
-                                 GetCssClassesString(),
-                                 content, RenderAdditionalContent(column, content)));
+                                                      GetCssStylesString(),
+                                                      GetCssClassesString(),
+                                                      content, RenderAdditionalContent(column, content)));
         }
 
         protected virtual string RenderAdditionalContent(IGridColumn column, string content)

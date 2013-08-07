@@ -20,7 +20,6 @@ namespace GridMvc.Filtering
         public QueryStringFilterSettings()
             : this(HttpContext.Current)
         {
-            
         }
 
         public QueryStringFilterSettings(HttpContext context)
@@ -29,16 +28,15 @@ namespace GridMvc.Filtering
                 throw new ArgumentException("No http context here!");
             Context = context;
 
-            var filters = Context.Request.QueryString.GetValues(DefaultTypeQueryParameter);
+            string[] filters = Context.Request.QueryString.GetValues(DefaultTypeQueryParameter);
             if (filters != null)
             {
-                foreach (var filter in filters)
+                foreach (string filter in filters)
                 {
-                    var column = CreateColumnData(filter);
+                    ColumnFilterValue column = CreateColumnData(filter);
                     if (column != ColumnFilterValue.Null)
                         _columns.Add(column);
                 }
-
             }
         }
 
@@ -49,16 +47,15 @@ namespace GridMvc.Filtering
             if (string.IsNullOrEmpty(queryParameterValue))
                 return ColumnFilterValue.Null;
 
-            var data = queryParameterValue.Split(new[] { FilterDataDelimeter }, StringSplitOptions.RemoveEmptyEntries);
+            string[] data = queryParameterValue.Split(new[] {FilterDataDelimeter}, StringSplitOptions.RemoveEmptyEntries);
             if (data.Length != 3)
                 return ColumnFilterValue.Null;
             GridFilterType type;
             if (!Enum.TryParse(data[1], true, out type))
                 type = GridFilterType.Equals;
 
-            return new ColumnFilterValue { ColumnName = data[0], FilterType = type, FilterValue = data[2] };
+            return new ColumnFilterValue {ColumnName = data[0], FilterType = type, FilterValue = data[2]};
         }
-
 
         #region IGridFilterSettings Members
 
@@ -77,6 +74,5 @@ namespace GridMvc.Filtering
         }
 
         #endregion
-
     }
 }

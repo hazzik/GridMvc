@@ -17,7 +17,7 @@ namespace GridMvc.Columns
         public bool EncodeEnabled { get; protected set; }
         public bool SanitizeEnabled { get; set; }
 
-        public string Width { get; protected set; }
+        public string Width { get; set; }
 
         public bool SortEnabled { get; protected set; }
 
@@ -79,8 +79,8 @@ namespace GridMvc.Columns
                 {
                     FilterType = type,
                     FilterValue = value,
-                    ColumnName=Name
-                }; 
+                    ColumnName = Name
+                };
             InitialFilterSettings = filter;
             return this;
         }

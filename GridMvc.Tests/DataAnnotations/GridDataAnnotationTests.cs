@@ -42,7 +42,6 @@ namespace GridMvc.Tests.DataAnnotations
 
                 var gridOpt = pi.GetAttribute<GridColumnAttribute>();
 
-
                 if (gridOpt != null)
                 {
                     var column = _grid.Columns.ElementAt(i) as IGridColumn<TestGridAnnotationModel>;
@@ -53,7 +52,7 @@ namespace GridMvc.Tests.DataAnnotations
                     Assert.AreEqual(column.FilterEnabled, gridOpt.FilterEnabled);
                     Assert.AreEqual(column.SanitizeEnabled, gridOpt.SanitizeEnabled);
 
-                    if (!string.IsNullOrEmpty(gridOpt.Width))
+                    if (!string.IsNullOrEmpty(gridOpt.Title))
                         Assert.AreEqual(column.Title, gridOpt.Title);
 
                     if (!string.IsNullOrEmpty(gridOpt.Width))
@@ -61,7 +60,7 @@ namespace GridMvc.Tests.DataAnnotations
                 }
                 i++;
             }
-            Assert.AreEqual(_grid.Columns.Count(), 2);
+            Assert.AreEqual(_grid.Columns.Count(), 3);
         }
     }
 }

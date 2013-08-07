@@ -19,11 +19,11 @@ namespace GridMvc.Pagination
 
         public IQueryable<T> Process(IQueryable<T> items)
         {
-            _pager.Initialize(items);//init pager
+            _pager.Initialize(items); //init pager
 
             if (_pager.CurrentPage <= 0) return items; //incorrect page
 
-            int skip = (_pager.CurrentPage - 1) * _pager.PageSize;
+            int skip = (_pager.CurrentPage - 1)*_pager.PageSize;
             return items.Skip(skip).Take(_pager.PageSize);
         }
 

@@ -15,6 +15,7 @@ namespace GridMvc.Filtering
     internal class QueryStringFilterColumnHeaderRenderer : IGridColumnRenderer
     {
         private const string FilteredButtonCssClass = "filtered";
+
         private const string FilterContent =
             @" <span 
                                             data-type='{1}'
@@ -39,9 +40,9 @@ namespace GridMvc.Filtering
             if (!column.FilterEnabled)
                 return MvcHtmlString.Empty;
 
-            var filterSettings = _settings.IsInitState
-                                                     ? new List<ColumnFilterValue> { column.InitialFilterSettings }
-                                                     : _settings.FilteredColumns.GetByColumn(column).ToList();
+            List<ColumnFilterValue> filterSettings = _settings.IsInitState
+                                                         ? new List<ColumnFilterValue> {column.InitialFilterSettings}
+                                                         : _settings.FilteredColumns.GetByColumn(column).ToList();
 
             bool isColumnFiltered = filterSettings.Any();
 
@@ -49,19 +50,19 @@ namespace GridMvc.Filtering
             var builder = new CustomQueryStringBuilder(_settings.Context.Request.QueryString);
 
             var exceptQueryParameters = new List<string> {QueryStringFilterSettings.DefaultTypeQueryParameter};
-            var pagerParameterName = GetPagerQueryParameterName(column.ParentGrid.Pager);
-            if(!string.IsNullOrEmpty(pagerParameterName))
+            string pagerParameterName = GetPagerQueryParameterName(column.ParentGrid.Pager);
+            if (!string.IsNullOrEmpty(pagerParameterName))
                 exceptQueryParameters.Add(pagerParameterName);
-            
+
             string url = builder.GetQueryStringExcept(exceptQueryParameters);
 
             return MvcHtmlString.Create(string.Format(FilterContent,
-                                 Strings.FilterButtonTooltipText,
-                                 column.FilterWidgetTypeName,
-                                 column.Name,
-                                 JsonHelper.JsonSerializer(filterSettings),
-                                 url,
-                                 isColumnFiltered ? FilteredButtonCssClass : string.Empty));
+                                                      Strings.FilterButtonTooltipText,
+                                                      column.FilterWidgetTypeName,
+                                                      column.Name,
+                                                      JsonHelper.JsonSerializer(filterSettings),
+                                                      url,
+                                                      isColumnFiltered ? FilteredButtonCssClass : string.Empty));
         }
 
         #endregion

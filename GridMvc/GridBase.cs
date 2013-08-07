@@ -68,7 +68,6 @@ namespace GridMvc
         //}
 
         #region Custom row css classes
-
         public void SetRowCssClassesContraint(Func<T, string> contraint)
         {
             _rowCssClassesContraint = contraint;
@@ -85,6 +84,20 @@ namespace GridMvc
         }
 
         #endregion
+
+        protected void PrepareItemsToDisplay()
+        {
+            if (!_itemsProcessed)
+            {
+                _itemsProcessed = true;
+                IQueryable<T> itemsToProcess = GridItems;
+                foreach (var processor in _processors.Where(p => p != null))
+                {
+                    itemsToProcess = processor.Process(itemsToProcess);
+                }
+                AfterItems = itemsToProcess.ToList(); //select from db (in EF case)
+            }
+        }
 
         #region Processors methods
 
@@ -119,19 +132,5 @@ namespace GridMvc
         }
 
         #endregion
-
-        protected void PrepareItemsToDisplay()
-        {
-            if (!_itemsProcessed)
-            {
-                _itemsProcessed = true;
-                IQueryable<T> itemsToProcess = GridItems;
-                foreach (var processor in _processors.Where(p => p != null))
-                {
-                    itemsToProcess = processor.Process(itemsToProcess);
-                }
-                AfterItems = itemsToProcess.ToList(); //select from db (in EF case)
-            }
-        }
     }
 }

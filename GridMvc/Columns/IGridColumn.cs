@@ -75,7 +75,7 @@ namespace GridMvc.Columns
         /// <summary>
         ///     Width of the column
         /// </summary>
-        string Width { get; }
+        string Width { get; set; }
 
         /// <summary>
         ///     EncodeEnabled
