@@ -2,8 +2,7 @@
 <html>
 <head>
     <title>@ViewBag.Title</title>
-    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/Main.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/SyntaxHighlighter/shCore.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/SyntaxHighlighter/shCoreDefault.css")" rel="stylesheet" type="text/css" />
@@ -29,32 +28,29 @@
 
 
 </head>
-    <body>
+<body>
+    <nav class="navbar navbar-grid navbar-fixed-top" role="navigation">
         <div class="container">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="container">
-                        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="brand" href="/">Grid.Mvc</a>
-                        <div class="nav-collapse collapse">
-                            <ul class="nav">
-                                <li class="@(ViewBag.ActiveMenuTitle == "Demo" ? "active" : string.Empty)">@Html.ActionLink("Demo", "Index", "Home")</li>
-                                <li class="@(ViewBag.ActiveMenuTitle == "AjaxPaging" ? "active" : string.Empty)">@Html.ActionLink("Ajax paging", "AjaxPaging", "Home")</li>
-                                <li class="@(ViewBag.ActiveMenuTitle == "About" ? "active" : string.Empty)">@Html.ActionLink("About", "About", "Home")</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-ex5-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Grid.Mvc</a>
             </div>
-
-
-            <div id="main">
-                @RenderBody()
+            <div class="navbar-collapse navbar-ex5-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="@(ViewBag.ActiveMenuTitle == "Demo" ? "active" : string.Empty)">@Html.ActionLink("Demo", "Index", "Home")</li>
+                    <li class="@(ViewBag.ActiveMenuTitle == "AjaxPaging" ? "active" : string.Empty)">@Html.ActionLink("Ajax paging", "AjaxPaging", "Home")</li>
+                    <li class="@(ViewBag.ActiveMenuTitle == "About" ? "active" : string.Empty)">@Html.ActionLink("About", "About", "Home")</li>
+                </ul>
             </div>
         </div>
-    </body>
+    </nav>
+    <div id="main" class="container">
+        @RenderBody()
+    </div>
+</body>
 </html>

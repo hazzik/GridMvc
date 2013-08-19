@@ -89,8 +89,20 @@
     <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\OrdersRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\bootstrap\bootstrap-glyphicons.css" />
+    <Content Include="Content\bootstrap\bootstrap.css" />
+    <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\fonts\glyphiconshalflings-regular.svg" />
+    <Content Include="Nuget\web.config.transform" />
+    <Content Include="Content\fonts\glyphiconshalflings-regular.woff" />
+    <Content Include="Content\fonts\glyphiconshalflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphiconshalflings-regular.otf" />
+    <Content Include="Content\fonts\glyphiconshalflings-regular.eot" />
     <None Include="Properties\PublishProfiles\gridmvc - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\gridmvc - Web Deploy.pubxml" />
+    <Content Include="Scripts\gridmvc.min.js.map">
+      <DependentUpon>gridmvc.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.0.2.intellisense.js" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\jquery-ui.css" />
@@ -127,16 +139,12 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.0.2.js" />
     <Content Include="Scripts\jquery-2.0.2.min.js" />
     <Content Include="Scripts\jquery-2.0.2.min.map" />
     <Content Include="Views\Home\_OrdersGrid.cshtml" />
-    <Content Include="Content\bootstrap-responsive.css" />
-    <Content Include="Content\bootstrap-responsive.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Images\glyphicons-halflings-white.png" />
-    <Content Include="Content\Images\glyphicons-halflings.png" />
     <Content Include="Content\Main.css" />
     <Content Include="Content\SyntaxHighlighter\shCore.css" />
     <Content Include="Content\SyntaxHighlighter\shCoreDefault.css" />
@@ -156,8 +164,6 @@
     <Content Include="Content\SyntaxHighlighter\shThemeMidnight.css" />
     <Content Include="Content\SyntaxHighlighter\shThemeRDark.css" />
     <Content Include="releasenotes.txt" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\gridmvc.customwidgets.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
@@ -277,7 +283,9 @@
     <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Grid.Mvc.nuspec" />
+    <None Include="Nuget\Grid.Mvc.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Grid.mvc.readme" />
   </ItemGroup>
   <ItemGroup>

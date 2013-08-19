@@ -16,7 +16,7 @@ $.fn.extend({
                 var name = $(this).attr("data-gridname");
                 if (name.length > 0)
                     window.pageGrids[$(this).attr("data-gridname")] = grid;
-                
+
                 aObj.push(grid);
                 $(this).data("gridmvc", grid);
             } else {
@@ -190,7 +190,7 @@ GridMvc = (function ($) {
     * Returns layout of filter popup menu
     */
     gridMvc.prototype.filterMenuHtml = function () {
-        return '<div class="dropdown-menu grid-dropdown" style="display: none;">\
+        return '<div class="dropdown dropdown-menu grid-dropdown" style="display: none;">\
                     <div class="grid-dropdown-arrow"></div>\
                     <div class="grid-dropdown-inner">\
                             <div class="grid-popup-widget"></div>\
@@ -421,17 +421,21 @@ TextFilterWidget = (function ($) {
     * Internal method that build widget layout and append it to the widget container
     */
     textFilterWidget.prototype.renderWidget = function () {
-        var html = '<label>' + this.lang.filterTypeLabel + '</label>\
-                    <select class="grid-filter-type">\
-                        <option value="1" ' + (this.value.filterType == "1" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Equals + '</option>\
-                        <option value="2" ' + (this.value.filterType == "2" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Contains + '</option>\
-                        <option value="3" ' + (this.value.filterType == "3" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.StartsWith + '</option>\
-                        <option value="4" ' + (this.value.filterType == "4" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.EndsWith + '</option>\
-                    </select>\
-                    <label>' + this.lang.filterValueLabel + '</label>\
-                    <input type="text" class="grid-filter-input" value="' + this.value.filterValue + '" />\
+        var html = '<div class="form-group">\
+                        <label>' + this.lang.filterTypeLabel + '</label>\
+                        <select class="grid-filter-type form-control">\
+                            <option value="1" ' + (this.value.filterType == "1" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Equals + '</option>\
+                            <option value="2" ' + (this.value.filterType == "2" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Contains + '</option>\
+                            <option value="3" ' + (this.value.filterType == "3" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.StartsWith + '</option>\
+                            <option value="4" ' + (this.value.filterType == "4" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.EndsWith + '</option>\
+                        </select>\
+                    </div>\
+                    <div class="form-group">\
+                        <label>' + this.lang.filterValueLabel + '</label>\
+                        <input type="text" class="grid-filter-input form-control" value="' + this.value.filterValue + '" />\
+                    </div>\
                     <div class="grid-filter-buttons">\
-                        <input type="button" class="btn btn-apply" value="' + this.lang.applyFilterButtonText + '" />\
+                        <button type="button" class="btn btn-primary grid-apply" >' + this.lang.applyFilterButtonText + '</button>\
                     </div>';
         this.container.append(html);
     };
@@ -440,7 +444,7 @@ TextFilterWidget = (function ($) {
     */
     textFilterWidget.prototype.registerEvents = function () {
         //get apply button from:
-        var applyBtn = this.container.find(".btn-apply");
+        var applyBtn = this.container.find(".grid-apply");
         //save current context:
         var $context = this;
         //register onclick event handler
@@ -495,23 +499,27 @@ NumberFilterWidget = (function ($) {
     };
 
     numberFilterWidget.prototype.renderWidget = function () {
-        var html = '<label>' + this.lang.filterTypeLabel + '</label>\
-                    <select class="grid-filter-type">\
-                        <option value="1" ' + (this.value.filterType == "1" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Equals + '</option>\
-                        <option value="5" ' + (this.value.filterType == "5" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.GreaterThan + '</option>\
-                        <option value="6" ' + (this.value.filterType == "6" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.LessThan + '</option>\
-                    </select>\
-                    <label>' + this.lang.filterValueLabel + '</label>\
-                    <input type="text" class="grid-filter-input" value="' + this.value.filterValue + '" />\
+        var html = '<div class="form-group">\
+                        <label>' + this.lang.filterTypeLabel + '</label>\
+                        <select class="grid-filter-type form-control">\
+                            <option value="1" ' + (this.value.filterType == "1" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Equals + '</option>\
+                            <option value="5" ' + (this.value.filterType == "5" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.GreaterThan + '</option>\
+                            <option value="6" ' + (this.value.filterType == "6" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.LessThan + '</option>\
+                        </select>\
+                    </div>\
+                    <div class="form-group">\
+                        <label>' + this.lang.filterValueLabel + '</label>\
+                        <input type="text" class="grid-filter-input form-control" value="' + this.value.filterValue + '" />\
+                    </div>\
                     <div class="grid-filter-buttons">\
-                        <input type="button" class="btn btn-apply" value="' + this.lang.applyFilterButtonText + '" />\
+                        <button type="button" class="btn btn-primary grid-apply">' + this.lang.applyFilterButtonText + '</button>\
                     </div>';
         this.container.append(html);
     };
 
     numberFilterWidget.prototype.registerEvents = function () {
         var $context = this;
-        var applyBtn = this.container.find(".btn-apply");
+        var applyBtn = this.container.find(".grid-apply");
         applyBtn.click(function () {
             var type = $context.container.find(".grid-filter-type").val();
             var value = $context.container.find(".grid-filter-input").val();
@@ -575,17 +583,21 @@ DateTimeFilterWidget = (function ($) {
     };
 
     dateTimeFilterWidget.prototype.renderWidget = function () {
-        var html = '<label>' + this.lang.filterTypeLabel + '</label>\
-                    <select class="grid-filter-type">\
-                        <option value="1" ' + (this.value.filterType == "1" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Equals + '</option>\
-                        <option value="5" ' + (this.value.filterType == "5" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.GreaterThan + '</option>\
-                        <option value="6" ' + (this.value.filterType == "6" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.LessThan + '</option>\
-                    </select>' +
+        var html = '<div class="form-group">\
+                        <label>' + this.lang.filterTypeLabel + '</label>\
+                        <select class="grid-filter-type form-control">\
+                            <option value="1" ' + (this.value.filterType == "1" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.Equals + '</option>\
+                            <option value="5" ' + (this.value.filterType == "5" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.GreaterThan + '</option>\
+                            <option value="6" ' + (this.value.filterType == "6" ? "selected=\"selected\"" : "") + '>' + this.lang.filterSelectTypes.LessThan + '</option>\
+                        </select>\
+                    </div>' +
                         (this.jqUiIncluded ?
                             '<div class="grid-filter-datepicker"></div>'
                             :
-                            '<label>' + this.lang.filterValueLabel + '</label>\
-                             <input type="text" class="grid-filter-input" value="' + this.value.filterValue + '" />\
+                            '<div class="form-group">\
+                                <label>' + this.lang.filterValueLabel + '</label>\
+                                <input type="text" class="grid-filter-input form-control" value="' + this.value.filterValue + '" />\
+                             </div>\
                              <div class="grid-filter-buttons">\
                                 <input type="button" class="btn btn-apply" value="' + this.lang.applyFilterButtonText + '" />\
                              </div>');

@@ -1,25 +1,15 @@
-﻿body { background: #E3E8EC; 
-              background: -webkit-radial-gradient(#FFF,#4888C2); 
-       background: radial-gradient(#FFF, #4888C2);
-       background: -moz-radial-gradient(#FFF, #4888C2); /* FF3.6+ */
-       background: -o-radial-gradient(#FFF, #4888C2); /* Opera 12 */
-       background: -ms-radial-gradient(#FFF, #4888C2); /* IE10 */
-       background-repeat:no-repeat;
-       background-attachment: fixed;
-}
-
-#main { padding: 10px 20px; margin: 0 auto 15px; border: 1px solid #8B8B8B; background: #FDFDFD; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; border-radius: 4px; -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.1); -ms-box-shadow: 0 1px 5px rgba(0,0,0,0.1); -o-box-shadow: 0 1px 5px rgba(0,0,0,0.1); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); -webkit-background-clip: padding-box; -moz-background-clip: padding-box; -khtml-background-clip: padding-box; -o-background-clip: padding-box; background-clip: padding-box; }
-.navbar-inner { border:1px solid #8B8B8B; }
-.navbar .brand { color: #08C; }
+﻿#main { margin-top: 50px;margin-bottom: 20px; }
 
 body .syntaxhighlighter { overflow-y: hidden !important; overflow-x: auto !important; }
 
 .code-cut { margin: 10px 0; }
-.code-cut pre, .code-cut .syntaxhighlighter  { display: none; }
-.code-cut a { text-decoration: none;border-bottom: 1px dotted;}
-
+    .code-cut pre, .code-cut .syntaxhighlighter { display: none; }
+    .code-cut a { text-decoration: none; border-bottom: 1px dotted; }
+/* CUSTOM NAVBAR COLORS */
+.navbar-grid { background-color: #4888C2 !important; }
+    .navbar-grid .navbar-brand { color: white; }
+    .navbar-grid .navbar-nav > li > a { color: #e1f1ff; }
+    .navbar-grid .navbar-nav > .active > a, .bs-docs-nav .navbar-nav > .active > a:hover {  color: #FFF; background-color: #3573AC; }
 /* AJAX PAGER */
 .grid-ajax-pager a { display: block; padding: 8px 10px; text-decoration: none; text-align: center; border-top: 1px solid #DBDBDB; border-bottom: 1px solid #DBDBDB; }
     .grid-ajax-pager a:hover { background: #f9f9f9; }
-
-

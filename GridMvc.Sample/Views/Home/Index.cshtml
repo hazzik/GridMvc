@@ -3,19 +3,25 @@
     ViewBag.Title = "Home Page";
 }
 
+<div class="row">
+    <div class="col-md-12">
+        <h1>Orders administration</h1>
+        <p>
+            This page demonstrates the possibilities of Grid.Mvc. For more documentation, please
+            see: <a href="http://gridmvc.codeplex.com/">http://gridmvc.codeplex.com/</a>
+        </p>
+    </div>
+    <div class="col-md-12">
+        @Html.Partial("_OrdersGridCode")
+    </div>
+</div>
 
-<h3>Orders administration</h3>
-<p>
-    This page demonstrates the possibilities of Grid.Mvc. For more documentation, please
-    see: <a href="http://gridmvc.codeplex.com/">http://gridmvc.codeplex.com/</a>
-</p>
-@Html.Partial("_OrdersGridCode")
-<div class="row-fluid">
-    <div class="span9">
+<div class="row">
+    <div class="col-md-9 col-sm-9 col-xs-12">
         @Html.Partial("_OrdersGrid", Model) @* configure grid in a partial view *@
     </div>
 
-    <div class="span3">
+    <div class="col-md-3 col-sm-3 hidden-xs">
         <h4>Order details
         </h4>
         <div id="order-content">

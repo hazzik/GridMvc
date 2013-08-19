@@ -57,7 +57,7 @@ function CustomersFilterWidget() {
     this.renderWidget = function () {
         var html = '<p><i>This is custom filter widget demo.</i></p>\
                     <p>Select customer to filter:</p>\
-                    <select style="width:250px;" class="grid-filter-type customerslist">\
+                    <select style="width:250px;" class="grid-filter-type customerslist form-control">\
                     </select>';
         this.container.append(html);
     };
