@@ -52,6 +52,20 @@ namespace GridMvc.Columns
             return this;
         }
 
+        public IGridColumn<T> Css(string cssClasses)
+        {
+            if (string.IsNullOrEmpty(cssClasses))
+                return this;
+            var headerStyledRender = this.HeaderRenderer as GridStyledRenderer;
+            if (headerStyledRender != null)
+                headerStyledRender.AddCssClass(cssClasses);
+
+            var cellStyledRender = this.CellRenderer as GridStyledRenderer;
+            if (cellStyledRender != null)
+                cellStyledRender.AddCssClass(cssClasses);
+            return this;
+        }
+
 
         public IGridColumn<T> RenderValueAs(Func<T, string> constraint)
         {

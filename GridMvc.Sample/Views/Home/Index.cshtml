@@ -17,11 +17,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-9 col-sm-9 col-xs-12">
-        @Html.Partial("_OrdersGrid", Model) @* configure grid in a partial view *@
-    </div>
-
-    <div class="col-md-3 col-sm-3 hidden-xs">
+    <div class="col-md-3 col-md-push-9">
         <h4>Order details
         </h4>
         <div id="order-content">
@@ -29,6 +25,9 @@
                 Select order to display detailed infomation
             </p>
         </div>
+    </div>
+    <div class="col-md-9 col-md-pull-3">
+        @Html.Partial("_OrdersGrid", Model) @* configure grid in a partial view *@
     </div>
 </div>
 <script>

@@ -50,6 +50,11 @@ namespace GridMvc.Columns
         IGridColumn<T> SetWidth(int width);
 
         /// <summary>
+        /// Specify additional css class of the column
+        /// </summary>
+        IGridColumn<T> Css(string cssClasses);
+
+        /// <summary>
         ///     Setup the custom rendere for property
         /// </summary>
         IGridColumn<T> RenderValueAs(Func<T, string> constraint);

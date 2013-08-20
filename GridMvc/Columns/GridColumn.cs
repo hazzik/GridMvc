@@ -72,7 +72,9 @@ namespace GridMvc.Columns
             get
             {
                 if (_headerRenderer == null)
-                    return _grid.Settings.HeaderRenderer;
+                {
+                    _headerRenderer = _grid.Settings.GetHeaderRenderer();
+                }
                 return _headerRenderer;
             }
             set { _headerRenderer = value; }

@@ -7,7 +7,7 @@
 	Minifing own grid css styles by using default bootstrap styles
 
 	New IGridPager model. Support for custom grid pager rendering templates.
-
+	Added Css method for specifing custome css classes on the column
 	Added new method 'Named' for specifing grid client name
 	Modify sample app layout for responsive design
 	Client side: added preventing of grid row selection (change client capability, instead of row, calback function retrieve Event argument. To access to the row use e.row).
