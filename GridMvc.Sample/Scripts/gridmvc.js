@@ -151,6 +151,7 @@ GridMvc = (function ($) {
         //if widget allready rendered - just open popup menu:
         if (this.hasAttribute("data-rendered")) {
             var or = self.openMenuOnClick.call(this, self);
+            self.setupPopupInitialPosition($(this));
             if (!or && typeof (widget.onShow) != 'undefined')
                 widget.onShow();
             return or;
@@ -165,6 +166,7 @@ GridMvc = (function ($) {
         $(this).attr("data-rendered", "1");
         //append base popup layout:
         $(this).append(html);
+
         //determine widget container:
         var widgetContainer = $(this).find(".grid-popup-widget");
         //onRender target widget
@@ -184,7 +186,30 @@ GridMvc = (function ($) {
         var openResult = self.openMenuOnClick.call(this, self);
         if (typeof (widget.onShow) != 'undefined')
             widget.onShow();
+        self.setupPopupInitialPosition($(this));
         return openResult;
+    };
+
+    gridMvc.prototype.setupPopupInitialPosition = function (popup) {
+        var drop = popup.find(".grid-dropdown");
+        function getInfo() {
+            var arrow = popup.find(".grid-dropdown-arrow");
+            return {arrow: arrow, currentDropLeft: parseInt(drop.css("left")), currentArrowLeft: parseInt(arrow.css("left"))};
+        }
+        var dropLeft = drop.offset().left;
+        if (dropLeft < 0) {
+            var info = getInfo();
+            info.arrow.css({ left: (info.currentArrowLeft + dropLeft - 10) + "px" });
+            drop.css({ left: (info.currentDropLeft - dropLeft + 10) + "px" });
+            return;
+        }
+        var dropWidth = drop.width();
+        var offsetRight = $(window).width() - (dropLeft + dropWidth);
+        if (offsetRight < 0) {
+            var info = getInfo();
+            info.arrow.css({ left: (info.currentArrowLeft - offsetRight + 10) + "px" });
+            drop.css({ left: (info.currentDropLeft + offsetRight - 10) + "px" });
+        }
     };
     /***
     * Returns layout of filter popup menu

@@ -11,9 +11,9 @@ namespace GridMvc.Filtering
     {
         public const string DefaultTypeQueryParameter = "grid-filter";
         private const string FilterDataDelimeter = "__";
-        private const string DefaultFilterInitQueryParameter = "grid-init";
+        public const string DefaultFilterInitQueryParameter = "grid-init";
         public readonly HttpContext Context;
-        private readonly DefaultFilterColumnCollection _columns = new DefaultFilterColumnCollection();
+        private readonly DefaultFilterColumnCollection _filterValues = new DefaultFilterColumnCollection();
 
         #region Ctor's
 
@@ -35,7 +35,7 @@ namespace GridMvc.Filtering
                 {
                     ColumnFilterValue column = CreateColumnData(filter);
                     if (column != ColumnFilterValue.Null)
-                        _columns.Add(column);
+                        _filterValues.Add(column);
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace GridMvc.Filtering
 
         public IFilterColumnCollection FilteredColumns
         {
-            get { return _columns; }
+            get { return _filterValues; }
         }
 
         public bool IsInitState

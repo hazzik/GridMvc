@@ -40,16 +40,23 @@ namespace GridMvc.Filtering
             if (!column.FilterEnabled)
                 return MvcHtmlString.Empty;
 
-            List<ColumnFilterValue> filterSettings = _settings.IsInitState
-                                                         ? new List<ColumnFilterValue> {column.InitialFilterSettings}
-                                                         : _settings.FilteredColumns.GetByColumn(column).ToList();
+            //determine current column filter settings
+            var filterSettings = new List<ColumnFilterValue>();
+            if (_settings.IsInitState && column.InitialFilterSettings != ColumnFilterValue.Null)
+            {
+                filterSettings.Add(column.InitialFilterSettings);
+            }
+            else
+            {
+                filterSettings.AddRange(_settings.FilteredColumns.GetByColumn(column));
+            }
 
             bool isColumnFiltered = filterSettings.Any();
 
             //determine current url:
             var builder = new CustomQueryStringBuilder(_settings.Context.Request.QueryString);
 
-            var exceptQueryParameters = new List<string> {QueryStringFilterSettings.DefaultTypeQueryParameter};
+            var exceptQueryParameters = new List<string> { QueryStringFilterSettings.DefaultTypeQueryParameter, QueryStringFilterSettings.DefaultFilterInitQueryParameter };
             string pagerParameterName = GetPagerQueryParameterName(column.ParentGrid.Pager);
             if (!string.IsNullOrEmpty(pagerParameterName))
                 exceptQueryParameters.Add(pagerParameterName);
