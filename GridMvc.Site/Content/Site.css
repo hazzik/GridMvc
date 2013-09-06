@@ -8,7 +8,7 @@ body .syntaxhighlighter { overflow-y: hidden !important; overflow-x: auto !impor
 /* CUSTOM NAVBAR COLORS */
 .navbar-grid { background-color: #4888C2 !important; }
     .navbar-grid .navbar-toggle:hover { background-color: #4888C2; }
-    .navbar-grid .navbar-brand { color: white; }
+    .navbar-grid .navbar-brand, .navbar-grid .navbar-brand:hover { color: white; }
     .navbar-grid .navbar-nav > li > a { color: #e1f1ff; }
     .navbar-grid .navbar-nav > .active > a, .navbar-grid .navbar-nav > .active > a:hover { color: #FFF; background-color: #3573AC; }
         .navbar-grid .navbar-nav > li > a:hover { color: #FFF; }

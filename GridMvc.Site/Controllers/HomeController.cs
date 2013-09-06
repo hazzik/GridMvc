@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using GridMvc.Site.Models;
 using GridMvc.Site.Models.Grids;
 
-namespace GrudMvc.Site.Controllers
+namespace GridMvc.Site.Controllers
 {
     public class HomeController : ApplicationController
     {

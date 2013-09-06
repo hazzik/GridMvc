@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Web.Mvc;
 
-namespace GrudMvc.Site.Controllers
+namespace GridMvc.Site.Controllers
 {
     public abstract class ApplicationController : Controller
     {
