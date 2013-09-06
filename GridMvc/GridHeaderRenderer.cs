@@ -20,14 +20,21 @@ namespace GridMvc
 
         public override IHtmlString Render(IGridColumn column, string content)
         {
-            string widthStyle = string.Empty;
-            if (!string.IsNullOrEmpty(column.Width))
-                widthStyle = string.Format("width:{0};", column.Width);
+            var cssStyles = GetCssStylesString();
+            var cssClass = GetCssClassesString();
 
-            return MvcHtmlString.Create(string.Format("<th style=\"{0}{1}\" class=\"{2}\">{3}{4}</th>", widthStyle,
-                                                      GetCssStylesString(),
-                                                      GetCssClassesString(),
-                                                      content, RenderAdditionalContent(column, content)));
+            if (!string.IsNullOrWhiteSpace(column.Width))
+                cssStyles = string.Concat(cssStyles, " width:", column.Width, ";").Trim();
+
+            var builder = new TagBuilder("th");
+            if (!string.IsNullOrWhiteSpace(cssClass))
+                builder.AddCssClass(cssClass);
+            if (!string.IsNullOrWhiteSpace(cssStyles))
+                builder.MergeAttribute("style", cssStyles);
+            builder.InnerHtml = string.Concat(content, RenderAdditionalContent(column, content));
+
+            return MvcHtmlString.Create(builder.ToString());
+
         }
 
         protected virtual string RenderAdditionalContent(IGridColumn column, string content)

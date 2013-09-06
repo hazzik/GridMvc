@@ -15,10 +15,19 @@ namespace GridMvc
 
         public override IHtmlString Render(IGridColumn column, string content)
         {
-            return
-                MvcHtmlString.Create(string.Format("<td data-name=\"{0}\" style=\"{1}\" class=\"{2}\">{3}</td>",
-                                                   column.Name,
-                                                   GetCssStylesString(), GetCssClassesString(), content));
+            var cssStyles = GetCssStylesString();
+            var cssClass = GetCssClassesString();
+
+            var builder = new TagBuilder("td");
+            if (!string.IsNullOrWhiteSpace(cssClass))
+                builder.AddCssClass(cssClass);
+            if (!string.IsNullOrWhiteSpace(cssStyles))
+                builder.MergeAttribute("style", cssStyles);
+            builder.MergeAttribute("data-name", column.Name);
+
+            builder.InnerHtml = content;
+
+            return MvcHtmlString.Create(builder.ToString());
         }
     }
 }

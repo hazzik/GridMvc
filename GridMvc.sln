@@ -20,9 +20,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridMvc.Sample", "GridMvc.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridMvc.Tests", "GridMvc.Tests\GridMvc.Tests.csproj", "{4F128BFC-B7B8-4842-AE9F-D706DC8D819E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrudMvc.Site", "GrudMvc.Site\GrudMvc.Site.csproj", "{7EF1A034-8CC8-4A29-B9FF-1398EE9E5036}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
 		SccLocalPath0 = .
@@ -35,6 +37,9 @@ Global
 		SccProjectUniqueName3 = GridMvc\\GridMvc.csproj
 		SccProjectName3 = GridMvc
 		SccLocalPath3 = GridMvc
+		SccProjectUniqueName4 = GrudMvc.Site\\GrudMvc.Site.csproj
+		SccProjectName4 = GrudMvc.Site
+		SccLocalPath4 = GrudMvc.Site
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = GridMvc.vsmdi
@@ -56,6 +61,10 @@ Global
 		{4F128BFC-B7B8-4842-AE9F-D706DC8D819E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F128BFC-B7B8-4842-AE9F-D706DC8D819E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F128BFC-B7B8-4842-AE9F-D706DC8D819E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EF1A034-8CC8-4A29-B9FF-1398EE9E5036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EF1A034-8CC8-4A29-B9FF-1398EE9E5036}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EF1A034-8CC8-4A29-B9FF-1398EE9E5036}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EF1A034-8CC8-4A29-B9FF-1398EE9E5036}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
