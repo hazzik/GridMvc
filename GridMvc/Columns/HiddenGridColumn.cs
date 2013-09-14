@@ -59,6 +59,11 @@ namespace GridMvc.Columns
             set { }
         }
 
+        public override IGridColumn<T> SetFilterWidgetType(string typeName, object widgetData)
+        {
+            return this; //Do nothing
+        }
+
         public override IColumnFilter<T> Filter
         {
             get { return null; }

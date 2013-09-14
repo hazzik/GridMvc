@@ -43,7 +43,7 @@ namespace GridMvc.Columns
             SortEnabled = false;
             SanitizeEnabled = true;
 
-            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName;
+            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName;
             _grid = grid;
 
             _cellRenderer = new GridCellRenderer();
@@ -94,6 +94,14 @@ namespace GridMvc.Columns
         public override bool FilterEnabled { get; set; }
 
 
+        public override IGridColumn<T> SetFilterWidgetType(string typeName, object widgetData)
+        {
+            SetFilterWidgetType(typeName);
+            if (widgetData != null)
+                FilterWidgetData = widgetData;
+            return this;
+        }
+
         public override IColumnFilter<T> Filter
         {
             get { return _filter; }
@@ -111,7 +119,8 @@ namespace GridMvc.Columns
 
         public override IGridColumn<T> SetFilterWidgetType(string typeName)
         {
-            _filterWidgetTypeName = typeName;
+            if (!string.IsNullOrEmpty(typeName))
+                _filterWidgetTypeName = typeName;
             return this;
         }
 
@@ -146,7 +155,7 @@ namespace GridMvc.Columns
 
         public override IGridCell GetCell(object instance)
         {
-            return GetValue((T) instance);
+            return GetValue((T)instance);
         }
 
         public override IGridCell GetValue(T instance)
@@ -174,7 +183,7 @@ namespace GridMvc.Columns
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
-            return new GridCell(textValue) {Encode = EncodeEnabled};
+            return new GridCell(textValue) { Encode = EncodeEnabled };
         }
 
         public override IGridColumn<T> Filterable(bool enable)

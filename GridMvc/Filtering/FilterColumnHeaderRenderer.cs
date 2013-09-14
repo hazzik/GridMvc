@@ -67,6 +67,7 @@ namespace GridMvc.Filtering
             { 
 			        { "data-type", column.FilterWidgetTypeName },
 			        { "data-name", column.Name },
+                    { "data-widgetdata", JsonHelper.JsonSerializer(column.FilterWidgetData) },
 			        { "data-filterdata", JsonHelper.JsonSerializer(filterSettings) },
 			        { "data-url", url }
 		    };

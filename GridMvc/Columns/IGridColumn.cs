@@ -176,6 +176,13 @@ namespace GridMvc.Columns
         /// </summary>
         /// <param name="typeName">Widget type name</param>
         IGridColumn<T> SetFilterWidgetType(string typeName);
+
+        /// <summary>
+        ///     Specify custom filter widget type for this column
+        /// </summary>
+        /// <param name="typeName">Widget type name</param>
+        /// <param name="widgetData">The data would be passed to the widget</param>
+        IGridColumn<T> SetFilterWidgetType(string typeName, object widgetData);
     }
 
     public interface IFilterableColumn : IColumn
@@ -191,5 +198,7 @@ namespace GridMvc.Columns
         ColumnFilterValue InitialFilterSettings { get; set; }
 
         string FilterWidgetTypeName { get; }
+
+        object FilterWidgetData { get; }
     }
 }

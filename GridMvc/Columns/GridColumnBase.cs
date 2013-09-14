@@ -119,10 +119,12 @@ namespace GridMvc.Columns
 
 
         public abstract IGridColumn<T> SetFilterWidgetType(string typeName);
+        public abstract IGridColumn<T> SetFilterWidgetType(string typeName, object widgetData);
 
 
         public abstract IColumnFilter<T> Filter { get; }
         public abstract string FilterWidgetTypeName { get; }
+        public object FilterWidgetData { get; protected set; }
 
         #endregion
 

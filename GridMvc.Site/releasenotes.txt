@@ -5,7 +5,8 @@
 	Updated to 3.0 bootstrap version
 	Support of overriding header renderers
 	Minifing own grid css styles by using default bootstrap styles
-
+	Passing some filter widget data
+	Migrate to another date picker control, see https://github.com/bukharin/bootstrap-datepicker/blob/master/LICENSE
 	New IGridPager model. Support for custom grid pager rendering templates.
 	Added Css method for specifing custome css classes on the column
 	Added new method 'Named' for specifing grid client name

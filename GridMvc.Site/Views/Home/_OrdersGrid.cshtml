@@ -26,22 +26,23 @@
                 .Css("hidden-xs") //hide on phones
                 .RenderValueAs(o =>
                     @<b>
-                            @Html.ActionLink("Edit", "Edit", new { id = o.OrderID }, new { @class = "modal_link" })
-                        </b>);
+                        @Html.ActionLink("Edit", "Edit", new { id = o.OrderID }, new { @class = "modal_link" })
+                    </b>);
 
         /* Adding "OrderID" column: */
 
         columns.Add(o => o.OrderID)
-                .Titled("Number")
-                .SetWidth(100).SetInitialFilter(GridFilterType.Equals, "11074");
+               .Titled("Number")
+               .SetWidth(100);
 
         /* Adding "OrderDate" column: */
         columns.Add(o => o.OrderDate, "OrderCustomDate")
                 .Titled("Date")
                 .SortInitialDirection(GridSortDirection.Descending)
                 .Format("{0:dd/MM/yyyy}")
+                
                 .SetWidth(110);
-
+                //.SetFilterWidgetType(string.Empty, new { format = "dd.mm.yyyy" })
         /* Adding "CompanyName" column: */
         columns.Add(o => o.Customer.CompanyName)
                .Titled("Company")
@@ -55,5 +56,5 @@
                 .Css("hidden-xs") //hide on phones
                 .RenderValueAs(o => CustomRenderingOfColumn(o));
 
-    }).SetRowCssClasses(item => item.Customer.IsVip ? "success" : string.Empty).WithPaging(15).Sortable().Filterable().WithMultipleFilters()
+    }).SetLanguage("en").SetRowCssClasses(item => item.Customer.IsVip ? "success" : string.Empty).WithPaging(15).Sortable().Filterable().WithMultipleFilters()
 
