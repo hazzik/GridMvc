@@ -29,10 +29,10 @@ namespace GridMvc.Columns
 
         private readonly List<IColumnOrderer<T>> _orderers = new List<IColumnOrderer<T>>();
 
-        private IGridColumnRenderer _cellRenderer;
+        private IGridCellRenderer _cellRenderer;
 
         private string _filterWidgetTypeName;
-        private IGridColumnRenderer _headerRenderer;
+        private IGridColumnHeaderRenderer _headerRenderer;
 
 
         public GridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
@@ -43,7 +43,7 @@ namespace GridMvc.Columns
             SortEnabled = false;
             SanitizeEnabled = true;
 
-            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName;
+            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName;
             _grid = grid;
 
             _cellRenderer = new GridCellRenderer();
@@ -67,7 +67,7 @@ namespace GridMvc.Columns
             }
         }
 
-        public override IGridColumnRenderer HeaderRenderer
+        public override IGridColumnHeaderRenderer HeaderRenderer
         {
             get
             {
@@ -80,7 +80,7 @@ namespace GridMvc.Columns
             set { _headerRenderer = value; }
         }
 
-        public override IGridColumnRenderer CellRenderer
+        public override IGridCellRenderer CellRenderer
         {
             get { return _cellRenderer; }
             set { _cellRenderer = value; }
@@ -93,14 +93,6 @@ namespace GridMvc.Columns
 
         public override bool FilterEnabled { get; set; }
 
-
-        public override IGridColumn<T> SetFilterWidgetType(string typeName, object widgetData)
-        {
-            SetFilterWidgetType(typeName);
-            if (widgetData != null)
-                FilterWidgetData = widgetData;
-            return this;
-        }
 
         public override IColumnFilter<T> Filter
         {
@@ -115,6 +107,14 @@ namespace GridMvc.Columns
         public override IGrid ParentGrid
         {
             get { return _grid; }
+        }
+
+        public override IGridColumn<T> SetFilterWidgetType(string typeName, object widgetData)
+        {
+            SetFilterWidgetType(typeName);
+            if (widgetData != null)
+                FilterWidgetData = widgetData;
+            return this;
         }
 
         public override IGridColumn<T> SetFilterWidgetType(string typeName)
@@ -155,7 +155,7 @@ namespace GridMvc.Columns
 
         public override IGridCell GetCell(object instance)
         {
-            return GetValue((T)instance);
+            return GetValue((T) instance);
         }
 
         public override IGridCell GetValue(T instance)
@@ -183,7 +183,7 @@ namespace GridMvc.Columns
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
-            return new GridCell(textValue) { Encode = EncodeEnabled };
+            return new GridCell(textValue) {Encode = EncodeEnabled};
         }
 
         public override IGridColumn<T> Filterable(bool enable)

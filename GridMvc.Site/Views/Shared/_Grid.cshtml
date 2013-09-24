@@ -39,7 +39,7 @@ else
     <tr class="grid-row @Model.GetRowCssClasses(item)">
         @foreach (IGridColumn column in Model.Columns)
         {
-            @column.CellRenderer.Render(column, column.GetCell(item).ToString())
+            @column.CellRenderer.Render(column, column.GetCell(item))
         }
     </tr>
         }
@@ -50,7 +50,7 @@ else
     <tr>
         @foreach (IGridColumn column in Model.Columns)
         {
-            @column.HeaderRenderer.Render(column, column.Title)
+            @column.HeaderRenderer.Render(column)
         }
     </tr>
 }

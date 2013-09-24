@@ -50,7 +50,7 @@ namespace GridMvc.Columns
         IGridColumn<T> SetWidth(int width);
 
         /// <summary>
-        /// Specify additional css class of the column
+        ///     Specify additional css class of the column
         /// </summary>
         IGridColumn<T> Css(string cssClasses);
 
@@ -89,8 +89,8 @@ namespace GridMvc.Columns
 
         bool SanitizeEnabled { get; }
 
-        IGridColumnRenderer HeaderRenderer { get; set; }
-        IGridColumnRenderer CellRenderer { get; set; }
+        IGridColumnHeaderRenderer HeaderRenderer { get; set; }
+        IGridCellRenderer CellRenderer { get; set; }
 
         /// <summary>
         ///     Gets value of the gridColumn by instance

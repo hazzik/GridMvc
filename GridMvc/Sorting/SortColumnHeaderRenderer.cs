@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Web;
+using System.Web.Mvc;
 using GridMvc.Columns;
 using GridMvc.Pagination;
 using GridMvc.Utility;
@@ -10,10 +11,8 @@ namespace GridMvc.Sorting
     ///     Renderer for sortable column.
     ///     Object renders column name as link
     /// </summary>
-    internal class QueryStringSortColumnHeaderRenderer : GridHeaderRenderer
+    internal class QueryStringSortColumnHeaderRenderer : IGridColumnHeaderRenderer
     {
-        private const string SortLinkContent = "<a href='{0}'>{1}</a>";
-        private const string SortArrowContent = "<span class=\"grid-sort-arrow\"></span>";
         private readonly QueryStringSortSettings _settings;
 
         public QueryStringSortColumnHeaderRenderer(QueryStringSortSettings settings)
@@ -21,29 +20,48 @@ namespace GridMvc.Sorting
             _settings = settings;
         }
 
-        public override IHtmlString Render(IGridColumn column, string content)
+        public IHtmlString Render(IGridColumn column)
         {
-            return base.Render(column, GetSortHeaderContent(column, content));
+            return MvcHtmlString.Create(GetSortHeaderContent(column));
         }
 
-        protected string GetSortHeaderContent(IGridColumn column, string content)
+        protected string GetSortHeaderContent(IGridColumn column)
         {
+            var sortTitle = new TagBuilder("div");
+            sortTitle.AddCssClass("grid-header-title");
+
             if (column.SortEnabled)
             {
-                string url = GetLinkForSort(column.Name, column.Direction);
-                content = string.Format(SortLinkContent, url,
-                                        content);
+                var columnHeaderLink = new TagBuilder("a")
+                    {
+                        InnerHtml = column.Title
+                    };
+                string url = GetSortUrl(column.Name, column.Direction);
+                columnHeaderLink.Attributes.Add("href", url);
+                sortTitle.InnerHtml += columnHeaderLink.ToString();
             }
+            else
+            {
+                var columnTitle = new TagBuilder("span")
+                    {
+                        InnerHtml = column.Title
+                    };
+                sortTitle.InnerHtml += columnTitle.ToString();
+            }
+
             if (column.IsSorted)
             {
-                AddCssClass("sorted");
-                AddCssClass(column.Direction == GridSortDirection.Ascending ? "sorted-asc" : "sorted-desc");
-                content += SortArrowContent;
+                sortTitle.AddCssClass("sorted");
+                sortTitle.AddCssClass(column.Direction == GridSortDirection.Ascending ? "sorted-asc" : "sorted-desc");
+
+                var sortArrow = new TagBuilder("span");
+                sortArrow.AddCssClass("grid-sort-arrow");
+                sortTitle.InnerHtml += sortArrow.ToString();
             }
-            return content;
+            return sortTitle.ToString();
         }
 
-        private string GetLinkForSort(string columnName, GridSortDirection? direction)
+        private string GetSortUrl(string columnName, GridSortDirection? direction)
         {
             //switch direction for link:
             GridSortDirection newDir = direction == GridSortDirection.Ascending

@@ -4,7 +4,7 @@ using GridMvc.Columns;
 
 namespace GridMvc
 {
-    public class GridCellRenderer : GridStyledRenderer
+    public class GridCellRenderer : GridStyledRenderer, IGridCellRenderer
     {
         private const string TdClass = "grid-cell";
 
@@ -13,10 +13,10 @@ namespace GridMvc
             AddCssClass(TdClass);
         }
 
-        public override IHtmlString Render(IGridColumn column, string content)
+        public IHtmlString Render(IGridColumn column, IGridCell cell)
         {
-            var cssStyles = GetCssStylesString();
-            var cssClass = GetCssClassesString();
+            string cssStyles = GetCssStylesString();
+            string cssClass = GetCssClassesString();
 
             var builder = new TagBuilder("td");
             if (!string.IsNullOrWhiteSpace(cssClass))
@@ -25,7 +25,7 @@ namespace GridMvc
                 builder.MergeAttribute("style", cssStyles);
             builder.MergeAttribute("data-name", column.Name);
 
-            builder.InnerHtml = content;
+            builder.InnerHtml = cell.ToString();
 
             return MvcHtmlString.Create(builder.ToString());
         }

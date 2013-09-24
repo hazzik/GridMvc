@@ -90,7 +90,7 @@ function CustomersFilterWidget() {
         //register onclick event handler
         customerList.change(function () {
             //invoke callback with selected filter values:
-            var values = [{ filterValue: $(this).val(), filterType: '1'/* Equals */ }];
+            var values = [{ filterValue: $(this).val(), filterType: 1 /* Equals */ }];
             $context.cb(values);
         });
     };

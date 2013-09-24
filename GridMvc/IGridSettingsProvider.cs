@@ -1,5 +1,4 @@
-﻿using GridMvc.Columns;
-using GridMvc.Filtering;
+﻿using GridMvc.Filtering;
 using GridMvc.Sorting;
 
 namespace GridMvc
@@ -11,6 +10,6 @@ namespace GridMvc
     {
         IGridSortSettings SortSettings { get; }
         IGridFilterSettings FilterSettings { get; }
-        IGridColumnRenderer GetHeaderRenderer();
+        IGridColumnHeaderRenderer GetHeaderRenderer();
     }
 }

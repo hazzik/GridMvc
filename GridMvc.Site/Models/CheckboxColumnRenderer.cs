@@ -13,7 +13,7 @@ namespace GridMvc.Site.Models
             _helper = helper;
         }
 
-        protected override string RenderAdditionalContent(IGridColumn column, string content)
+        protected override string RenderAdditionalContent(IGridColumn column)
         {
             return _helper.CheckBox("check-all", false, new { @class = "check-all" }).ToHtmlString();
         }

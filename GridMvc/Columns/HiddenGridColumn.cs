@@ -14,7 +14,7 @@ namespace GridMvc.Columns
     {
         private readonly Func<T, TDataType> _constraint;
         private readonly IGrid _grid;
-        private IGridColumnRenderer _cellRenderer;
+        private IGridCellRenderer _cellRenderer;
 
         public HiddenGridColumn(Expression<Func<T, TDataType>> expression, IGrid grid)
         {
@@ -41,13 +41,13 @@ namespace GridMvc.Columns
             get { throw new InvalidOperationException("You cannot sort hidden field"); }
         }
 
-        public override IGridColumnRenderer HeaderRenderer
+        public override IGridColumnHeaderRenderer HeaderRenderer
         {
             get { return new GridHiddenHeaderRenderer(); }
             set { throw new InvalidOperationException("You can't set header renderer of hidden column"); }
         }
 
-        public override IGridColumnRenderer CellRenderer
+        public override IGridCellRenderer CellRenderer
         {
             get { return _cellRenderer; }
             set { _cellRenderer = value; }
@@ -57,11 +57,6 @@ namespace GridMvc.Columns
         {
             get { return false; }
             set { }
-        }
-
-        public override IGridColumn<T> SetFilterWidgetType(string typeName, object widgetData)
-        {
-            return this; //Do nothing
         }
 
         public override IColumnFilter<T> Filter
@@ -80,6 +75,11 @@ namespace GridMvc.Columns
         public override IGrid ParentGrid
         {
             get { return _grid; }
+        }
+
+        public override IGridColumn<T> SetFilterWidgetType(string typeName, object widgetData)
+        {
+            return this; //Do nothing
         }
 
         public override IGridColumn<T> SetFilterWidgetType(string typeName)

@@ -16,7 +16,6 @@ namespace GridMvc
             _sortSettings = new QueryStringSortSettings();
             //add additional header renderer for filterable columns:
             _filterSettings = new QueryStringFilterSettings();
-           
         }
 
         #region IGridSettingsProvider Members
@@ -31,10 +30,11 @@ namespace GridMvc
             get { return _filterSettings; }
         }
 
-        public IGridColumnRenderer GetHeaderRenderer()
+        public IGridColumnHeaderRenderer GetHeaderRenderer()
         {
-            var headerRenderer = new QueryStringSortColumnHeaderRenderer(_sortSettings);
+            var headerRenderer = new GridHeaderRenderer();
             headerRenderer.AddAdditionalRenderer(new QueryStringFilterColumnHeaderRenderer(_filterSettings));
+            headerRenderer.AddAdditionalRenderer(new QueryStringSortColumnHeaderRenderer(_sortSettings));
             return headerRenderer;
         }
 

@@ -93,6 +93,7 @@
     <Compile Include="Html\HtmlGrid.cs" />
     <Compile Include="Html\IGridHtmlOptions.cs" />
     <Compile Include="DataAnnotations\IGridAnnotaionsProvider.cs" />
+    <Compile Include="IGridColumnHeaderRenderer.cs" />
     <Compile Include="ISanitizer.cs" />
     <Compile Include="Pagination\GridPager.cs" />
     <Compile Include="Resources\Strings.it.Designer.cs">
@@ -142,7 +143,7 @@
     <Compile Include="IGrid.cs" />
     <Compile Include="IGridCell.cs" />
     <Compile Include="Columns\IGridColumn.cs" />
-    <Compile Include="IGridColumnRenderer.cs" />
+    <Compile Include="IGridCellRenderer.cs" />
     <Compile Include="IGridItemsProcessor.cs" />
     <Compile Include="Pagination\IGridPager.cs" />
     <Compile Include="Pagination\PagerGridItemsProcessor.cs" />

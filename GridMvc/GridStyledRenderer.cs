@@ -1,19 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Web;
-using GridMvc.Columns;
 
 namespace GridMvc
 {
-    public abstract class GridStyledRenderer : IGridColumnRenderer
+    public abstract class GridStyledRenderer
     {
         private readonly List<string> _classes = new List<string>();
         private readonly List<string> _styles = new List<string>();
-
-        #region IGridColumnRenderer Members
-
-        public abstract IHtmlString Render(IGridColumn column, string content);
-
-        #endregion
 
         protected string GetCssClassesString()
         {

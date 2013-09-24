@@ -56,11 +56,11 @@ namespace GridMvc.Columns
         {
             if (string.IsNullOrEmpty(cssClasses))
                 return this;
-            var headerStyledRender = this.HeaderRenderer as GridStyledRenderer;
+            var headerStyledRender = HeaderRenderer as GridStyledRenderer;
             if (headerStyledRender != null)
                 headerStyledRender.AddCssClass(cssClasses);
 
-            var cellStyledRender = this.CellRenderer as GridStyledRenderer;
+            var cellStyledRender = CellRenderer as GridStyledRenderer;
             if (cellStyledRender != null)
                 cellStyledRender.AddCssClass(cssClasses);
             return this;
@@ -107,8 +107,8 @@ namespace GridMvc.Columns
         public abstract IEnumerable<IColumnOrderer<T>> Orderers { get; }
         public abstract IGridColumn<T> Sortable(bool sort);
 
-        public abstract IGridColumnRenderer HeaderRenderer { get; set; }
-        public abstract IGridColumnRenderer CellRenderer { get; set; }
+        public abstract IGridColumnHeaderRenderer HeaderRenderer { get; set; }
+        public abstract IGridCellRenderer CellRenderer { get; set; }
         public abstract IGridCell GetCell(object instance);
 
         public abstract bool FilterEnabled { get; set; }

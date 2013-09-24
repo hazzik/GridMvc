@@ -12,7 +12,7 @@ namespace GridMvc.Filtering
     /// <summary>
     ///     Renderer for sortable column
     /// </summary>
-    internal class QueryStringFilterColumnHeaderRenderer : IGridColumnRenderer
+    internal class QueryStringFilterColumnHeaderRenderer : IGridColumnHeaderRenderer
     {
         private const string FilteredButtonCssClass = "filtered";
         private const string FilterButtonCss = "grid-filter-btn";
@@ -26,7 +26,7 @@ namespace GridMvc.Filtering
 
         #region IGridColumnRenderer Members
 
-        public IHtmlString Render(IGridColumn column, string content)
+        public IHtmlString Render(IGridColumn column)
         {
             if (!column.FilterEnabled)
                 return MvcHtmlString.Create(string.Empty);
@@ -48,13 +48,16 @@ namespace GridMvc.Filtering
             //determine current url:
             var builder = new CustomQueryStringBuilder(_settings.Context.Request.QueryString);
 
-            var exceptQueryParameters = new List<string> { QueryStringFilterSettings.DefaultTypeQueryParameter, QueryStringFilterSettings.DefaultFilterInitQueryParameter };
+            var exceptQueryParameters = new List<string>
+                {
+                    QueryStringFilterSettings.DefaultTypeQueryParameter,
+                    QueryStringFilterSettings.DefaultFilterInitQueryParameter
+                };
             string pagerParameterName = GetPagerQueryParameterName(column.ParentGrid.Pager);
             if (!string.IsNullOrEmpty(pagerParameterName))
                 exceptQueryParameters.Add(pagerParameterName);
 
             string url = builder.GetQueryStringExcept(exceptQueryParameters);
-
 
             var gridFilterButton = new TagBuilder("span");
             gridFilterButton.AddCssClass(FilterButtonCss);
@@ -64,13 +67,13 @@ namespace GridMvc.Filtering
 
             var gridFilter = new TagBuilder("span");
             var dataKeyList = new Dictionary<string, string>
-            { 
-			        { "data-type", column.FilterWidgetTypeName },
-			        { "data-name", column.Name },
-                    { "data-widgetdata", JsonHelper.JsonSerializer(column.FilterWidgetData) },
-			        { "data-filterdata", JsonHelper.JsonSerializer(filterSettings) },
-			        { "data-url", url }
-		    };
+                {
+                    {"data-type", column.FilterWidgetTypeName},
+                    {"data-name", column.Name},
+                    {"data-widgetdata", JsonHelper.JsonSerializer(column.FilterWidgetData)},
+                    {"data-filterdata", JsonHelper.JsonSerializer(filterSettings)},
+                    {"data-url", url}
+                };
             gridFilter.InnerHtml = gridFilterButton.ToString();
             gridFilter.AddCssClass("grid-filter");
             foreach (var data in dataKeyList)
