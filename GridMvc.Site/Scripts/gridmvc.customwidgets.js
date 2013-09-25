@@ -40,8 +40,9 @@ function CustomersFilterWidget() {
     * typeName - current column type (if widget assign to multipile types, see: getAssociatedTypes);
     * values - current filter values. Array of objects [{filterValue: '', filterType:'1'}];
     * cb - callback function that must invoked when user want to filter this column. Widget must pass filter type and filter value.
+    * data - widget data passed from the server
     */
-    this.onRender = function (container, lang, typeName, values, cb) {
+    this.onRender = function (container, lang, typeName, values, cb, data) {
         //store parameters:
         this.cb = cb;
         this.container = container;

@@ -13,3 +13,4 @@
 	Modify sample app layout for responsive design
 	Client side: added preventing of grid row selection (change client capability, instead of row, calback function retrieve Event argument. To access to the row use e.row).
 	Support for System.ComponentModel.DataAnnotations: DisplayAttribute, DisplayFormatAttribute, MetadataTypeAttribute
+	Improve header rendering on mobile devices

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Grid.Mvc</id>
-    <version>3.0.0-rc</version>
+    <version>3.0.0</version>
     <title>Grid.Mvc</title>
     <authors>Vyacheslav Bukharin</authors>
     <licenseUrl>http://gridmvc.codeplex.com/license</licenseUrl>
