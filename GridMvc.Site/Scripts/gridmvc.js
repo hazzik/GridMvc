@@ -337,14 +337,14 @@ GridMvc = (function ($) {
         e = e || event;
         var target = e.target || e.srcElement;
         var box = $(".dropdown-menu.opened").get(0);
-        var body = $("body").get(0);
+        var html = $("html").get(0);
         if (typeof box != "undefined") {
             do {
                 if (box == target) {
                     // Click occured inside the box, do nothing.
                     return;
                 }
-                if (body == target) {
+                if (html == target) {
                     box.style.display = "none";
                     $(box).removeClass("opened");
                 }

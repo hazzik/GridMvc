@@ -65,7 +65,7 @@ namespace GridMvc.Filtering
                 gridFilterButton.AddCssClass(FilteredButtonCssClass);
             gridFilterButton.Attributes.Add("title", Strings.FilterButtonTooltipText);
 
-            var gridFilter = new TagBuilder("span");
+            var gridFilter = new TagBuilder("div");
             var dataKeyList = new Dictionary<string, string>
                 {
                     {"data-type", column.FilterWidgetTypeName},
