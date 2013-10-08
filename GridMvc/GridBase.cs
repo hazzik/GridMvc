@@ -29,7 +29,7 @@ namespace GridMvc
 
         public abstract IGridSettingsProvider Settings { get; set; }
 
-        private IQueryable<T> GridItems
+        public IQueryable<T> GridItems
         {
             get
             {

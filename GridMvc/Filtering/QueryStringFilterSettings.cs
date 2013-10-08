@@ -11,7 +11,7 @@ namespace GridMvc.Filtering
     {
         public const string DefaultTypeQueryParameter = "grid-filter";
         private const string FilterDataDelimeter = "__";
-        public const string DefaultFilterInitQueryParameter = "grid-init";
+        public const string DefaultFilterInitQueryParameter = "gridinit";
         public readonly HttpContext Context;
         private readonly DefaultFilterColumnCollection _filterValues = new DefaultFilterColumnCollection();
 
