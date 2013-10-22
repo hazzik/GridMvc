@@ -392,7 +392,9 @@ GridMvc.lang.en = {
         Contains: "Contains",
         EndsWith: "EndsWith",
         GreaterThan: "Greater than",
-        LessThan: "Less than"
+        LessThan: "Less than",
+        GreaterThanOrEquals: "Greater than or equals",
+        LessThanOrEquals: "Less than or equals"
     },
     code: 'en',
     boolTrueLabel: "Yes",
@@ -599,7 +601,7 @@ DateTimeFilterWidget = (function ($) {
 
     function dateTimeFilterWidget() { }
 
-    dateTimeFilterWidget.prototype.getAssociatedTypes = function () { return ["System.DateTime"]; };
+    dateTimeFilterWidget.prototype.getAssociatedTypes = function () { return ["System.DateTime", "System.Date"]; };
 
     dateTimeFilterWidget.prototype.showClearFilterButton = function () { return true; };
 
@@ -607,6 +609,7 @@ DateTimeFilterWidget = (function ($) {
         this.datePickerIncluded = typeof ($.fn.datepicker) != 'undefined';
         this.cb = applycb;
         this.data = data;
+        this.typeName = typeName;
         this.container = container;
         this.lang = lang;
         this.value = values.length > 0 ? values[0] : { filterType: 1, filterValue: "" };//support only one filter value
@@ -644,7 +647,14 @@ DateTimeFilterWidget = (function ($) {
             var dateContainer = this.container.find(".grid-filter-datepicker");
             dateContainer.datepicker(datePickerOptions).on('changeDate', function (ev) {
                 var type = $context.container.find(".grid-filter-type").val();
-                var filterValues = [{ filterType: type, filterValue: ev.format() }];
+                //if (type == "1") {
+                //    var tomorrow = new Date(ev.getTime());
+                //    tomorrow.setDate(ev.getDate() + 1);
+                //    var filterValues = [{ filterType: type, filterValue: ev.format() }];
+                //}
+                //else{
+                    var filterValues = [{ filterType: type, filterValue: ev.format() }];
+                //}
                 $context.cb(filterValues);
             });
             if (this.value.filterValue)

@@ -19,6 +19,8 @@ namespace GridMvc.Filtering.Types
                 case GridFilterType.Equals:
                 case GridFilterType.GreaterThan:
                 case GridFilterType.LessThan:
+                case GridFilterType.GreaterThanOrEquals:
+                case GridFilterType.LessThanOrEquals:
                     return type;
                 default:
                     return GridFilterType.Equals;

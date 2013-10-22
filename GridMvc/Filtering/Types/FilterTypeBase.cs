@@ -59,9 +59,12 @@ namespace GridMvc.Filtering.Types
                     return Expression.Call(leftExpr, miEndssWith, valueExpr);
                 case GridFilterType.LessThan:
                     return Expression.LessThan(leftExpr, valueExpr);
-                    break;
+                case GridFilterType.LessThanOrEquals:
+                    return Expression.LessThanOrEqual(leftExpr, valueExpr);
                 case GridFilterType.GreaterThan:
                     return Expression.GreaterThan(leftExpr, valueExpr);
+                case GridFilterType.GreaterThanOrEquals:
+                    return Expression.GreaterThanOrEqual(leftExpr, valueExpr);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

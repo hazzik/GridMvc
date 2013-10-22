@@ -22,7 +22,9 @@ namespace GridMvc.Filtering.Types
             {
                 case GridFilterType.Equals:
                 case GridFilterType.GreaterThan:
+                case GridFilterType.GreaterThanOrEquals:
                 case GridFilterType.LessThan:
+                case GridFilterType.LessThanOrEquals:
                     return type;
                 default:
                     return GridFilterType.Equals;

@@ -53,6 +53,50 @@ namespace GridMvc.Tests.Filtering
             //var processed processor.Process()
         }
 
+        [TestMethod]
+        public void TestFilterLessOrEquals()
+        {
+            var filterOptions = new ColumnFilterValue
+            {
+                ColumnName = "Created",
+                FilterType = GridFilterType.LessThanOrEquals,
+                FilterValue = "2002-05-01"
+            };
+            var filter = new DefaultColumnFilter<TestModel, DateTime>(m => m.Created);
+
+            var filtered = filter.ApplyFilter(_repo.GetAll().AsQueryable(), filterOptions);
+
+            var original = _repo.GetAll().AsQueryable().Where(t => t.Created <= new DateTime(2002, 5, 1));
+
+            for (int i = 0; i < filtered.Count(); i++)
+            {
+                if (filtered.ElementAt(i).Id != original.ElementAt(i).Id)
+                    Assert.Fail("Filtering not works");
+            }
+        }
+
+        [TestMethod]
+        public void TestFilterGreaterOrEquals()
+        {
+            var filterOptions = new ColumnFilterValue
+            {
+                ColumnName = "Created",
+                FilterType = GridFilterType.GreaterThanOrEquals,
+                FilterValue = "2002-05-01"
+            };
+            var filter = new DefaultColumnFilter<TestModel, DateTime>(m => m.Created);
+
+            var filtered = filter.ApplyFilter(_repo.GetAll().AsQueryable(), filterOptions);
+
+            var original = _repo.GetAll().AsQueryable().Where(t => t.Created >= new DateTime(2002, 5, 1));
+
+            for (int i = 0; i < filtered.Count(); i++)
+            {
+                if (filtered.ElementAt(i).Id != original.ElementAt(i).Id)
+                    Assert.Fail("Filtering not works");
+            }
+        }
+
        
         [TestMethod]
         public void TestFilteringDateTimeLessThan()
