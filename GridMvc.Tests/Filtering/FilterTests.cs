@@ -97,7 +97,29 @@ namespace GridMvc.Tests.Filtering
             }
         }
 
-       
+        [TestMethod]
+        public void TestInt16Filtering()
+        {
+            var filterOptions = new ColumnFilterValue
+            {
+                ColumnName = "Int16Field",
+                FilterType = GridFilterType.Equals,
+                FilterValue = "16"
+            };
+            var filter = new DefaultColumnFilter<TestModel, Int16>(m => m.Int16Field);
+
+            var filtered = filter.ApplyFilter(_repo.GetAll().AsQueryable(), filterOptions);
+
+            var original = _repo.GetAll().AsQueryable().Where(t => t.Int16Field == 16);
+
+            for (int i = 0; i < filtered.Count(); i++)
+            {
+                if (filtered.ElementAt(i).Id != original.ElementAt(i).Id)
+                    Assert.Fail("Filtering not works");
+            }
+        }
+
+
         [TestMethod]
         public void TestFilteringDateTimeLessThan()
         {

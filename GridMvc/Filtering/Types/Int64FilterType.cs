@@ -3,13 +3,13 @@
 namespace GridMvc.Filtering.Types
 {
     /// <summary>
-    ///     Object contains some logic for filtering Int32 columns
+    ///     Object contains some logic for filtering Int64 columns
     /// </summary>
-    internal sealed class IntegerFilterType : FilterTypeBase
+    internal sealed class Int64FilterType : FilterTypeBase
     {
         public override Type TargetType
         {
-            get { return typeof (Int32); }
+            get { return typeof (Int64); }
         }
 
         public override GridFilterType GetValidType(GridFilterType type)
@@ -29,8 +29,8 @@ namespace GridMvc.Filtering.Types
 
         public override object GetTypedValue(string value)
         {
-            int i;
-            if (!int.TryParse(value, out i))
+            long i;
+            if (!long.TryParse(value, out i))
                 return null;
             return i;
         }

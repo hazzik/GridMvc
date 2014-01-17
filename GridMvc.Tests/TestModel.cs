@@ -11,6 +11,9 @@ namespace GridMvc.Tests
 
         public TestModelChild[] List { get; set; }
 
+
+        public Int16 Int16Field { get; set; }
+
         public override bool Equals(object obj)
         {
             var compareObject = obj as TestModel;

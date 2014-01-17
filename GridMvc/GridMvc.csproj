@@ -70,12 +70,13 @@
     <Compile Include="Filtering\Types\BooleanFilterType.cs" />
     <Compile Include="Filtering\Types\ByteFilterType.cs" />
     <Compile Include="Filtering\Types\FilterTypeBase.cs" />
-    <Compile Include="Filtering\Types\LongFilterType.cs" />
+    <Compile Include="Filtering\Types\Int16FilterType.cs" />
+    <Compile Include="Filtering\Types\Int64FilterType.cs" />
     <Compile Include="Filtering\Types\DecimalFilterType.cs" />
     <Compile Include="Filtering\Types\SingleFilterType.cs" />
     <Compile Include="Filtering\Types\DoubleFilterType.cs" />
     <Compile Include="Filtering\Types\DateTimeFilterType.cs" />
-    <Compile Include="Filtering\Types\IntegerFilterType.cs" />
+    <Compile Include="Filtering\Types\Int32FilterType.cs" />
     <Compile Include="Filtering\Types\FilterTypeResolver.cs" />
     <Compile Include="Filtering\Types\IFilterType.cs" />
     <Compile Include="Filtering\Types\TextFilterType.cs" />

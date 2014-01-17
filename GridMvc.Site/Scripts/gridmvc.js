@@ -512,12 +512,12 @@ NumberFilterWidget = (function ($) {
     numberFilterWidget.prototype.showClearFilterButton = function () { return true; };
 
     numberFilterWidget.prototype.getAssociatedTypes = function () {
-        return ["System.Int32", "System.Double", "System.Decimal", "System.Byte", "System.Single", "System.Float", "System.Int64"];
+        return ["System.Int32", "System.Double", "System.Decimal", "System.Byte", "System.Single", "System.Float", "System.Int64", "System.Int16"];
     };
 
     numberFilterWidget.prototype.onShow = function () {
         var textBox = this.container.find(".grid-filter-input");
-        if (textBox.length <= 0) return;
+        if (textBox.length <= 0) return; 
         textBox.focus();
     };
 
@@ -601,7 +601,7 @@ DateTimeFilterWidget = (function ($) {
 
     function dateTimeFilterWidget() { }
 
-    dateTimeFilterWidget.prototype.getAssociatedTypes = function () { return ["System.DateTime", "System.Date"]; };
+    dateTimeFilterWidget.prototype.getAssociatedTypes = function () { return ["System.DateTime", "System.Date", "System.DateTimeOffset"]; };
 
     dateTimeFilterWidget.prototype.showClearFilterButton = function () { return true; };
 

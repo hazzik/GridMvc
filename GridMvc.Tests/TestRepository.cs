@@ -43,7 +43,8 @@ namespace GridMvc.Tests
                         Id = 1,
                         Title = "B2",
                         Created = new DateTime(2003, 1, 3),
-                        Child = new TestModelChild {ChildTitle = "B2", ChildCreated = new DateTime(1991, 6, 9),}
+                        Child = new TestModelChild {ChildTitle = "B2", ChildCreated = new DateTime(1991, 6, 9),},
+                        Int16Field = 16
                     };
             yield return
                 new TestModel
@@ -59,7 +60,8 @@ namespace GridMvc.Tests
                         Id = 1,
                         Title = "D1",
                         Created = new DateTime(2010, 9, 15),
-                        Child = new TestModelChild {ChildTitle = "D1", ChildCreated = new DateTime(1995, 9, 15)}
+                        Child = new TestModelChild {ChildTitle = "D1", ChildCreated = new DateTime(1995, 9, 15)},
+                        Int16Field = 16
                     };
             yield return
                 new TestModel
