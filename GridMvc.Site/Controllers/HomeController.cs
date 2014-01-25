@@ -10,11 +10,15 @@ namespace GridMvc.Site.Controllers
     {
         public ActionResult Index()
         {
-            var repository = new OrdersRepository();
             ViewBag.ActiveMenuTitle = "Demo";
+            return View();
+        }
+
+        public ActionResult Grid()
+        {
+            var repository = new OrdersRepository();
             var grid = new OrdersGrid(repository.GetAll());
-            
-            return View(grid);
+            return PartialView("_OrdersGrid", grid);
         }
 
         public ActionResult About()
