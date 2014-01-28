@@ -11,20 +11,28 @@ namespace GridMvc.DataAnnotations
             pi = GetMetadataProperty<T>(pi);
 
             var gridAttr = pi.GetAttribute<GridColumnAttribute>();
-            if (gridAttr != null) return gridAttr;
 
-            GridColumnAttribute dataAnnotationAttr = null;
+            GridColumnAttribute dataAnnotationAttr = gridAttr;
 
             DataAnnotationsOptions dataAnnotations = ExtractDataAnnotations(pi);
 
             if (dataAnnotations != null)
             {
-                dataAnnotationAttr = new GridColumnAttribute
-                    {
-                        Title = dataAnnotations.DisplayName,
-                        FilterEnabled = dataAnnotations.FilterEnabled ?? false,
-                        Format = dataAnnotations.Format
-                    };
+                if (gridAttr == null)
+                {
+                    dataAnnotationAttr = new GridColumnAttribute
+                        {
+                            Title = dataAnnotations.DisplayName,
+                            FilterEnabled = dataAnnotations.FilterEnabled ?? false,
+                            Format = dataAnnotations.Format
+                        };
+                }
+                else
+                {
+                    dataAnnotationAttr.Title = string.IsNullOrEmpty(gridAttr.Title) ? dataAnnotations.DisplayName : gridAttr.Title;
+                    dataAnnotationAttr.FilterEnabled = dataAnnotations.FilterEnabled ?? gridAttr.FilterEnabled;
+                    dataAnnotationAttr.Format = string.IsNullOrEmpty(gridAttr.Format) ? dataAnnotations.Format : gridAttr.Format;
+                }
             }
             return dataAnnotationAttr;
         }
@@ -57,19 +65,19 @@ namespace GridMvc.DataAnnotations
 
         public GridTableAttribute GetAnnotationForTable<T>()
         {
-            var modelType = typeof (T).GetAttribute<MetadataTypeAttribute>();
+            var modelType = typeof(T).GetAttribute<MetadataTypeAttribute>();
             if (modelType != null)
             {
                 var metadataAttr = modelType.MetadataClassType.GetAttribute<GridTableAttribute>();
                 if (metadataAttr != null)
                     return metadataAttr;
             }
-            return typeof (T).GetAttribute<GridTableAttribute>();
+            return typeof(T).GetAttribute<GridTableAttribute>();
         }
 
         private PropertyInfo GetMetadataProperty<T>(PropertyInfo pi)
         {
-            var modelType = typeof (T).GetAttribute<MetadataTypeAttribute>();
+            var modelType = typeof(T).GetAttribute<MetadataTypeAttribute>();
             if (modelType != null)
             {
                 PropertyInfo metadataProperty = modelType.MetadataClassType.GetProperty(pi.Name);
@@ -86,7 +94,7 @@ namespace GridMvc.DataAnnotations
             if (displayAttr != null)
             {
                 result = new DataAnnotationsOptions();
-                result.DisplayName = displayAttr.Name;
+                result.DisplayName = displayAttr.GetName();
                 result.FilterEnabled = displayAttr.GetAutoGenerateFilter();
             }
             var displayFormatAttr = pi.GetAttribute<DisplayFormatAttribute>();

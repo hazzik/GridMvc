@@ -121,7 +121,7 @@
     <value>Il ya pas d'articles à afficher</value>
   </data>
   <data name="FilterButtonTooltipText" xml:space="preserve">
-    <value>Ajouter filtrer sur le terrain</value>
+    <value>Filtrer cette colonne</value>
   </data>
   <data name="Lang" xml:space="preserve">
     <value>fr</value>

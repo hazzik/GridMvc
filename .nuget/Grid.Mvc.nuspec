@@ -20,6 +20,7 @@
     <file src="..\GridMvc.Site\Scripts\gridmvc.js" target="Content\Scripts\gridmvc.js" />
     <file src="..\GridMvc.Site\Scripts\gridmvc.min.js" target="Content\Scripts\gridmvc.min.js" />
     <file src="..\GridMvc.Site\Scripts\gridmvc.lang.ru.js" target="Content\Scripts\gridmvc.lang.ru.js" />
+    <file src="..\GridMvc.Site\Scripts\gridmvc.lang.fr.js" target="Content\Scripts\gridmvc.lang.fr.js" />
     <file src="..\GridMvc.Site\Grid.mvc.readme" target="Content\Grid.mvc.readme" />
     <file src="web.config.transform" target="Content\web.config.transform" />
   </files>

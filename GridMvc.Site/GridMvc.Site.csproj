@@ -214,6 +214,7 @@
     <Content Include="Grid.mvc.readme" />
     <None Include="Properties\PublishProfiles\gridmvc - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\gridmvc - Web Deploy %283%29.pubxml" />
+    <Content Include="Scripts\gridmvc.lang.fr.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\gridmvc.min.js">
       <DependentUpon>gridmvc.js</DependentUpon>
