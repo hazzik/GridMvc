@@ -205,11 +205,11 @@ GridMvc = (function ($) {
             return;
         }
         var dropWidth = drop.width();
-        var offsetRight = $(window).width() - (dropLeft + dropWidth);
+        var offsetRight = $(window).width() + $(window).scrollLeft() - (dropLeft + dropWidth);
         if (offsetRight < 0) {
             var info = getInfo();
-            info.arrow.css({ left: (info.currentArrowLeft - offsetRight + 10) + "px" });
-            drop.css({ left: (info.currentDropLeft + offsetRight - 10) + "px" });
+            info.arrow.css({ left: (info.currentArrowLeft - offsetRight + 5) + "px" });
+            drop.css({ left: (info.currentDropLeft + offsetRight - 5) + "px" });
         }
     };
     /***
