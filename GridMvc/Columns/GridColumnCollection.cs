@@ -31,7 +31,7 @@ namespace GridMvc.Columns
 
         public IGridColumn<T> Add(bool hidden)
         {
-            return Add((Expression<Func<T, string>>) null, hidden);
+            return Add((Expression<Func<T, string>>)null, hidden);
         }
 
         public IGridColumn<T> Add<TKey>(Expression<Func<T, TKey>> constraint)
@@ -107,7 +107,7 @@ namespace GridMvc.Columns
 
         public IGridColumn GetByName(string name)
         {
-            return this.FirstOrDefault(c => c.Name.ToUpper() == name.ToUpper());
+            return this.FirstOrDefault(c => !string.IsNullOrEmpty(c.Name) && c.Name.ToUpper() == name.ToUpper());
         }
 
         #endregion
