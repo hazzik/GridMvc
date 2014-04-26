@@ -12,7 +12,9 @@ namespace GridMvc.Filtering
         //[DataMember(Name = "columnName")]
         public string ColumnName;
 
-        [DataMember(Name = "filterType")] public GridFilterType FilterType;
+        [DataMember(Name = "filterType")] 
+        public GridFilterType FilterType;
+
         public string FilterValue;
 
         [DataMember(Name = "filterValue")]

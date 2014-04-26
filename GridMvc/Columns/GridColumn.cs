@@ -43,7 +43,7 @@ namespace GridMvc.Columns
             SortEnabled = false;
             SanitizeEnabled = true;
 
-            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof (TDataType)).FullName;
+            _filterWidgetTypeName = PropertiesHelper.GetUnderlyingType(typeof(TDataType)).FullName;
             _grid = grid;
 
             _cellRenderer = new GridCellRenderer();
@@ -126,8 +126,11 @@ namespace GridMvc.Columns
 
         public override IGridColumn<T> SortInitialDirection(GridSortDirection direction)
         {
-            IsSorted = true;
-            Direction = direction;
+            if (string.IsNullOrEmpty(_grid.Settings.SortSettings.ColumnName))
+            {
+                IsSorted = true;
+                Direction = direction;
+            }
             return this;
         }
 
@@ -155,7 +158,7 @@ namespace GridMvc.Columns
 
         public override IGridCell GetCell(object instance)
         {
-            return GetValue((T) instance);
+            return GetValue((T)instance);
         }
 
         public override IGridCell GetValue(T instance)
@@ -183,7 +186,7 @@ namespace GridMvc.Columns
             {
                 textValue = _grid.Sanitizer.Sanitize(textValue);
             }
-            return new GridCell(textValue) {Encode = EncodeEnabled};
+            return new GridCell(textValue) { Encode = EncodeEnabled };
         }
 
         public override IGridColumn<T> Filterable(bool enable)
