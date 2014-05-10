@@ -17,7 +17,7 @@ namespace GridMvc.Tests
                 new TestModel
                     {
                         Id = 1,
-                        Title = "A1",
+                        Title = "A1 test",
                         Created = new DateTime(2012, 2, 3),
                         Child = new TestModelChild {ChildTitle = "B1", ChildCreated = new DateTime(1994, 3, 16),}
                     };
@@ -25,7 +25,7 @@ namespace GridMvc.Tests
                 new TestModel
                     {
                         Id = 1,
-                        Title = "C3",
+                        Title = "C3 test2",
                         Created = new DateTime(1998, 1, 1),
                         Child = new TestModelChild {ChildTitle = "C3", ChildCreated = new DateTime(1998, 1, 1),}
                     };
@@ -33,7 +33,7 @@ namespace GridMvc.Tests
                 new TestModel
                     {
                         Id = 1,
-                        Title = "D3",
+                        Title = "D3 test 3",
                         Created = new DateTime(2009, 3, 15),
                         Child = new TestModelChild {ChildTitle = "D3", ChildCreated = new DateTime(2011, 2, 7),}
                     };

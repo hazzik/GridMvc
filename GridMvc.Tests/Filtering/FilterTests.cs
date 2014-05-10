@@ -98,6 +98,28 @@ namespace GridMvc.Tests.Filtering
         }
 
         [TestMethod]
+        public void TestFilterContains()
+        {
+            var filterOptions = new ColumnFilterValue
+            {
+                ColumnName = "Title",
+                FilterType = GridFilterType.Contains,
+                FilterValue = "test"
+            };
+            var filter = new DefaultColumnFilter<TestModel, string>(m => m.Title);
+
+            var filtered = filter.ApplyFilter(_repo.GetAll().AsQueryable(), filterOptions);
+
+            var original = _repo.GetAll().AsQueryable().Where(t => t.Title.Contains("test"));
+
+            for (int i = 0; i < filtered.Count(); i++)
+            {
+                if (filtered.ElementAt(i).Id != original.ElementAt(i).Id)
+                    Assert.Fail("Filtering not works");
+            }
+        }
+
+        [TestMethod]
         public void TestInt16Filtering()
         {
             var filterOptions = new ColumnFilterValue
