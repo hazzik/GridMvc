@@ -141,6 +141,71 @@ namespace GridMvc.Tests.Filtering
             }
         }
 
+        [TestMethod]
+        public void TestUInt16Filtering()
+        {
+            var filterOptions = new ColumnFilterValue
+            {
+                ColumnName = "UInt16Field",
+                FilterType = GridFilterType.Equals,
+                FilterValue = "16"
+            };
+            var filter = new DefaultColumnFilter<TestModel, UInt16>(m => m.UInt16Field);
+
+            var filtered = filter.ApplyFilter(_repo.GetAll().AsQueryable(), filterOptions);
+
+            var original = _repo.GetAll().AsQueryable().Where(t => t.UInt16Field == 16);
+
+            for (int i = 0; i < filtered.Count(); i++)
+            {
+                if (filtered.ElementAt(i).Id != original.ElementAt(i).Id)
+                    Assert.Fail("Filtering not works");
+            }
+        }
+
+        [TestMethod]
+        public void TestUInt32Filtering()
+        {
+            var filterOptions = new ColumnFilterValue
+            {
+                ColumnName = "UInt32Field",
+                FilterType = GridFilterType.Equals,
+                FilterValue = "65549"
+            };
+            var filter = new DefaultColumnFilter<TestModel, UInt32>(m => m.UInt32Field);
+
+            var filtered = filter.ApplyFilter(_repo.GetAll().AsQueryable(), filterOptions);
+
+            var original = _repo.GetAll().AsQueryable().Where(t => t.UInt32Field == 65549);
+
+            for (int i = 0; i < filtered.Count(); i++)
+            {
+                if (filtered.ElementAt(i).Id != original.ElementAt(i).Id)
+                    Assert.Fail("Filtering not works");
+            }
+        }
+
+        [TestMethod]
+        public void TestUInt64Filtering()
+        {
+            var filterOptions = new ColumnFilterValue
+            {
+                ColumnName = "UInt64Field",
+                FilterType = GridFilterType.Equals,
+                FilterValue = "4294967888"
+            };
+            var filter = new DefaultColumnFilter<TestModel, UInt64>(m => m.UInt64Field);
+
+            var filtered = filter.ApplyFilter(_repo.GetAll().AsQueryable(), filterOptions);
+
+            var original = _repo.GetAll().AsQueryable().Where(t => t.UInt64Field == 4294967888);
+
+            for (int i = 0; i < filtered.Count(); i++)
+            {
+                if (filtered.ElementAt(i).Id != original.ElementAt(i).Id)
+                    Assert.Fail("Filtering not works");
+            }
+        }
 
         [TestMethod]
         public void TestFilteringDateTimeLessThan()

@@ -67,6 +67,33 @@ namespace GridMvc.Tests
                 new TestModel
                     {
                         Id = 1,
+                        Title = "X1",
+                        Created = new DateTime(2011, 1, 12),
+                        Child = new TestModelChild { ChildTitle = "X1", ChildCreated = new DateTime(1995, 9, 15) },
+                        UInt16Field = 16
+                    };
+            yield return
+                new TestModel
+                    {
+                        Id = 1,
+                        Title = "Y1",
+                        Created = new DateTime(2006, 4, 5),
+                        Child = new TestModelChild { ChildTitle = "Y1", ChildCreated = new DateTime(1971, 9, 15) },
+                        UInt32Field = 65549
+                    };
+            yield return
+                     new TestModel
+                     {
+                         Id = 1,
+                         Title = "ZZ1",
+                         Created = new DateTime(2014, 5, 21),
+                         Child = new TestModelChild { ChildTitle = "ZZ1", ChildCreated = new DateTime(2014, 5, 22) },
+                         UInt64Field = 4294967888
+                     };
+            yield return
+                new TestModel
+                    {
+                        Id = 1,
                         Title = "C2",
                         Created = new DateTime(2007, 8, 4),
                         Child = new TestModelChild {ChildTitle = "C2", ChildCreated = new DateTime(2007, 8, 4),}

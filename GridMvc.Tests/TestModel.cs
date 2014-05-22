@@ -13,6 +13,9 @@ namespace GridMvc.Tests
 
 
         public Int16 Int16Field { get; set; }
+        public UInt16 UInt16Field { get; set; }
+        public UInt32 UInt32Field { get; set; }
+        public UInt64 UInt64Field { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -23,9 +26,13 @@ namespace GridMvc.Tests
                    && compareObject.Id == Id
                    && compareObject.Title == Title
                    && compareObject.Child.ChildCreated == Child.ChildCreated
-                   && compareObject.Child.ChildTitle == Child.ChildTitle;
+                   && compareObject.Child.ChildTitle == Child.ChildTitle
+                   && compareObject.Int16Field == Int16Field
+                   && compareObject.UInt16Field == UInt16Field
+                   && compareObject.UInt32Field == UInt32Field
+                   && compareObject.UInt64Field == UInt64Field;
         }
-    }
+    } 
 
     public class TestModelChild
     {

@@ -512,7 +512,7 @@ NumberFilterWidget = (function ($) {
     numberFilterWidget.prototype.showClearFilterButton = function () { return true; };
 
     numberFilterWidget.prototype.getAssociatedTypes = function () {
-        return ["System.Int32", "System.Double", "System.Decimal", "System.Byte", "System.Single", "System.Float", "System.Int64", "System.Int16"];
+        return ["System.Int32", "System.Double", "System.Decimal", "System.Byte", "System.Single", "System.Float", "System.Int64", "System.Int16", "System.UInt64", "System.UInt32", "System.UInt16"];
     };
 
     numberFilterWidget.prototype.onShow = function () {
@@ -578,6 +578,8 @@ NumberFilterWidget = (function ($) {
             case "System.Byte":
             case "System.Int32":
             case "System.Int64":
+            case "System.UInt32":
+            case "System.UInt64":
                 regex = /[0-9]/;
                 break;
             default:
@@ -711,7 +713,7 @@ BooleanFilterWidget = (function ($) {
         this.container.append(html);
     };
 
-    booleanFilterWidget.prototype.registerEvents = function () {
+    booleanFilterWidget.prototype.registerEvents = function () { 
         var $context = this;
         var applyBtn = this.container.find(".grid-filter-choose");
         applyBtn.click(function () {

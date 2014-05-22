@@ -86,6 +86,9 @@
     <Compile Include="Filtering\IGridFilterSettings.cs" />
     <Compile Include="Filtering\QueryStringFilterSettings.cs" />
     <Compile Include="Filtering\FilterColumnHeaderRenderer.cs" />
+    <Compile Include="Filtering\Types\UInt16FilterType.cs" />
+    <Compile Include="Filtering\Types\UInt32FilterType.cs" />
+    <Compile Include="Filtering\Types\UInt64FilterType.cs" />
     <Compile Include="GridHiddenHeaderRenderer.cs" />
     <Compile Include="GridBase.cs" />
     <Compile Include="Html\GridExtensions.cs" />
