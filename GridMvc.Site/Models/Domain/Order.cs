@@ -30,7 +30,7 @@ namespace GridMvc.Site.Models
             this.OrderDetails = new HashSet<OrderDetail>();
         }
         [Key]
-        [GridHiddenColumn]
+        [GridHiddenColumn, Display(Name = "Number")]
         public int OrderID { get; set; }
 
         [NotMappedColumn]

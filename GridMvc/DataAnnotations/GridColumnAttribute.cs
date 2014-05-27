@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Web.Mvc;
+using GridMvc.Columns;
 using GridMvc.Sorting;
 
 namespace GridMvc.DataAnnotations
@@ -44,7 +46,6 @@ namespace GridMvc.DataAnnotations
         /// </summary>
         public string FilterWidgetType { get; set; }
 
-
         /// <summary>
         ///     Sets or get sort initial direction
         /// </summary>
@@ -57,6 +58,19 @@ namespace GridMvc.DataAnnotations
         public GridSortDirection? GetInitialSortDirection()
         {
             return _initialDirection;
+        }
+
+        public override void OnMetadataCreated(ModelMetadata metadata)
+        {
+            base.OnMetadataCreated(metadata);
+            metadata.DisplayName = Title;
+            metadata.AdditionalValues[AdditionalMetadataKeys.SortEnabledKey] = SortEnabled;
+            metadata.AdditionalValues[AdditionalMetadataKeys.FilterEnabledKey] = FilterEnabled;
+            metadata.AdditionalValues[AdditionalMetadataKeys.WidthKey] = Width;
+            metadata.AdditionalValues[AdditionalMetadataKeys.FilterWidgetTypeKey] = FilterWidgetType;
+            metadata.AdditionalValues[AdditionalMetadataKeys.SortInitialDirectionKey] = SortInitialDirection;
+            metadata.AdditionalValues[AdditionalMetadataKeys.HiddenKey] = false;
+
         }
     }
 }

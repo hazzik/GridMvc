@@ -53,12 +53,14 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Columns\AdditionalMetadataKeys.cs" />
     <Compile Include="Columns\DefaultColumnBuilder.cs" />
     <Compile Include="Columns\GridColumnBase.cs" />
     <Compile Include="Columns\GridColumnCollection.cs" />
     <Compile Include="Columns\HiddenGridColumn.cs" />
     <Compile Include="Columns\IColumnBuilder.cs" />
     <Compile Include="Columns\IGridColumnCollection.cs" />
+    <Compile Include="Columns\ModelMetadataEx.cs" />
     <Compile Include="DataAnnotations\GridAnnotaionsProvider.cs" />
     <Compile Include="DataAnnotations\GridTableAttribute.cs" />
     <Compile Include="DataAnnotations\GridColumnAttribute.cs" />

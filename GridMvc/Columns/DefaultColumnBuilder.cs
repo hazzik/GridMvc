@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Web.Mvc;
 using GridMvc.DataAnnotations;
 using GridMvc.Sorting;
 
@@ -42,27 +43,25 @@ namespace GridMvc.Columns
             if (!_annotaions.IsColumnMapped(pi))
                 return null; //grid column not mapped
 
-            IGridColumn<T> column;
-            GridColumnAttribute columnOpt = _annotaions.GetAnnotationForColumn<T>(pi);
-            if (columnOpt != null)
-            {
-                column = CreateColumn(pi, false);
-                ApplyColumnAnnotationSettings(column, columnOpt);
-            }
-            else
-            {
-                GridHiddenColumnAttribute columnHiddenOpt = _annotaions.GetAnnotationForHiddenColumn<T>(pi);
-                if (columnHiddenOpt != null)
-                {
-                    column = CreateColumn(pi, true);
-                    ApplyHiddenColumnAnnotationSettings(column, columnHiddenOpt);
-                }
-                else
-                {
-                    column = CreateColumn(pi, false);
-                    ApplyColumnAnnotationSettings(column, new GridColumnAttribute());
-                }
-            }
+            var metadata = ModelMetadata.FromStringExpression(pi.Name, new ViewDataDictionary<T>());
+            var column = CreateColumn(pi, metadata.GetAdditionalValue<bool>(AdditionalMetadataKeys.HiddenKey));
+
+            column.Titled(metadata.DisplayName)
+                .Encoded(metadata.GetAdditionalValue<bool>(AdditionalMetadataKeys.EncodeEnabledKey))
+                .Sanitized(metadata.GetAdditionalValue<bool>(AdditionalMetadataKeys.SanitizeEnabledKey))
+                .Filterable(metadata.GetAdditionalValue<bool>(AdditionalMetadataKeys.FilterEnabledKey))
+                .Sortable(metadata.GetAdditionalValue<bool>(AdditionalMetadataKeys.SortEnabledKey))
+                .SortInitialDirection(metadata.GetAdditionalValue<GridSortDirection>(AdditionalMetadataKeys.SortInitialDirectionKey));
+
+            if (!string.IsNullOrEmpty(metadata.GetAdditionalValue<string>(AdditionalMetadataKeys.FilterWidgetTypeKey)))
+                column.SetFilterWidgetType(metadata.GetAdditionalValue<string>(AdditionalMetadataKeys.FilterWidgetTypeKey));
+
+            if (!string.IsNullOrEmpty(metadata.DisplayFormatString))
+                column.Format(metadata.DisplayFormatString);
+
+            if (!string.IsNullOrEmpty(metadata.GetAdditionalValue<string>(AdditionalMetadataKeys.WidthKey)))
+                column.Width = metadata.GetAdditionalValue<string>(AdditionalMetadataKeys.WidthKey);
+            
             return column;
         }
 
@@ -96,35 +95,6 @@ namespace GridMvc.Columns
                 column.Filterable(DefaultFilteringEnabled);
             }
             return column;
-        }
-
-        private void ApplyColumnAnnotationSettings(IGridColumn<T> column, GridColumnAttribute options)
-        {
-            column.Encoded(options.EncodeEnabled)
-                  .Sanitized(options.SanitizeEnabled)
-                  .Filterable(options.FilterEnabled)
-                  .Sortable(options.SortEnabled);
-
-            GridSortDirection? initialDirection = options.GetInitialSortDirection();
-            if (initialDirection.HasValue)
-                column.SortInitialDirection(initialDirection.Value);
-
-            if (!string.IsNullOrEmpty(options.FilterWidgetType))
-                column.SetFilterWidgetType(options.FilterWidgetType);
-
-            if (!string.IsNullOrEmpty(options.Format))
-                column.Format(options.Format);
-            if (!string.IsNullOrEmpty(options.Title))
-                column.Titled(options.Title);
-            if (!string.IsNullOrEmpty(options.Width))
-                column.Width = options.Width;
-        }
-
-        private void ApplyHiddenColumnAnnotationSettings(IGridColumn<T> column, GridHiddenColumnAttribute options)
-        {
-            column.Encoded(options.EncodeEnabled).Sanitized(options.SanitizeEnabled);
-            if (!string.IsNullOrEmpty(options.Format))
-                column.Format(options.Format);
         }
     }
 }

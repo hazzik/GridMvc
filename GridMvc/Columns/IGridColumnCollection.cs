@@ -97,5 +97,7 @@ namespace GridMvc.Columns
         ///     Get column by internal name
         /// </summary>
         IGridColumn GetByName(string name);
+
+        int Count { get; }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Web.Mvc;
+using GridMvc.Columns;
 
 namespace GridMvc.DataAnnotations
 {
     /// <summary>
     ///     Marks property as hidden Grid.Mvc column
     /// </summary>
-    public class GridHiddenColumnAttribute : Attribute
+    public class GridHiddenColumnAttribute : Attribute , IMetadataAware
     {
         public GridHiddenColumnAttribute()
         {
@@ -27,5 +29,13 @@ namespace GridMvc.DataAnnotations
         ///     Specify the format of column data
         /// </summary>
         public string Format { get; set; }
+
+        public virtual void OnMetadataCreated(ModelMetadata metadata)
+        {
+            metadata.DisplayFormatString = Format;
+            metadata.AdditionalValues[AdditionalMetadataKeys.EncodeEnabledKey] = EncodeEnabled;
+            metadata.AdditionalValues[AdditionalMetadataKeys.SanitizeEnabledKey] = SanitizeEnabled;
+            metadata.AdditionalValues[AdditionalMetadataKeys.HiddenKey] = true;
+        }
     }
 }

@@ -22,8 +22,6 @@ namespace GridMvc.Columns
             _sortSettings = sortSettings;
         }
 
-        #region IGridColumnCollection<T> Members
-
         public IGridColumn<T> Add()
         {
             return Add(false);
@@ -87,7 +85,6 @@ namespace GridMvc.Columns
             return Insert(position, constraint, false);
         }
 
-
         public IGridColumn<T> Insert<TKey>(int position, Expression<Func<T, TKey>> constraint, string columnName)
         {
             IGridColumn<T> newColumn = CreateColumn(constraint, false, columnName);
@@ -109,8 +106,6 @@ namespace GridMvc.Columns
         {
             return this.FirstOrDefault(c => !string.IsNullOrEmpty(c.Name) && c.Name.ToUpper() == name.ToUpper());
         }
-
-        #endregion
 
         protected override string GetKeyForItem(IGridColumn item)
         {

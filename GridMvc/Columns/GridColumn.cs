@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Web.Mvc;
 using GridMvc.Filtering;
 using GridMvc.Sorting;
 using GridMvc.Utility;
@@ -34,7 +35,6 @@ namespace GridMvc.Columns
         private string _filterWidgetTypeName;
         private IGridColumnHeaderRenderer _headerRenderer;
 
-
         public GridColumn(Expression<Func<T, TDataType>> expression, Grid<T> grid)
         {
             #region Setup defaults
@@ -63,7 +63,13 @@ namespace GridMvc.Columns
                 _filter = new DefaultColumnFilter<T, TDataType>(expression);
                 //Generate unique column name:
                 Name = PropertiesHelper.BuildColumnNameFromMemberExpression(expr);
-                Title = Name; //Using the same name by default
+                var metadata = ModelMetadata.FromLambdaExpression(expression, new ViewDataDictionary<T>());
+                Title = metadata.GetDisplayName();
+                ValuePattern = metadata.DisplayFormatString;
+                SortEnabled = metadata.GetAdditionalValue<bool>(AdditionalMetadataKeys.SortEnabledKey);
+                FilterEnabled = metadata.GetAdditionalValue<bool>(AdditionalMetadataKeys.FilterEnabledKey);
+                Width = metadata.GetAdditionalValue<string>(AdditionalMetadataKeys.WidthKey);
+                _filterWidgetTypeName = metadata.GetAdditionalValue<string>(AdditionalMetadataKeys.FilterWidgetTypeKey);
             }
         }
 
@@ -92,7 +98,6 @@ namespace GridMvc.Columns
         }
 
         public override bool FilterEnabled { get; set; }
-
 
         public override IColumnFilter<T> Filter
         {

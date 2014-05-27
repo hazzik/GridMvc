@@ -58,7 +58,6 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAnnotations\DataAnnotationsProviderTests.cs" />
     <Compile Include="DataAnnotations\Models\TestGridAnnotationModel.cs" />
     <Compile Include="DataAnnotations\GridDataAnnotationTests.cs" />
     <Compile Include="Filtering\FilterTests.cs" />
