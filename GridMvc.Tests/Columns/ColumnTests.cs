@@ -22,7 +22,10 @@ namespace GridMvc.Tests.Columns
                 new HttpResponse(new StringWriter()));
 
             var repo = new TestRepository();
-            _grid = new TestGrid(repo.GetAll());
+
+            var items = repo.GetAll().ToList();
+
+            _grid = new TestGrid(items);
 
             _columns = new GridColumnCollection<TestModel>(new DefaultColumnBuilder<TestModel>(_grid, new GridAnnotaionsProvider()), _grid.Settings.SortSettings);
         }
@@ -43,6 +46,20 @@ namespace GridMvc.Tests.Columns
             var column = _columns.GetByName("Created");
 
             Assert.AreEqual(addedColumn, column);
+        }
+
+
+        [TestMethod]
+        public void TestRenderingEmptyValueIfNullReferenceOccurs()
+        {
+            var addedColumn = _columns.Add(x => x.Child.ChildTitle);
+
+            var cell = addedColumn.GetCell(new TestModel
+            {
+                Child = null
+            });
+
+            Assert.AreEqual(cell.Value, string.Empty);
         }
 
         [TestMethod]

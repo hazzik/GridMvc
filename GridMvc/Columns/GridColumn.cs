@@ -174,8 +174,23 @@ namespace GridMvc.Columns
                 {
                     throw new InvalidOperationException("You need to specify render expression using RenderValueAs");
                 }
-                TDataType value = _constraint(instance);
-                if (value == null)
+
+
+                TDataType value = default(TDataType);
+
+                var nullReferece = false;
+                try
+                {
+                    value = _constraint(instance);
+                }
+                catch (NullReferenceException)
+                {
+                    nullReferece = true;
+                    // specified expression throws NullReferenceException
+                    // example: x=>x.Child.Property, when Child is NULL
+                }
+
+                if (nullReferece || value == null)
                     textValue = string.Empty;
                 else if (!string.IsNullOrEmpty(ValuePattern))
                     textValue = string.Format(ValuePattern, value);
