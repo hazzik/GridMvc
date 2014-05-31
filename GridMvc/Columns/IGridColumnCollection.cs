@@ -89,6 +89,13 @@ namespace GridMvc.Columns
         /// <param name="hidden">Hidden column not display in grid, but you can get values from client side</param>
         /// <returns>Added column</returns>
         IGridColumn<T> Insert<TKey>(int position, Expression<Func<T, TKey>> constraint, bool hidden);
+
+        /// <summary>
+        ///     Get added column by member expression
+        /// </summary>
+        /// <param name="constraint">Member of generic class</param>
+        /// <returns>Found column or NULL, if column not found</returns>
+        IGridColumn<T> Get<TKey>(Expression<Func<T, TKey>> constraint);
     }
 
     public interface IGridColumnCollection : IEnumerable<IGridColumn>
