@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using GridMvc.Sorting;
+using GridMvc.Utility;
 
 namespace GridMvc.Columns
 {
@@ -105,9 +106,24 @@ namespace GridMvc.Columns
             return base.GetEnumerator();
         }
 
+
+
+        public IGridColumn<T> Get<TKey>(Expression<Func<T, TKey>> constraint)
+        {
+            var expr = constraint.Body as MemberExpression;
+            if (expr == null)
+                throw new ArgumentException(
+                    string.Format("Expression '{0}' must be a member expression", constraint), "constraint");
+
+            var name = PropertiesHelper.BuildColumnNameFromMemberExpression(expr);
+            return this.FirstOrDefault(c => !string.IsNullOrEmpty(c.Name) && String.Equals(c.Name, name, StringComparison.CurrentCultureIgnoreCase)) as IGridColumn<T>;
+        }
+
         public IGridColumn GetByName(string name)
         {
-            return this.FirstOrDefault(c => !string.IsNullOrEmpty(c.Name) && c.Name.ToUpper() == name.ToUpper());
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+            return this.FirstOrDefault(c => !string.IsNullOrEmpty(c.Name) && String.Equals(c.Name, name, StringComparison.CurrentCultureIgnoreCase));
         }
 
         #endregion
