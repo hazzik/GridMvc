@@ -75,6 +75,15 @@ namespace GridMvc.Html
             return _source.GetRowCssClasses(item);
         }
 
+        /// <summary>
+        ///     To show Grid Items count
+        ///     - Author by Jeeva
+        /// </summary>
+        int IGrid.ItemsCount
+        {
+            get { return _source.ItemsCount; }
+        }
+
         IGridSettingsProvider IGrid.Settings
         {
             get { return _source.Settings; }

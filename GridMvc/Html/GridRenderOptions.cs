@@ -41,6 +41,17 @@
         /// </summary>
         public bool RenderRowsOnly { get; set; }
 
+        /// <summary>
+        ///     Does items count need to show
+        ///     - Author Jeeva J
+        /// </summary>
+        public bool ShowGridItemsCount { get; set; }
+
+        /// <summary>
+        ///     To show string while show grid items count
+        ///     - Author Jeeva J
+        /// </summary>
+        public string GridCountDisplayName { get; set; }
 
         public static GridRenderOptions Create(string gridName)
         {
