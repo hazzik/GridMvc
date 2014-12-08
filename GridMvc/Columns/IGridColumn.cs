@@ -162,7 +162,7 @@ namespace GridMvc.Columns
         ///     Allows filtering for this column
         /// </summary>
         /// <param name="enalbe">Enable/disable filtering</param>
-        IGridColumn<T> Filterable(bool enalbe);
+        IGridColumn<T> Filterable(bool enable);
 
         /// <summary>
         ///     Set up initial filter for this column
