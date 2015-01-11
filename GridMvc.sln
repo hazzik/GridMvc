@@ -13,8 +13,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F05C1E26-F067-4F6C-AC05-52B6F4C3A2E8}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\Grid.Mvc.nuspec = .nuget\Grid.Mvc.nuspec
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
 		.nuget\web.config.transform = .nuget\web.config.transform
 	EndProjectSection
 EndProject
@@ -50,3 +48,4 @@ Global
 		CategoryFile = GridMvc.vsmdi
 	EndGlobalSection
 EndGlobal
+
