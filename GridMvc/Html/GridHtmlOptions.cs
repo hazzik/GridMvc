@@ -30,6 +30,11 @@ namespace GridMvc.Html
             return RenderPartialViewToString(GridViewName, this, _viewContext);
         }
 
+        public IGridHtmlOptions<T> WithGridItemsCount()
+        {
+            return WithGridItemsCount(string.Empty);
+        }
+
         public string Render()
         {
             return ToHtmlString();
@@ -144,6 +149,20 @@ namespace GridMvc.Html
         public IGridHtmlOptions<T> WithMultipleFilters()
         {
             _source.RenderOptions.AllowMultipleFilters = true;
+            return this;
+        }
+
+        /// <summary>
+        ///     Set to true if we want to show grid itmes count
+        ///     - Author - Jeeva J
+        /// </summary>
+        public IGridHtmlOptions<T> WithGridItemsCount(string gridItemsName)
+        {
+            if (string.IsNullOrWhiteSpace(gridItemsName))
+                gridItemsName = "Items count";
+
+            _source.RenderOptions.GridCountDisplayName = gridItemsName;
+            _source.RenderOptions.ShowGridItemsCount = true;
             return this;
         }
 

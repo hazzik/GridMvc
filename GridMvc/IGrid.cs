@@ -36,6 +36,11 @@ namespace GridMvc
         int DisplayingItemsCount { get; }
 
         /// <summary>
+        ///     Total items count in the grid (after filtering)
+        /// </summary>
+        int ItemsCount { get;  }
+
+        /// <summary>
         ///     Pager for the grid
         /// </summary>
         IGridPager Pager { get; }

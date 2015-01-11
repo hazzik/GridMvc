@@ -16,7 +16,7 @@ namespace GridMvc
         protected IQueryable<T> BeforeItems; //items before processors
 
 
-        //private int _itemsCount = -1; // total items count on collection
+        private int _itemsCount = -1; // total items count on collection
         private bool _itemsPreProcessed; //is preprocessors launched?
         private bool _itemsProcessed; //is processors launched?
 
@@ -53,19 +53,21 @@ namespace GridMvc
         public string EmptyGridText { get; set; }
 
         /// <summary>
-        ///     Total count of items in the grid
+        /// Total count of items in the grid
         /// </summary>
-        //public int ItemsCount
-        //{
-        //    get
-        //    {
-        //        if (_itemsCount < 0)
-        //            _itemsCount = GridItems.Count();
-        //        return _itemsCount;
-        //    }
-        //    set { _itemsCount = value; //value can be set by pager (for minimizing db calls)
-        //    }
-        //}
+        public int ItemsCount
+        {
+            get
+            {
+                if (_itemsCount < 0)
+                    _itemsCount = GridItems.Count();
+                return _itemsCount;
+            }
+            set
+            {
+                _itemsCount = value; //value can be set by pager (for minimizing db calls)
+            }
+        }
 
         #region Custom row css classes
         public void SetRowCssClassesContraint(Func<T, string> contraint)
@@ -79,7 +81,7 @@ namespace GridMvc
                 return string.Empty;
             var typed = item as T;
             if (typed == null)
-                throw new InvalidCastException(string.Format("The item must be of type '{0}'", typeof (T).FullName));
+                throw new InvalidCastException(string.Format("The item must be of type '{0}'", typeof(T).FullName));
             return _rowCssClassesContraint(typed);
         }
 
