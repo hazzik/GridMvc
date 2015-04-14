@@ -39,6 +39,11 @@
                 .SetWidth(150)
                 .RenderValueAs(o => CustomRenderingOfColumn(o));
 
+        /* Adding enum column: */
+        columns.Add(o => o.Status)
+                .Titled("Status")
+                .SetWidth(70);
+
     }).SetRowCssClasses(item => item.Customer.IsVip ? "warning" : string.Empty).WithPaging(15).Sortable().Filterable().WithMultipleFilters()
     </pre>
 </div>

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Linq.Expressions;
 using GridMvc.Filtering;
 using GridMvc.Sorting;
@@ -194,6 +196,22 @@ namespace GridMvc.Columns
                     textValue = string.Empty;
                 else if (!string.IsNullOrEmpty(ValuePattern))
                     textValue = string.Format(ValuePattern, value);
+                else if (typeof (TDataType).IsEnum)
+                {
+                    try
+                    {
+                        var attributes = typeof (TDataType).GetMember(value.ToString())
+                            .First()
+                            .GetCustomAttributes(false);
+
+                        textValue = attributes.OfType<DisplayAttribute>().First().Name;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        //If DisplayAttribute is not present then fallback to raw property name
+                        textValue = value.ToString();
+                    }
+                }
                 else
                     textValue = value.ToString();
             }

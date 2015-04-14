@@ -63,6 +63,32 @@ namespace GridMvc.Tests.Columns
         }
 
         [TestMethod]
+        public void TestRenderingCorrectEnumValueIfDisplayAttributeExists()
+        {
+            var addedColumn = _columns.Add(x => x.TestEnum);
+
+            var cell = addedColumn.GetCell(new TestModel
+            {
+                TestEnum = TestModel.TestEnumType.A
+            });
+
+            Assert.AreEqual(cell.Value, "TestEnumValueA");
+        }
+
+        [TestMethod]
+        public void TestRenderingCorrectEnumValueIfDisplayAttributeDoesNotExists()
+        {
+            var addedColumn = _columns.Add(x => x.TestEnum);
+
+            var cell = addedColumn.GetCell(new TestModel
+            {
+                TestEnum = TestModel.TestEnumType.None
+            });
+
+            Assert.AreEqual(cell.Value, "None");
+        }
+
+        [TestMethod]
         public void TestColumnsRetriveByNameWithCustomName()
         {
             var addedColumn = _columns.Add(x => x.Created, "My_Column");
