@@ -198,19 +198,14 @@ namespace GridMvc.Columns
                     textValue = string.Format(ValuePattern, value);
                 else if (typeof (TDataType).IsEnum)
                 {
-                    try
-                    {
-                        var attributes = typeof (TDataType).GetMember(value.ToString())
-                            .First()
-                            .GetCustomAttributes(false);
+                    var attributes = typeof (TDataType).GetMember(value.ToString())
+                        .First()
+                        .GetCustomAttributes(false);
 
-                        textValue = attributes.OfType<DisplayAttribute>().First().Name;
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        //If DisplayAttribute is not present then fallback to raw property name
-                        textValue = value.ToString();
-                    }
+                    //If DisplayAttribute is not present then fallback to raw property name
+                    textValue = attributes.OfType<DisplayAttribute>().Any()
+                        ? attributes.OfType<DisplayAttribute>().First().Name
+                        : value.ToString();
                 }
                 else
                     textValue = value.ToString();
