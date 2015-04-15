@@ -67,6 +67,26 @@ namespace GridMvc.Site.Models
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
         //public virtual Shipper Shipper { get; set; }
-    }
+        [NotMappedColumn]
+        public StatusType Status
+        {
+            get
+            {
+                //Get random value without messing with database
+                Random r = new Random();
+                return (StatusType)r.Next(0, 3);
+            }
+        }
 
+        public enum StatusType
+        {
+            None = 0,
+            [Display(Name = "Order prepared")]
+            Prepared = 1,
+            [Display(Name = "Order sent")]
+            Sent = 2,
+            [Display(Name = "Order received")]
+            Received = 3
+        }
+    }
 }

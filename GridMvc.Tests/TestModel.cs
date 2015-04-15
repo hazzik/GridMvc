@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace GridMvc.Tests
 {
@@ -8,6 +9,7 @@ namespace GridMvc.Tests
         public string Title { get; set; }
         public DateTime Created { get; set; }
         public TestModelChild Child { get; set; }
+        public TestEnumType TestEnum { get; set; }
 
         public TestModelChild[] List { get; set; }
 
@@ -31,6 +33,15 @@ namespace GridMvc.Tests
                    && compareObject.UInt16Field == UInt16Field
                    && compareObject.UInt32Field == UInt32Field
                    && compareObject.UInt64Field == UInt64Field;
+        }
+
+        public enum TestEnumType
+        {
+            None = 0,
+            [Display(Name = "TestEnumValueA")]
+            A = 1,
+            [Display(Name = "TestEnumValueB")]
+            B = 2
         }
     } 
 
