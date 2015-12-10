@@ -15,7 +15,7 @@ namespace GridMvc.Columns
     public class GridColumnCollection<T> : KeyedCollection<string, IGridColumn>, IGridColumnCollection<T>
     {
         private readonly IColumnBuilder<T> _columnBuilder;
-        private readonly IGridSortSettings _sortSettings;
+        private IGridSortSettings _sortSettings;
 
         public GridColumnCollection(IColumnBuilder<T> columnBuilder, IGridSortSettings sortSettings)
         {
@@ -139,6 +139,13 @@ namespace GridMvc.Columns
             if (!string.IsNullOrEmpty(columnName))
                 newColumn.Name = columnName;
             return newColumn;
+        }
+
+        internal void UpdateSettings(IGridSortSettings settings) {
+            if(settings == null)
+                throw new ArgumentNullException("settings");
+            _sortSettings = settings;
+            UpdateColumnsSorting();
         }
 
         internal void UpdateColumnsSorting()

@@ -32,15 +32,16 @@ namespace GridMvc.Sorting
 
         public IQueryable<T> Process(IQueryable<T> items)
         {
-            if (string.IsNullOrEmpty(_settings.ColumnName))
+            //if (string.IsNullOrEmpty(_settings.ColumnName))
+            // UpdateColumnsSorting fix it
+            //if (_grid.EnablePaging)//paging on EF require orderBy
+            var sortColumn = _grid.Columns.FirstOrDefault(c => c.IsSorted) as IGridColumn<T>;
+            sortColumn = sortColumn ?? _grid.Columns.FirstOrDefault(c => c.SortEnabled) as IGridColumn<T>;
+            if(sortColumn == null)
                 return items;
-            //determine gridColumn sortable:
-            var gridColumn = _grid.Columns.FirstOrDefault(c => c.Name == _settings.ColumnName) as IGridColumn<T>;
-            if (gridColumn == null || !gridColumn.SortEnabled)
-                return items;
-            foreach (var columnOrderer in gridColumn.Orderers)
+            foreach (var columnOrderer in sortColumn.Orderers)
             {
-                items = columnOrderer.ApplyOrder(items, _settings.Direction);
+                items = columnOrderer.ApplyOrder(items, sortColumn.Direction ?? GridSortDirection.Ascending);
             }
             return items;
         }
