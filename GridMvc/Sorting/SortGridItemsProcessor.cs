@@ -36,6 +36,7 @@ namespace GridMvc.Sorting
             // UpdateColumnsSorting fix it
             //if (_grid.EnablePaging)//paging on EF require orderBy
             var sortColumn = _grid.Columns.FirstOrDefault(c => c.IsSorted) as IGridColumn<T>;
+            sortColumn = sortColumn ?? _grid.Columns.FirstOrDefault(c => c.SortEnabled) as IGridColumn<T>;
             if(sortColumn == null)
                 return items;
             foreach (var columnOrderer in sortColumn.Orderers)
