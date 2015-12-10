@@ -101,6 +101,7 @@ namespace GridMvc
                 _settings = value;
                 _currentSortItemsProcessor.UpdateSettings(_settings.SortSettings);
                 _currentFilterItemsProcessor.UpdateSettings(_settings.FilterSettings);
+                _columnsCollection.UpdateSettings(_settings.SortSettings);
             }
         }
 
