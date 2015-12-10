@@ -15,6 +15,8 @@ namespace GridMvc.Columns
         private readonly Func<T, TDataType> _constraint;
         private readonly IGrid _grid;
         private IGridCellRenderer _cellRenderer;
+        private readonly List<IColumnOrderer<T>> _orderers = new List<IColumnOrderer<T>>();
+
 
         public HiddenGridColumn(Expression<Func<T, TDataType>> expression, IGrid grid)
         {
@@ -31,6 +33,7 @@ namespace GridMvc.Columns
                         "expression");
 
                 _constraint = expression.Compile();
+                _orderers.Insert(0, new OrderByGridOrderer<T, TDataType>(expression));
 
                 Name = PropertiesHelper.BuildColumnNameFromMemberExpression(expr);
             }
@@ -38,7 +41,7 @@ namespace GridMvc.Columns
 
         public override IEnumerable<IColumnOrderer<T>> Orderers
         {
-            get { throw new InvalidOperationException("You cannot sort hidden field"); }
+            get { return _orderers; }
         }
 
         public override IGridColumnHeaderRenderer HeaderRenderer
@@ -89,22 +92,33 @@ namespace GridMvc.Columns
 
         public override IGridColumn<T> SortInitialDirection(GridSortDirection direction)
         {
-            return this; //Do nothing
+            if(string.IsNullOrEmpty(_grid.Settings.SortSettings.ColumnName)) {
+                IsSorted = true;
+                Direction = direction;
+            }
+            return this;
         }
 
         public override IGridColumn<T> ThenSortBy<TKey>(Expression<Func<T, TKey>> expression)
         {
-            return this; //Do nothing
+            _orderers.Add(new ThenByColumnOrderer<T, TKey>(expression, GridSortDirection.Ascending));
+            return this;
         }
 
         public override IGridColumn<T> ThenSortByDescending<TKey>(Expression<Func<T, TKey>> expression)
         {
-            return this; //Do nothing
+            _orderers.Add(new ThenByColumnOrderer<T, TKey>(expression, GridSortDirection.Descending));
+            return this;
         }
 
         public override IGridColumn<T> Sortable(bool sort)
         {
-            return this; //Do nothing
+            if(sort && _constraint == null)
+            {
+                return this; //cannot enable sorting for column without expression
+            }
+            SortEnabled = sort;
+            return this;
         }
 
         public override IGridCell GetValue(T instance)
